@@ -152,6 +152,14 @@ const updateCar = async (req, res, next) => {
     return next(error);
   }
 
+  if(car.owner.toString() !== req.userData.userId){
+    const error = new HttpError(
+      'You are now allowed to edit this car.',
+      401
+    );
+    return next(error);
+  }
+
   car.title = title;
   car.description = description;
 
@@ -175,7 +183,7 @@ const deleteCar = async (req, res, next) => {
  
   let car;
   try {
-    car = await Car.findById(carId).populate('creator');
+    car = await Car.findById(carId).populate('owner');
   } catch(err){
     const error = new HttpError(
       'Something  went wrong, could not delete car.',
@@ -188,6 +196,15 @@ const deleteCar = async (req, res, next) => {
     const error = new HttpError('Could not find car for this id.', 404);
     return next(error);
   }
+if(car.owner.id !== req.userData.userId) {
+  const error = new HttpError(
+    'You are now allowed to delete this car.',
+    401
+  );
+  return next(error);
+}
+
+  //const imagePath = car.image
 
   try {
     const sess = await mongoose.startSession();
