@@ -94,6 +94,7 @@ function App() {
         <Route path="/" element={<MainPage />} />
         <Route path="/about" element={<PageAbout />} />
         <Route path="/faq" element={<PageFaq />} />
+        <Route exact path="/user" element={<UserMain />} />
         <Route path="*" element={<FourHunderFour />} />
       </React.Fragment>
     );
@@ -101,7 +102,7 @@ function App() {
     routes = (
       <React.Fragment>
         <Route exact path="/" element={<MainPage />} />
-        <Route exact path="/user" element={<UserMain />} />
+       
         <Route exact path="/about" element={<PageAbout />} />
         <Route exact path="/faq" element={<PageFaq />} />
         <Route exact path="/signup" element={<SignUpPage />} />

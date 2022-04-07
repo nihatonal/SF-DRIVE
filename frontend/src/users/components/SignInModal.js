@@ -53,7 +53,7 @@ const SignInModal = (props) => {
           console.log('logged in')
           auth.login(responseData.userId, responseData.token)
           setClose(true)
-          navigate('/'); 
+          navigate('/user'); 
         } catch (err) {}
         
       }
