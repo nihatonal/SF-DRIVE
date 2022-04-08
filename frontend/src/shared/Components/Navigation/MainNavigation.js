@@ -1,6 +1,6 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
-
+import { useParams } from 'react-router-dom';
 import MainHeader from "./MainHeader";
 import NavLinks from "./NavLinks";
 import SideDrawer from "./SideDrawer";
@@ -12,17 +12,37 @@ import SignInModal from "../../../users/components/SignInModal";
 import RenewPassword from "../../../users/components/RenewPassword";
 import Top from "../../../assets/images/top.jpg";
 import { AuthContext } from "../../context/auth-context";
+import { useHttpClient } from "../../hooks/http-hook";
 import "./MainNavigation.css";
 
 const MainNavigation = () => {
   const auth = useContext(AuthContext);
+  const { sendRequest} = useHttpClient();
+  const [loadedUsers, setLoadedUsers] = useState();
+  const userId = useParams().userId;
 
   const [setShowAuth, setshowAuthModal] = useState(false);
   const [drawerIsOpen, setDrawerIsOpen] = useState(false);
   const [setBackAuth, setBackAuthModal] = useState(false);
 
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const responseData = await sendRequest(
+          "http://localhost:5000/api/users"
+        );
+
+        setLoadedUsers(responseData.users);
+      } catch (err) {}
+    };
+    fetchUsers();
+    console.log(userId);
+  }, [sendRequest]);
+
+
   const showAuthHandler = () => {
     setshowAuthModal(true);
+    console.log(loadedUsers)
   };
 
   const closeAuthHandler = () => {
@@ -46,6 +66,7 @@ const MainNavigation = () => {
     setBackAuthModal(true);
     setshowAuthModal(false);
   };
+
   const state = 400;
   if (state === 400) {
     return (
