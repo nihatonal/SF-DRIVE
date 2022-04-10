@@ -17,6 +17,7 @@ import FourHunderFour from "./shared/Components/NotFound/FourHunderFour";
 import SignUpSuccess from "./SignUpPage/pages/SignUpSuccess";
 
 import UserMain from "./users/pages/UserMain";
+import MyCars from "./users/pages/MyCars";
 
 import { AuthContext } from "./shared/context/auth-context";
 
@@ -91,7 +92,9 @@ function App() {
   if (token) {
     routes = (
       <React.Fragment>
+        <Route path="/" element={<MainPage />} />
         <Route exact path="/user" element={<UserMain />} />
+        {/* <Route exact path="/user/mycars" element={<MyCars />} /> */}
         <Route path="*" element={<FourHunderFour />} />
       </React.Fragment>
     );
@@ -99,6 +102,7 @@ function App() {
     routes = (
       <React.Fragment>
         <Route exact path="/" element={<MainPage />} />
+        <Route exact path="/user/mycars" element={<MyCars />} />
         <Route exact path="/about" element={<PageAbout />} />
         <Route exact path="/faq" element={<PageFaq />} />
         <Route exact path="/signup" element={<SignUpPage />} />

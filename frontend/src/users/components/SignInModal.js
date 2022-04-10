@@ -50,7 +50,7 @@ const SignInModal = (props) => {
               'Content-Type': 'application/json'
             }
           );
-          console.log('logged in')
+         //console.log('logged in', auth.userId )
           auth.login(responseData.userId, responseData.token)
           setClose(true)
           navigate('/user'); 

@@ -6,7 +6,7 @@ import './MainFooter.css';
 
 const MainFooter = props => {
     const { pathname } = useLocation();
-    if (pathname === "/signup" || pathname === "/userphoto" || pathname === "/userdocs" ||  pathname === "/signup/success" ) return null;
+    if (pathname === "/signup" || pathname === "/user/mycars" || pathname === "/userphoto" || pathname === "/userdocs" ||  pathname === "/signup/success" ) return null;
 
     const content = (
             <footer className = {"footer content_wrapper"}>

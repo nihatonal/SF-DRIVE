@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useParams } from 'react-router-dom';
+import { useParams } from "react-router-dom";
 import MainHeader from "./MainHeader";
 import NavLinks from "./NavLinks";
 import SideDrawer from "./SideDrawer";
@@ -17,32 +17,36 @@ import "./MainNavigation.css";
 
 const MainNavigation = () => {
   const auth = useContext(AuthContext);
-  const { sendRequest} = useHttpClient();
-  const [loadedUsers, setLoadedUsers] = useState();
-  const userId = useParams().userId;
+  const { sendRequest } = useHttpClient();
+  const [loadedUser, setLoadedUser] = useState();
+  //const userId = useParams().userId;
 
   const [setShowAuth, setshowAuthModal] = useState(false);
   const [drawerIsOpen, setDrawerIsOpen] = useState(false);
   const [setBackAuth, setBackAuthModal] = useState(false);
 
+  const image = "uploads/images/bfbdf840-b744-11ec-b37f-51e6f53a3ff7.png";
+
+  const userId = auth.userId;
+
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const responseData = await sendRequest(
-          "http://localhost:5000/api/users"
-        );
+    if (auth.isLoggedIn) {
+      const fetchPlaces = async () => {
+        try {
+          const responseData = await sendRequest(
+            `http://localhost:5000/api/users/${userId}`
+          );
+          setLoadedUser(responseData.user.image);
+          
+        } catch (err) {}
+      };
 
-        setLoadedUsers(responseData.users);
-      } catch (err) {}
-    };
-    fetchUsers();
-    console.log(userId);
-  }, [sendRequest]);
-
+      fetchPlaces();
+    }
+  }, [sendRequest, userId]);
 
   const showAuthHandler = () => {
     setshowAuthModal(true);
-    console.log(loadedUsers)
   };
 
   const closeAuthHandler = () => {
@@ -145,7 +149,7 @@ const MainNavigation = () => {
                 btnonClick={showAuthHandler}
               />
             ) : (
-              <Avatar image={Top} alt={"avatar"} />
+              <Avatar image={`http://localhost:5000/${loadedUser}`} alt={"avatar"} />
             )}
 
             <div className="header__menu-icon" onClick={openDrawerHandler}>

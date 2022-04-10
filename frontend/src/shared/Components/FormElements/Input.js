@@ -64,6 +64,7 @@ const Input = props => {
         value={inputState.value}
         ref={props.ref}
         list={props.list}
+        style={props.style}
       />
     ) : (
       <textarea
@@ -78,7 +79,7 @@ const Input = props => {
   return (
       <div
       className={`form__container_wrapper-form-item ${!inputState.isValid && inputState.isTouched &&
-        'form-control--invalid'}`}
+        'form-control--invalid'} ${props.classNameWrapper}`} style={props.style}
       >
       <label className={props.labelclassName} htmlFor={props.id}>{props.label}
         {element} {props.datalist}
