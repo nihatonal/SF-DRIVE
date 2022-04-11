@@ -1,12 +1,11 @@
-.form__container {
+.form__container-addcar {
   width: 1440px;
-  height: 1606px;
+  height: 2027px;
   font-family: "Roboto", sans-serif;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
   margin-top: 150px;
   position: relative;
 }
@@ -49,7 +48,7 @@
 .form-content {
   display: flex;
   flex-direction: column;
- justify-content: space-between;
+  justify-content: space-between;
 }
 .form-content h2 {
   font-weight: 400;
@@ -58,11 +57,14 @@
   text-align: left;
   margin-bottom: 30px;
 }
+.br-grey {
+  border: 1px solid #e0e0e0;
+}
 
 .info-car {
   width: 679px;
   height: 975px;
-  border: 1px solid red;
+  margin: 52px 0 60px;
 }
 .engine_power {
   display: flex;
@@ -76,17 +78,32 @@
   font-size: 14px;
   line-height: 16px;
   color: #1b1b1b;
-  margin-right: 190px;
+  margin-right: 198px;
   align-self: center;
 }
 .engine_power label {
   margin-right: 10px;
 }
+.engine_power_kw {
+  font-family: "Roboto", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  color: #bdbdbd;
+  width: 155px;
+  height: 44px;
+  border: 1px solid #e0e0e0;
+  box-sizing: border-box;
+  border-radius: 6px;
+  text-align: left;
+  padding: 12px 0 0 12px;
+}
 .input-power {
   width: 155px;
 }
 .classNameWrapper {
-    margin-bottom: 60px;
+  margin-bottom: 60px;
 }
 .button-container {
   width: 1440px;
@@ -98,39 +115,38 @@
   position: relative;
   background-color: #fff;
 }
-
-.password_wrapper {
-  position: relative;
-}
-.size-wide {
+.info-rent {
   width: 679px;
+  height: 255px;
 }
-.eye {
-  width: 24px;
-  height: 24px;
+.info-insurance {
+  width: 676px;
+  height: 191px;
+  margin: 60px 0 80px 0;
+}
+.container-insurance {
+  position: relative;
+  height: 44px;
+}
+.buy_kasko {
+  font-family: "Roboto",sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  text-align: right;
+  color: #61a199;
+  text-decoration: none;
+  background: none;
   position: absolute;
-  top: 10px;
-  right: 12px;
-  cursor: pointer;
+  top: 14px;
+  right: 13px;
 }
-.eye_confirm {
-  width: 24px;
-  height: 24px;
-  cursor: pointer;
-  position: absolute;
-  top: 10px;
-  right: 12px;
+.buy_kasko:hover {
+  background: none;
+  color: #36726b;
 }
-
 @media screen and (max-width: 767px) {
-  .eye {
-    top: 38px;
-    right: 10px;
-  }
-  .eye_confirm {
-    top: 38px;
-    right: 10px;
-  }
   .button-container {
     width: 375px;
     height: 84px;

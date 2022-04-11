@@ -21,7 +21,7 @@ const Button = props => {
         to={props.to}
         exact={props.exact}
         className={`button ${props.btnclass} button--${props.size || 'default'} ${props.inverse &&
-          'button--inverse'} ${props.danger && 'button--danger'}`}
+          'button--inverse'} ${props.danger && 'button--danger'} ${props.className}`}
       >
         {props.children}
       </Link>

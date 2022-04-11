@@ -19,8 +19,6 @@ import { useHttpClient } from "../../shared/hooks/http-hook";
 import { useWindowDimensions } from "../../shared/hooks/useWindowDimensions";
 import { SignUpContext } from "../../shared/context/signup-context";
 import { AuthContext } from "../../shared/context/auth-context";
-import eye from "../../assets/icons/eye.svg";
-import eye_active from "../../assets/icons/eye_active.svg";
 
 import "./AddCar.css";
 
@@ -71,10 +69,6 @@ const AddCar = () => {
         value: "",
         isValid: false,
       },
-      engine_power_kw: {
-        value: "",
-        isValid: false,
-      },
       engine_transmission: {
         value: "",
         isValid: false,
@@ -91,9 +85,33 @@ const AddCar = () => {
         value: "",
         isValid: false,
       },
+      price: {
+        value: "",
+        isValid: false,
+      },
+      price_for3: {
+        value: "",
+        isValid: false,
+      },
+      price_more5: {
+        value: "",
+        isValid: false,
+      },
+      policy: {
+        value: "",
+        isValid: false,
+      },
+      insurance: {
+        value: "",
+        isValid: true,
+      },
     },
     false
   );
+
+  const calcHorsePower = (x) => {
+    return (Number(x.split("л")[0]) / 1.36).toFixed(3);
+  };
 
   const signupFormHandler = async (e) => {
     e.preventDefault();
@@ -139,7 +157,7 @@ const AddCar = () => {
       {error ? (
         <SendError sendError="Не удалось продолжить регистрацию. Попробуйте ещё раз" />
       ) : null}
-      <form className="form__container" onSubmit={signupFormHandler}>
+      <form className="form__container-addcar" onSubmit={signupFormHandler}>
         <div className={"form__container-head"}>
           <p className={"form__container-head-subtitle"}>Шаг 1 из 4</p>
           <h1 className={"form__container-head-title"}>Новый автомобиль</h1>
@@ -155,6 +173,7 @@ const AddCar = () => {
             validators={[VALIDATOR_REQUIRE()]}
             onInput={inputHandler}
             placeholderclassName="input-hidden"
+            className="br-grey"
           />
           <Input
             id="model"
@@ -164,17 +183,18 @@ const AddCar = () => {
             validators={[VALIDATOR_REQUIRE()]}
             onInput={inputHandler}
             placeholderclassName="input-hidden"
+            className="br-grey"
           />
           <Input
             id="year"
             element="input"
-            type="number"
+            type="text"
             label="Год выпуска"
             validators={[VALIDATOR_REQUIRE()]}
             onInput={inputHandler}
             placeholder="0000"
             placeholderclassName="input-hidden"
-            className="input-short"
+            className="input-short br-grey"
           />
           <Input
             id="plate_number"
@@ -185,7 +205,7 @@ const AddCar = () => {
             onInput={inputHandler}
             placeholder="А000АА000"
             placeholderclassName="input-hidden"
-            className="input-short"
+            className="input-short br-grey"
           />
           <Input
             id="vin_number"
@@ -196,6 +216,7 @@ const AddCar = () => {
             onInput={inputHandler}
             placeholder="ABCD1234567890"
             placeholderclassName="input-hidden"
+            className="br-grey"
           />
           <Input
             id="color"
@@ -206,6 +227,7 @@ const AddCar = () => {
             onInput={inputHandler}
             placeholderclassName="input-hidden"
             classNameWrapper="classNameWrapper"
+            className="br-grey"
           />
           <Input
             id="engine_type"
@@ -215,6 +237,7 @@ const AddCar = () => {
             validators={[VALIDATOR_REQUIRE()]}
             onInput={inputHandler}
             placeholderclassName="input-hidden"
+            className="br-grey"
           />
           <Input
             id="engine_volume"
@@ -225,7 +248,7 @@ const AddCar = () => {
             onInput={inputHandler}
             placeholder="1,0 л"
             placeholderclassName="input-hidden"
-            className="input-short"
+            className="input-short br-grey"
           />
           <div className="engine_power">
             <span>Мощность</span>
@@ -238,9 +261,12 @@ const AddCar = () => {
               placeholder="100 л.с."
               placeholderclassName="input-hidden"
               errorTextclassName="input-hidden"
-              className="input-power"
+              className="input-power br-grey"
             />
-            <Input
+            <p className="engine_power_kw">
+              {calcHorsePower(formState.inputs.engine_power.value)}
+            </p>
+            {/* <Input
               id="engine_power_kw"
               element="input"
               type="text"
@@ -248,8 +274,8 @@ const AddCar = () => {
               onInput={inputHandler}
               placeholder="73,5499 кВт"
               placeholderclassName="input-hidden"
-              className="input-power"
-            />
+              className="input-power br-grey"
+            /> */}
           </div>
           <Input
             id="engine_transmission"
@@ -260,6 +286,7 @@ const AddCar = () => {
             onInput={inputHandler}
             placeholderclassName="input-hidden"
             classNameWrapper="classNameWrapper"
+            className="br-grey"
           />
           <Input
             id="engine_run"
@@ -270,7 +297,7 @@ const AddCar = () => {
             placeholder="10 000 км"
             onInput={inputHandler}
             placeholderclassName="input-hidden"
-            className="input-short"
+            className="input-short br-grey"
           />
           <Input
             id="pts"
@@ -281,6 +308,7 @@ const AddCar = () => {
             placeholder="00 АА 000000"
             onInput={inputHandler}
             placeholderclassName="input-hidden"
+            className="br-grey"
           />
           <Input
             id="sts"
@@ -291,7 +319,76 @@ const AddCar = () => {
             placeholder="00 АА 000000"
             onInput={inputHandler}
             placeholderclassName="input-hidden"
+            className="br-grey"
           />
+        </div>
+
+        <div className="form-content info-rent">
+          <h2>Стоимость аренды</h2>
+          <Input
+            id="price"
+            element="input"
+            type="text"
+            label="Обычная цена"
+            validators={[VALIDATOR_REQUIRE()]}
+            placeholder="1 500 ₽/сутки"
+            onInput={inputHandler}
+            placeholderclassName="input-hidden"
+            className="input-short br-grey"
+          />
+          <Input
+            id="price_for3"
+            element="input"
+            type="text"
+            label="Цена при аренде на 3 дня"
+            validators={[VALIDATOR_REQUIRE()]}
+            placeholder="1 400 ₽/сутки"
+            onInput={inputHandler}
+            placeholderclassName="input-hidden"
+            className="input-short br-grey"
+          />
+          <Input
+            id="price_more5"
+            element="input"
+            type="text"
+            label="Цена при аренде более 5 дней"
+            validators={[VALIDATOR_REQUIRE()]}
+            placeholder="1 300 ₽/сутки"
+            onInput={inputHandler}
+            placeholderclassName="input-hidden"
+            className="input-short br-grey"
+          />
+        </div>
+
+        <div className="form-content info-insurance">
+          <h2>Страхование</h2>
+          <Input
+            id="policy"
+            element="input"
+            type="text"
+            label="Полис ОСАГО"
+            validators={[VALIDATOR_REQUIRE()]}
+            placeholder="XXX 000000000"
+            onInput={inputHandler}
+            placeholderclassName="input-hidden"
+            className="br-grey"
+          />
+          <div className="container-insurance">
+            <Input
+              id="insurance"
+              element="input"
+              type="text"
+              label="Полис КАСКО (если есть)"
+              placeholder="XXX 000000000"
+              onInput={inputHandler}
+              validators={[VALIDATOR_REQUIRE()]}
+              placeholderclassName="input-hidden"
+              className="br-grey"
+            />
+            <Button to="./" className="buy_kasko">
+              Купить КАСКО
+            </Button>
+          </div>
         </div>
 
         <div
