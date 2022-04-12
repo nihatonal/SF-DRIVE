@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Input from "../../shared/Components/FormElements/Input";
@@ -14,6 +14,7 @@ import {
   VALIDATOR_PASSWORD_CONFIRM,
 } from "../../shared/util/validators";
 
+import Cardb from "../../assets/cardb.json";
 import { useForm } from "../../shared/hooks/SignUpFrom-hook";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import { useWindowDimensions } from "../../shared/hooks/useWindowDimensions";
@@ -24,7 +25,6 @@ import "./AddCar.css";
 
 const AddCar = () => {
   const navigate = useNavigate();
-  const SignUp = useContext(SignUpContext);
   const auth = useContext(AuthContext);
   const { isLoading, error, sendRequest } = useHttpClient();
   const [formState, inputHandler] = useForm(
@@ -113,6 +113,17 @@ const AddCar = () => {
     return (Number(x.split("л")[0]) / 1.36).toFixed(3);
   };
 
+  const arrtag = [];
+
+  const brandItems = [
+    ...new Set(arrtag.concat(Cardb.map((item) => item.brand)).flat()),
+  ];
+
+  let selectedModels = Cardb.filter( (auto) => auto.brand.includes("Audi"));
+
+  selectedModels = Cardb.filter( (auto) => auto.brand.includes(formState.inputs.brand.value));
+
+
   const signupFormHandler = async (e) => {
     e.preventDefault();
     console.log(formState.inputs);
@@ -153,6 +164,7 @@ const AddCar = () => {
   const style_button = { top: height - 234, position: "absolute" };
 
   return (
+    
     <>
       {error ? (
         <SendError sendError="Не удалось продолжить регистрацию. Попробуйте ещё раз" />
@@ -165,7 +177,7 @@ const AddCar = () => {
 
         <div className="form-content info-car">
           <h2>Информация об автомобиле</h2>
-          <Input
+          {/* <Input
             id="brand"
             element="input"
             type="text"
@@ -174,17 +186,35 @@ const AddCar = () => {
             onInput={inputHandler}
             placeholderclassName="input-hidden"
             className="br-grey"
-          />
+          /> */}
+
+          <Input
+            id="brand"
+            element="select"
+            label="Марка"
+            validators={[VALIDATOR_REQUIRE()]}
+            onInput={inputHandler}
+            placeholderclassName="input-hidden"
+            className="br-grey"
+          >
+            {brandItems.map((x, y) => (
+              <option key={y}>{x}</option>
+            ))}
+          </Input>
+
           <Input
             id="model"
-            element="input"
-            type="text"
+            element="select"
             label="Модель"
             validators={[VALIDATOR_REQUIRE()]}
             onInput={inputHandler}
             placeholderclassName="input-hidden"
             className="br-grey"
-          />
+          >
+            {selectedModels.map((x, y) => (
+              <option key={y}>{x.model}</option>
+            ))}
+          </Input>
           <Input
             id="year"
             element="input"
@@ -266,16 +296,6 @@ const AddCar = () => {
             <p className="engine_power_kw">
               {calcHorsePower(formState.inputs.engine_power.value)}
             </p>
-            {/* <Input
-              id="engine_power_kw"
-              element="input"
-              type="text"
-              validators={[VALIDATOR_REQUIRE()]}
-              onInput={inputHandler}
-              placeholder="73,5499 кВт"
-              placeholderclassName="input-hidden"
-              className="input-power br-grey"
-            /> */}
           </div>
           <Input
             id="engine_transmission"

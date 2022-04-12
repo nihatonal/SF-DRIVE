@@ -24,6 +24,21 @@ const getUsers = async (req, res, next) => {
   }
   res.json({users: users.map(user => user.toObject({ getters:true })) });
 };
+const getUser = async (req, res, next) => {
+  let user;
+  const userId = req.params.uid;
+  try {
+    user = await User.findById(userId);  
+  } catch(err) {
+    const error = new HttpError(
+      'Fetching users failed, please try again later.',
+      500
+    );
+      return next(error);
+  }
+  
+  res.json({user: user });
+};
 
 const signup = async (req, res, next) => {
     const errors = validationResult(req);
@@ -349,5 +364,6 @@ exports.deleteUser = deleteUser;
 exports.updateUser = updateUser;
 exports.uploadImage = uploadImage;
 exports.getUsers = getUsers;
+exports.getUser = getUser;
 exports.signup = signup;
 exports.login = login;

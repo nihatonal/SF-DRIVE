@@ -12,6 +12,7 @@ const carSchema = new Schema({
   engine_type: { type: String, required: true },
   engine_volume: { type: String, required: true },
   engine_power: { type: String, required: true },
+  engine_power_kw:{ type: String, required: true },
   engine_transmission: { type: String, required: true },
   engine_run: { type: String, required: true },
   pts: { type: String, required: true },
