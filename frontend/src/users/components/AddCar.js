@@ -6,8 +6,9 @@ import Button from "../../shared/Components/FormElements/Button";
 import SendError from "../../SignUpPage/components/SendError";
 import {
   VALIDATOR_REQUIRE,
+  VALIDATOR_NUMBER,
   VALIDATOR_EMAIL,
-  VALIDATOR_MINLENGTH,
+  VALIDATOR_MAXLENGTH,
   VALIDATOR_PHONE,
   VALIDATOR_CODE,
   VALIDATOR_PASSWORD,
@@ -15,11 +16,14 @@ import {
 } from "../../shared/util/validators";
 
 import Cardb from "../../assets/cardb.json";
+import Infocars from "../../assets/infocars.json";
 import { useForm } from "../../shared/hooks/SignUpFrom-hook";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import { useWindowDimensions } from "../../shared/hooks/useWindowDimensions";
 import { SignUpContext } from "../../shared/context/signup-context";
 import { AuthContext } from "../../shared/context/auth-context";
+
+import Select from "../../shared/Components/FormElements/Select";
 
 import "./AddCar.css";
 
@@ -119,14 +123,22 @@ const AddCar = () => {
     ...new Set(arrtag.concat(Cardb.map((item) => item.brand)).flat()),
   ];
 
-  let selectedModels = Cardb.filter( (auto) => auto.brand.includes("Audi"));
+  let selectedModels = Cardb.filter((auto) => auto.brand.includes("Audi"));
 
-  selectedModels = Cardb.filter( (auto) => auto.brand.includes(formState.inputs.brand.value));
-
+  selectedModels = Cardb.filter((auto) =>
+    auto.brand.includes(formState.inputs.brand.value)
+  );
 
   const signupFormHandler = async (e) => {
     e.preventDefault();
     console.log(formState.inputs);
+    localStorage.setItem(
+      "carData",
+      JSON.stringify({
+        carinfo: formState.inputs
+      
+      })
+    );
     // try {
     //   const responseData = await sendRequest(
     //     "http://localhost:5000/api/users/signup",
@@ -164,7 +176,6 @@ const AddCar = () => {
   const style_button = { top: height - 234, position: "absolute" };
 
   return (
-    
     <>
       {error ? (
         <SendError sendError="Не удалось продолжить регистрацию. Попробуйте ещё раз" />
@@ -177,16 +188,6 @@ const AddCar = () => {
 
         <div className="form-content info-car">
           <h2>Информация об автомобиле</h2>
-          {/* <Input
-            id="brand"
-            element="input"
-            type="text"
-            label="Марка"
-            validators={[VALIDATOR_REQUIRE()]}
-            onInput={inputHandler}
-            placeholderclassName="input-hidden"
-            className="br-grey"
-          /> */}
 
           <Input
             id="brand"
@@ -220,7 +221,11 @@ const AddCar = () => {
             element="input"
             type="text"
             label="Год выпуска"
-            validators={[VALIDATOR_REQUIRE()]}
+            validators={[
+              VALIDATOR_REQUIRE(),
+              VALIDATOR_NUMBER(),
+              VALIDATOR_MAXLENGTH(4),
+            ]}
             onInput={inputHandler}
             placeholder="0000"
             placeholderclassName="input-hidden"
@@ -250,7 +255,7 @@ const AddCar = () => {
           />
           <Input
             id="color"
-            element="input"
+            element="select"
             type="text"
             label="Цвет"
             validators={[VALIDATOR_REQUIRE()]}
@@ -258,23 +263,32 @@ const AddCar = () => {
             placeholderclassName="input-hidden"
             classNameWrapper="classNameWrapper"
             className="br-grey"
-          />
+          >
+            {Infocars[0].color.map((x, y) => (
+              <option key={y}>{x}</option>
+            ))}
+          </Input>
+
           <Input
             id="engine_type"
-            element="input"
+            element="select"
             type="text"
             label="Тип двигателя"
             validators={[VALIDATOR_REQUIRE()]}
             onInput={inputHandler}
             placeholderclassName="input-hidden"
             className="br-grey"
-          />
+          >
+            {Infocars[1].engine.map((x, y) => (
+              <option key={y}>{x}</option>
+            ))}
+          </Input>
           <Input
             id="engine_volume"
             element="input"
             type="text"
             label="Объем"
-            validators={[VALIDATOR_REQUIRE()]}
+            validators={[VALIDATOR_REQUIRE(), VALIDATOR_NUMBER()]}
             onInput={inputHandler}
             placeholder="1,0 л"
             placeholderclassName="input-hidden"
@@ -286,7 +300,7 @@ const AddCar = () => {
               id="engine_power"
               element="input"
               type="text"
-              validators={[VALIDATOR_REQUIRE()]}
+              validators={[VALIDATOR_REQUIRE(), VALIDATOR_NUMBER()]}
               onInput={inputHandler}
               placeholder="100 л.с."
               placeholderclassName="input-hidden"
@@ -299,7 +313,7 @@ const AddCar = () => {
           </div>
           <Input
             id="engine_transmission"
-            element="input"
+            element="select"
             type="text"
             label="Трансмиссия"
             validators={[VALIDATOR_REQUIRE()]}
@@ -307,13 +321,17 @@ const AddCar = () => {
             placeholderclassName="input-hidden"
             classNameWrapper="classNameWrapper"
             className="br-grey"
-          />
+          >
+            {Infocars[2].transmission.map((x, y) => (
+              <option key={y}>{x}</option>
+            ))}
+          </Input>
           <Input
             id="engine_run"
             element="input"
             type="text"
             label="Пробег"
-            validators={[VALIDATOR_REQUIRE()]}
+            validators={[VALIDATOR_REQUIRE(), VALIDATOR_NUMBER()]}
             placeholder="10 000 км"
             onInput={inputHandler}
             placeholderclassName="input-hidden"
@@ -350,7 +368,7 @@ const AddCar = () => {
             element="input"
             type="text"
             label="Обычная цена"
-            validators={[VALIDATOR_REQUIRE()]}
+            validators={[VALIDATOR_REQUIRE(), VALIDATOR_NUMBER()]}
             placeholder="1 500 ₽/сутки"
             onInput={inputHandler}
             placeholderclassName="input-hidden"
@@ -361,7 +379,7 @@ const AddCar = () => {
             element="input"
             type="text"
             label="Цена при аренде на 3 дня"
-            validators={[VALIDATOR_REQUIRE()]}
+            validators={[VALIDATOR_REQUIRE(), VALIDATOR_NUMBER()]}
             placeholder="1 400 ₽/сутки"
             onInput={inputHandler}
             placeholderclassName="input-hidden"
@@ -372,7 +390,7 @@ const AddCar = () => {
             element="input"
             type="text"
             label="Цена при аренде более 5 дней"
-            validators={[VALIDATOR_REQUIRE()]}
+            validators={[VALIDATOR_REQUIRE(), VALIDATOR_NUMBER()]}
             placeholder="1 300 ₽/сутки"
             onInput={inputHandler}
             placeholderclassName="input-hidden"

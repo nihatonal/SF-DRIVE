@@ -53,18 +53,19 @@ const Input = (props) => {
   const element =
     props.element === "select" ? (
       <select
-        id={props.id}
-        className={props.className}
-        type={props.type}
-        placeholder={props.placeholder}
-        onChange={changeHandler}
-        onBlur={touchHandler}
-        value={inputState.value}
-        ref={props.ref}
-        list={props.list}
-        style={props.style}
-      >{props.children}</select>
-    ) : props.element === "input" ? (
+      id={props.id}
+      className={props.className}
+      type={props.type}
+      placeholder={props.placeholder}
+      onChange={changeHandler}
+      onBlur={touchHandler}
+      value={inputState.value}
+      ref={props.ref}
+      list={props.list}
+      style={props.style}
+    >{props.children}</select>
+    ) : 
+    props.element === "input" ? (
       <input
         id={props.id}
         className={props.className}

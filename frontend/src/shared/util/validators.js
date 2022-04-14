@@ -5,12 +5,14 @@ const VALIDATOR_TYPE_MIN = 'MIN';
 const VALIDATOR_TYPE_PHONE = 'PHONES';
 const VALIDATOR_TYPE_EMAIL = 'EMAIL';
 const VALIDATOR_TYPE_FILE = 'FILE';
+const VALIDATOR_TYPE_NUMBER = 'NUMBER';
 const VALIDATOR_TYPE_CODE = 'CODE';
 const VALIDATOR_TYPE_PASSWORD = 'PASSWORD';
 const VALIDATOR_TYPE_PASSWORD_CONFIRM = 'PASSWORD_CONFIRM';
 
 export const VALIDATOR_REQUIRE = () => ({ type: VALIDATOR_TYPE_REQUIRE });
 export const VALIDATOR_FILE = () => ({ type: VALIDATOR_TYPE_FILE });
+export const VALIDATOR_NUMBER = () => ({ type: VALIDATOR_TYPE_NUMBER });
 export const VALIDATOR_MINLENGTH = val => ({
   type: VALIDATOR_TYPE_MINLENGTH,
   val: val
@@ -53,6 +55,9 @@ export const validate = (value, validators) => {
     }
     if (validator.type === VALIDATOR_TYPE_PASSWORD) {
       isValid = isValid && /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]*$/.test(value);
+    }
+    if (validator.type === VALIDATOR_TYPE_NUMBER) {
+      isValid = isValid && /^[0-9]*$/.test(value);
     }
     if (validator.type === VALIDATOR_TYPE_PASSWORD_CONFIRM) {
       isValid = isValid && value === validator.val;

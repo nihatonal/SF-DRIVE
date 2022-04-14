@@ -28,13 +28,12 @@ select {
   padding-left: 12px;
 
   background: url(../../../assets/icons/menu-down.svg) no-repeat right;
-    -webkit-appearance: none;
-    background-position-x: 380px;
-    outline: none;
+  -webkit-appearance: none;
+  background-position-x: 380px;
+  outline: none;
+  cursor: pointer;
 }
-option {
-  padding: 5px;
-}
+
 @media screen and (max-width: 767px) {
   .form-control--invalid p {
     margin-left: 0;
