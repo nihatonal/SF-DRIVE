@@ -22,15 +22,19 @@ import { useHttpClient } from "../../shared/hooks/http-hook";
 import { useWindowDimensions } from "../../shared/hooks/useWindowDimensions";
 import { SignUpContext } from "../../shared/context/signup-context";
 import { AuthContext } from "../../shared/context/auth-context";
-
+import OptionOfCar from "./OptionOfCar";
 import Select from "../../shared/Components/FormElements/Select";
 
 import "./AddCar.css";
+
+
 
 const AddCar = () => {
   const navigate = useNavigate();
   const auth = useContext(AuthContext);
   const { isLoading, error, sendRequest } = useHttpClient();
+  const [stepOne, setStepOne] = useState(true)
+  const [stepTwo, setStepTwo] = useState(false)
   const [formState, inputHandler] = useForm(
     {
       brand: {
@@ -139,6 +143,9 @@ const AddCar = () => {
       
       })
     );
+
+    setStepOne(false);
+    setStepTwo(true);
     // try {
     //   const responseData = await sendRequest(
     //     "http://localhost:5000/api/users/signup",
@@ -180,7 +187,7 @@ const AddCar = () => {
       {error ? (
         <SendError sendError="Не удалось продолжить регистрацию. Попробуйте ещё раз" />
       ) : null}
-      <form className="form__container-addcar" onSubmit={signupFormHandler}>
+      {stepOne && <form className="form__container-addcar" onSubmit={signupFormHandler}>
         <div className={"form__container-head"}>
           <p className={"form__container-head-subtitle"}>Шаг 1 из 4</p>
           <h1 className={"form__container-head-title"}>Новый автомобиль</h1>
@@ -441,7 +448,10 @@ const AddCar = () => {
             )}
           </Button>
         </div>
-      </form>
+      </form>}
+      {stepTwo && <OptionOfCar />}
+
+
     </>
   );
 };
