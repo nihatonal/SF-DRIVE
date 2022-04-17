@@ -1,4 +1,4 @@
-export const Options = [
+export const options = [
   {
     id: "opt1",
     name: "Крепления Iosfix",
@@ -67,6 +67,6 @@ export const Options = [
   {
     id: "opt14",
     name: "Камера заднего вида",
-    image: require("./images/backcamera.png"),
+    image: require("./images/parkcamera.png"),
   },
 ];

@@ -20,7 +20,9 @@
   height: 70px;
   margin-bottom: 114px;
 }
-
+.form__container-backArrow {
+  cursor: pointer;
+}
 @media screen and (max-width: 767px) {
   .container-success {
     width: 375px;

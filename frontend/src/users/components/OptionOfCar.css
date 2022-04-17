@@ -1,0 +1,126 @@
+.form__container-options {
+  width: 1440px;
+  height: 1930px;
+  font-family: "Roboto", sans-serif;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 150px;
+  position: relative;
+}
+.options-wrapper {
+  width: 681px;
+  height: 1090px;
+  margin: 52px 0 60px 0;
+}
+.extra {
+  width: 681px;
+  height: 444px;
+  margin-bottom: 80px;
+}
+.option-item {
+  width: 679px;
+  height: 58px;
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  position: relative;
+}
+
+.extra .option-item {
+  height: 79px;
+}
+.option-item .checkbox {
+  width: 48px;
+  opacity: 0;
+  position: absolute;
+  right: 0;
+  z-index: 99;
+  cursor: pointer;
+}
+.option-item label {
+  font-family: "Roboto", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 147.3%;
+  color: #000000;
+  pointer-events: none;
+}
+.extra-options {
+    width: 573px;
+}
+.extra label div {
+  height: 45px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.extra label p:first-child {
+  font-family: "Roboto", sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 147.3%;
+  color: #000000;
+}
+.extra label p:last-child {
+  font-family: "Roboto", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 147.3%;
+  color: #828282;
+}
+.price-option{
+  font-family: "Roboto", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  color: #bdbdbd;
+  width: 72px;
+  height: 44px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.option-item label img {
+  margin-right: 15px;
+}
+.checkbox-ref {
+  width: 36px;
+  height: 20px;
+  background: #ede9e9;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  padding: 0 2px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.checkbox-ref-circle {
+  width: 16px;
+  height: 16px;
+  border-radius: 100%;
+  background: #ffffff;
+  transition: all ease-in-out;
+}
+
+.checkbox:checked ~ .checkbox-ref {
+  background: #61a199;
+  justify-content: flex-end;
+}
+.checkbox:checked ~ .extra-options .price-option {
+    color: #1B1B1B;
+  }
+
