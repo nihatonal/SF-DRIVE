@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import Button from "../../shared/Components/FormElements/Button";
 import SendError from "../../SignUpPage/components/SendError";
 import { FaArrowLeft } from "react-icons/fa";
-import { options } from "../../assets/options";
+import { options } from "../../assets/Options";
 import { extraoptions } from "../../assets/extraoptions";
 import { useWindowDimensions } from "../../shared/hooks/useWindowDimensions";
 import { ShareContext } from "../../shared/context/share-contex";
@@ -23,23 +23,22 @@ const OptionOfCar = (props) => {
     const storedOptions = JSON.parse(localStorage.getItem("carOptions"));
 
     if (storedOptions) {
+      setSelectedOptions(storedOptions.options);
       setCarInfo(storedOptions.options);
-     
     }
   }, []);
 
   const onChangeHandler = (e) => {
+
     const isChecked = e.target.checked;
-
     const options = e.target.name;
-
+  
     if (isChecked && options === "options") {
-      setSelectedOptions(...selectedOptions, (oldArray) =>
-        oldArray.concat(e.target.value)
-      );
+      setSelectedOptions((oldArray) => [...oldArray, e.target.value]);
+
     } else {
-      setSelectedOptions((oldArray) =>
-        oldArray.filter((item) => item !== e.target.value)
+      setSelectedOptions((prevState) =>
+        prevState.filter((prevItem) => prevItem !== e.target.value)
       );
     }
 
