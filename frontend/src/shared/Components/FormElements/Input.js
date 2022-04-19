@@ -58,6 +58,7 @@ const Input = (props) => {
       type={props.type}
       placeholder={props.placeholder}
       onChange={changeHandler}
+      onFocus={props.onFocus}
       onBlur={touchHandler}
       value={inputState.value}
       ref={props.ref}
@@ -72,6 +73,7 @@ const Input = (props) => {
         type={props.type}
         placeholder={props.placeholder}
         onChange={changeHandler}
+        onFocus={props.onFocus}
         onBlur={touchHandler}
         value={inputState.value}
         ref={props.ref}

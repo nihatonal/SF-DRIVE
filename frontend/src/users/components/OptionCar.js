@@ -11,17 +11,9 @@ const OptionCar = (props) => {
   const share = useContext(ShareContext);
   const [carName, setCar] = useState("Легковые");
   const [showList, setShowList] = useState(false);
-  const [checked, setChecked] = useState(false);
-  const [selected, setSelected] = useState([]);
 
   let selectedCars = [];
 
-  //   useEffect(() => {
-  //     if(selectedCars.length === 0) {
-  //         setCar("Легковые")
-  //       }
-  //     setCar(selectedCars[0])
-  //   },[selectedCars.length])
 
   const onChangeHandler = (e) => {
     const isChecked = e.target.checked;
@@ -37,7 +29,7 @@ const OptionCar = (props) => {
     share.car = selectedCars;
   };
 
-  const carNameHandler = () => {};
+
   const focusHandler = () => {
     setShowList(true);
   };

@@ -1,22 +1,19 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../../shared/Components/FormElements/Button";
 import SendError from "../../SignUpPage/components/SendError";
 import { FaArrowLeft } from "react-icons/fa";
 import { options } from "../../assets/Options";
 import { extraoptions } from "../../assets/extraoptions";
 import { useWindowDimensions } from "../../shared/hooks/useWindowDimensions";
-import { ShareContext } from "../../shared/context/share-contex";
 
 import "./OptionOfCar.css";
 
 const OptionOfCar = (props) => {
-  const share = useContext(ShareContext);
   const [error, SetError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [selectedServices, setSelectedServices] = useState([]);
   const [carinfo, setCarInfo] = useState([]);
-  const [checked, setChecked] = useState(false);
 
   useEffect(() => {
     const storedData = JSON.parse(localStorage.getItem("carData"));
@@ -24,18 +21,17 @@ const OptionOfCar = (props) => {
 
     if (storedOptions) {
       setSelectedOptions(storedOptions.options);
-      setCarInfo(storedOptions.options);
+      setSelectedServices(storedOptions.services);
+      setCarInfo(storedData);
     }
   }, []);
 
   const onChangeHandler = (e) => {
-
     const isChecked = e.target.checked;
     const options = e.target.name;
-  
+
     if (isChecked && options === "options") {
       setSelectedOptions((oldArray) => [...oldArray, e.target.value]);
-
     } else {
       setSelectedOptions((prevState) =>
         prevState.filter((prevItem) => prevItem !== e.target.value)
@@ -43,15 +39,13 @@ const OptionOfCar = (props) => {
     }
 
     if (isChecked && options === "services") {
-      setSelectedServices((oldArray) => oldArray.concat(e.target.value));
+      setSelectedServices((oldArray) => [...oldArray, e.target.value]);
     } else {
-      setSelectedServices((oldArray) =>
-        oldArray.filter((item) => item !== e.target.name)
+      setSelectedServices((prevState) =>
+        prevState.filter((prevItem) => prevItem !== e.target.value)
       );
     }
   };
-
-  console.log(selectedOptions);
 
   const checkUpdate = (arr, item) => {
     if (arr.includes(item)) {
@@ -132,8 +126,8 @@ const OptionOfCar = (props) => {
                   name="options"
                   value={item.name}
                   //defaultChecked={item.name === "Крепления Iosfix" ? !checked : ""}
-                  defaultChecked={checkUpdate(carinfo, item.name)}
-                  //checked={checkUpdate(carinfo, item.name)}
+                  //defaultChecked={checkUpdate(selectedOptions, item.name)}
+                  checked={checkUpdate(selectedOptions, item.name)}
                   onChange={onChangeHandler}
                 />
                 <div className="checkbox-ref">
@@ -152,6 +146,7 @@ const OptionOfCar = (props) => {
                   type="checkbox"
                   name="services"
                   value={item.name}
+                  checked={checkUpdate(selectedServices, item.name)}
                   onChange={onChangeHandler}
                 />
                 <label htmlFor={item.name} className="extra-options">

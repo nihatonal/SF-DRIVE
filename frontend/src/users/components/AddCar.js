@@ -1,5 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
-
+import React, { useEffect, useState } from "react";
 import Input from "../../shared/Components/FormElements/Input";
 import Button from "../../shared/Components/FormElements/Button";
 import SendError from "../../SignUpPage/components/SendError";
@@ -14,27 +13,24 @@ import Infocars from "../../assets/infocars.json";
 import { useForm } from "../../shared/hooks/SignUpFrom-hook";
 import { useWindowDimensions } from "../../shared/hooks/useWindowDimensions";
 import OptionOfCar from "./OptionOfCar";
-import { ShareContext } from "../../shared/context/share-contex";
 
 import "./AddCar.css";
 
 const AddCar = () => {
-  const share = useContext(ShareContext);
-  const [stepOne, setStepOne] = useState(false);
-  const [stepTwo, setStepTwo] = useState(true);
+  const [stepOne, setStepOne] = useState(true);
+  const [stepTwo, setStepTwo] = useState(false);
   const [error, SetError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [carinfo, setCarInfo] = useState({});
 
   const [formState, inputHandler, setFormData] = useForm(
     {
       brand: {
-        value: "",
-        isValid: false,
+        value: "Audi",
+        isValid: true,
       },
       model: {
-        value: "",
-        isValid: false,
+        value: "AudiA1",
+        isValid: true,
       },
       year: {
         value: "",
@@ -49,12 +45,12 @@ const AddCar = () => {
         isValid: false,
       },
       color: {
-        value: "",
-        isValid: false,
+        value: "Белый",
+        isValid: true,
       },
       engine_type: {
-        value: "",
-        isValid: false,
+        value: "Бензин",
+        isValid: true,
       },
       engine_volume: {
         value: "",
@@ -65,8 +61,8 @@ const AddCar = () => {
         isValid: false,
       },
       engine_transmission: {
-        value: "",
-        isValid: false,
+        value: "Автомат",
+        isValid: true,
       },
       engine_run: {
         value: "",
@@ -104,26 +100,15 @@ const AddCar = () => {
     false
   );
 
-  // useEffect(() => {
-  //   const storedData = JSON.parse(localStorage.getItem("carData"));
-  //     setCarInfo(storedData);
-  // }, []);
-
-  // useEffect(() => {
-  //   if (carinfo && carinfo.brand) {
-  //     console.log(carinfo.brand);
-  //   }
-  // }, [carinfo]);
-
   const calcHorsePower = (x) => {
     // return (Number(x.split("л")[0]) / 1.36).toFixed(3);
     return (x / 1.36).toFixed(3);
   };
 
-  const arrtag = [];
+
 
   const brandItems = [
-    ...new Set(arrtag.concat(Cardb.map((item) => item.brand)).flat()),
+    ...new Set([].concat(Cardb.map((item) => item.brand)).flat()),
   ];
 
   let selectedModels;
@@ -268,6 +253,7 @@ const AddCar = () => {
   const { height } = useWindowDimensions();
   const style_button = { top: height - 234, position: "absolute" };
 
+  console.log(formState.inputs)
   return (
     <>
       {error ? (
@@ -295,10 +281,12 @@ const AddCar = () => {
               initialValid={formState.inputs.brand.isValid}
             >
               {brandItems.map((x, y) => (
-                <option key={y}>{x}</option>
+                <option key={y} value={x}>
+                  {x}
+                </option>
               ))}
             </Input>
-
+            
             <Input
               id="model"
               element="select"
@@ -311,7 +299,9 @@ const AddCar = () => {
               initialValid={formState.inputs.model.isValid}
             >
               {selectedModels.map((x, y) => (
-                <option key={y}>{x.model}</option>
+                <option key={y} selected="selected">
+                  {x.model}
+                </option>
               ))}
             </Input>
             <Input
@@ -551,7 +541,7 @@ const AddCar = () => {
                 placeholderclassName="input-hidden"
                 className="br-grey"
                 initialValue={formState.inputs.insurance.value}
-                initialValid={true} 
+                initialValid={true}
               />
               <Button to="./" className="buy_kasko">
                 Купить КАСКО
