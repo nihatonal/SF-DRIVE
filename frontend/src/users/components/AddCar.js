@@ -13,6 +13,7 @@ import Infocars from "../../assets/infocars.json";
 import { useForm } from "../../shared/hooks/SignUpFrom-hook";
 import { useWindowDimensions } from "../../shared/hooks/useWindowDimensions";
 import OptionOfCar from "./OptionOfCar";
+import Select from "../../shared/Components/FormElements/Select";
 
 import "./AddCar.css";
 
@@ -104,8 +105,6 @@ const AddCar = () => {
     // return (Number(x.split("л")[0]) / 1.36).toFixed(3);
     return (x / 1.36).toFixed(3);
   };
-
-
 
   const brandItems = [
     ...new Set([].concat(Cardb.map((item) => item.brand)).flat()),
@@ -253,7 +252,7 @@ const AddCar = () => {
   const { height } = useWindowDimensions();
   const style_button = { top: height - 234, position: "absolute" };
 
-  console.log(formState.inputs)
+  console.log(formState.inputs);
   return (
     <>
       {error ? (
@@ -268,8 +267,8 @@ const AddCar = () => {
 
           <div className="form-content info-car">
             <h2>Информация об автомобиле</h2>
-
-            <Input
+          <Select data={brandItems} label="Марка" selected="Audi" />
+            {/* <Input
               id="brand"
               element="select"
               label="Марка"
@@ -280,13 +279,15 @@ const AddCar = () => {
               initialValue={formState.inputs.brand.value}
               initialValid={formState.inputs.brand.isValid}
             >
-              {brandItems.map((x, y) => (
+            
+           
+            {brandItems.map((x, y) => (
                 <option key={y} value={x}>
                   {x}
                 </option>
               ))}
             </Input>
-            
+
             <Input
               id="model"
               element="select"
@@ -546,7 +547,7 @@ const AddCar = () => {
               <Button to="./" className="buy_kasko">
                 Купить КАСКО
               </Button>
-            </div>
+            </div> */}
           </div>
 
           <div

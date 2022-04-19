@@ -1,102 +1,73 @@
-.select-box {
-  position: relative;
-  display: block;
-  width: 100%;
-  font-size: 18px;
-  color: #60666d;
-}
-
-.select-box__current {
-  position: relative;
-  box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
-  outline: none;
-}
-.select-box__current:focus + .select-box__list {
-  opacity: 1;
-  -webkit-animation-name: none;
-  animation-name: none;
-}
-.select-box__current:focus + .select-box__list .select-box__option {
-  cursor: pointer;
-}
-.select-box__current:focus .select-box__icon {
-  -webkit-transform: translateY(-50%) rotate(180deg);
-  transform: translateY(-50%) rotate(180deg);
-}
-.select-box__icon {
-  position: absolute;
-  top: 50%;
-  right: 15px;
-  -webkit-transform: translateY(-50%);
-  transform: translateY(-50%);
-  width: 20px;
-  opacity: 0.3;
-  transition: 0.2s ease;
-}
-.select-box__value {
+.select-wrapper {
+  width: 676px;
+  height: 44px;
   display: flex;
+  justify-content: space-between;
+  position: relative;
+  z-index: 10;
 }
-.select-box__input {
-  display: none;
+.select-wrapper select {
+  appearance: none;
+  background-color: transparent;
 }
-.select-box__input:checked + .select-box__input-text {
-  display: block;
+.select-label {
+  font-family: "Roboto", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  color: #1b1b1b;
 }
-.select-box__input-text {
-  display: none;
-  width: 100%;
-  margin: 0;
-  padding: 15px;
-  background-color: #fff;
+.select-input {
+  font-family: "Roboto",sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  color: #1b1b1b;
+  width: 416px;
+  height: 44px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 12px;
+  cursor: pointer;
 }
-.select-box__list {
+.droplist-container {
+  width: 416px;
+  height: 300px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  text-align: left;
   position: absolute;
-  width: 100%;
-  padding: 0;
-  list-style: none;
-  opacity: 0;
-  -webkit-animation-name: HideList;
-  animation-name: HideList;
-  -webkit-animation-duration: 0.5s;
-  animation-duration: 0.5s;
-  -webkit-animation-delay: 0.5s;
-  animation-delay: 0.5s;
-  -webkit-animation-fill-mode: forwards;
-  animation-fill-mode: forwards;
-  -webkit-animation-timing-function: step-start;
-  animation-timing-function: step-start;
-  box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.1);
+  top: 44px;
+  right: 0;
+  z-index: 99;
 }
-.select-box__option {
-  display: block;
-  padding: 15px;
-  background-color: #fff;
+.droplist-item {
+  width: 416px;
+  height: 44px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
 }
-.select-box__option:hover,
-.select-box__option:focus {
-  color: #546c84;
-  background-color: #fbfbfb;
+.droplist-item:hover {
+  background: #ecf4f3;
 }
-
-@-webkit-keyframes HideList {
-  from {
-    -webkit-transform: scaleY(1);
-    transform: scaleY(1);
-  }
-  to {
-    -webkit-transform: scaleY(0);
-    transform: scaleY(0);
-  }
-}
-
-@keyframes HideList {
-  from {
-    -webkit-transform: scaleY(1);
-    transform: scaleY(1);
-  }
-  to {
-    -webkit-transform: scaleY(0);
-    transform: scaleY(0);
-  }
+.droplist-item label {
+  font-family: "Roboto", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  color: #1b1b1b;
+  cursor: pointer;
+  width: 416px;
+  height: 44px;
+  padding-left: 12px;
 }

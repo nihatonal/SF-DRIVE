@@ -1,4 +1,4 @@
-export const options = [
+export const Options = [
   {
     id: "opt1",
     name: "Крепления Iosfix",

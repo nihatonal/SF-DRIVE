@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Button from "../../shared/Components/FormElements/Button";
 import SendError from "../../SignUpPage/components/SendError";
 import { FaArrowLeft } from "react-icons/fa";
-import { options } from "../../assets/Options";
+import { Options } from "../../assets/Options";
 import { extraoptions } from "../../assets/extraoptions";
 import { useWindowDimensions } from "../../shared/hooks/useWindowDimensions";
 
@@ -113,7 +113,7 @@ const OptionOfCar = (props) => {
           <div className="form-content options-wrapper">
             <h2>Опции автомобиля</h2>
 
-            {options.map((item) => (
+            {Options.map((item) => (
               <div key={item.name} className="option-item">
                 <label htmlFor={item.name}>
                   <img src={item.image} alt={item.name} />

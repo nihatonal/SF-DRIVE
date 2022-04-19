@@ -1,99 +1,59 @@
-import React, { useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 
-import "./Select.css"
+import OutsideClickHandler from "../../../shared/util/OutsideClickHandler";
+import menu_dropdown from "../../../assets/icons/menu-down.svg";
+import "./Select.css";
 
+const Select = (props) => {
+  const [selected, setSelected] = useState(props.selected);
+  const [showList, setShowList] = useState(false);
 
-function Select(props) {
-  
+  const onChangeHandler = (item) => {
+    setShowList(false);
+    setSelected(item);
+  };
+
+  const focusHandler = () => {
+    setShowList(true);
+  };
+
   return (
-    <>
-      <div className="select-box__current" tabindex="1">
-        <div className="select-box__value">
-          <input
-            className="select-box__input"
-            type="radio"
-            id="0"
-            value="1"
-            name="Ben"
-            checked="checked"
-          />
-          <p className="select-box__input-text">Cream</p>
-        </div>
-        <div className="select-box__value">
-          <input
-            className="select-box__input"
-            type="radio"
-            id="1"
-            value="2"
-            name="Ben"
-            checked="checked"
-          />
-          <p className="select-box__input-text">Cheese</p>
-        </div>
-        <div className="select-box__value">
-          <input
-            className="select-box__input"
-            type="radio"
-            id="2"
-            value="3"
-            name="Ben"
-            checked="checked"
-          />
-          <p className="select-box__input-text">Milk</p>
-        </div>
-        <div className="select-box__value">
-          <input
-            className="select-box__input"
-            type="radio"
-            id="3"
-            value="4"
-            name="Ben"
-            checked="checked"
-          />
-          <p className="select-box__input-text">Honey</p>
-        </div>
-        <div className="select-box__value">
-          <input
-            className="select-box__input"
-            type="radio"
-            id="4"
-            value="5"
-            name="Ben"
-            checked="checked"
-          />
-          <p className="select-box__input-text">Toast</p>
-        </div>
-        
+    <OutsideClickHandler
+      onOutsideClick={() => {
+        setShowList(false);
+      }}
+    >
+      <div className="select-wrapper">
+        <label className="select-label">{props.label}</label>
+        <img
+          className="menu-dropdown"
+          src={menu_dropdown}
+          alt="menu-dropdown"
+        />
+        <p className={`select-input ${props.classSelectInput}`} onChange={props.onChange} onClick={focusHandler} value={props.value}>{selected}</p>
+        {showList && (
+          <div id="droplist" className="droplist-container">
+            {props.data.map((x, y) => (
+              <div className="droplist-item" key={y}>
+                <input
+                  className="radio"
+                  id={y}
+                  type="radio"
+                  name="selected-item"
+                  value={x}
+                  onChange={props.onChange}
+                  hidden
+                />
+                <label htmlFor={y} onClick={() => onChangeHandler(x)}>
+                  {x}
+                </label>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
-      <ul className="select-box__list">
-        <li>
-          <label className="select-box__option" htmlFor="0" aria-hidden="aria-hidden">
-            Cream
-          </label>
-        </li>
-        <li>
-          <label className="select-box__option" htmlFor="1" aria-hidden="aria-hidden">
-            Cheese
-          </label>
-        </li>
-        <li>
-          <label className="select-box__option" htmlFor="2" aria-hidden="aria-hidden">
-            Milk
-          </label>
-        </li>
-        <li>
-          <label className="select-box__option" htmlFor="3" aria-hidden="aria-hidden">
-            Honey
-          </label>
-        </li>
-        <li>
-          <label className="select-box__option" htmlFor="4" aria-hidden="aria-hidden">
-            Toast
-          </label>
-        </li>
-      </ul>
-      </>
+    </OutsideClickHandler>
   );
-}
+};
 
 export default Select;
