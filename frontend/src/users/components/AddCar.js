@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Input from "../../shared/Components/FormElements/Input";
 import Button from "../../shared/Components/FormElements/Button";
 import SendError from "../../SignUpPage/components/SendError";
+import menu_dropdown from "../../assets/icons/menu-down.svg";
 import {
   VALIDATOR_REQUIRE,
   VALIDATOR_NUMBER,
@@ -30,7 +31,7 @@ const AddCar = () => {
         isValid: true,
       },
       model: {
-        value: "AudiA1",
+        value: 'AudiA1',
         isValid: true,
       },
       year: {
@@ -112,17 +113,17 @@ const AddCar = () => {
 
   let selectedModels;
 
-  useEffect(() => {
-    selectedModels = Cardb.filter((auto) => auto.brand.includes("Audi"));
-  }, [selectedModels]);
+  // useEffect(() => {
+  //   selectedModels = Cardb.filter((auto) => auto.brand.includes(formState.inputs.brand.value));
+  // }, [selectedModels]);
 
-  selectedModels = Cardb.filter((auto) =>
-    auto.brand.includes(formState.inputs.brand.value)
-  );
+  selectedModels = [
+    ...new Set([].concat(Cardb.filter((auto) => auto.brand.includes(formState.inputs.brand.value)).map((item) => item.model)).flat()),
+  ];
 
   const signupFormHandler = async (e) => {
     e.preventDefault();
-    //console.log(formState.inputs);
+   
     setIsLoading(true);
     setFormData(
       {
@@ -252,7 +253,8 @@ const AddCar = () => {
   const { height } = useWindowDimensions();
   const style_button = { top: height - 234, position: "absolute" };
 
-  console.log(formState.inputs);
+ 
+
   return (
     <>
       {error ? (
@@ -267,25 +269,19 @@ const AddCar = () => {
 
           <div className="form-content info-car">
             <h2>Информация об автомобиле</h2>
-          <Select data={brandItems} label="Марка" selected="Audi" />
-            {/* <Input
+
+            <Input
               id="brand"
               element="select"
               label="Марка"
               validators={[VALIDATOR_REQUIRE()]}
               onInput={inputHandler}
               placeholderclassName="input-hidden"
-              className="br-grey"
               initialValue={formState.inputs.brand.value}
               initialValid={formState.inputs.brand.isValid}
+              src={menu_dropdown}
             >
-            
-           
-            {brandItems.map((x, y) => (
-                <option key={y} value={x}>
-                  {x}
-                </option>
-              ))}
+              <Select data={brandItems} value={formState.inputs.brand.value} />
             </Input>
 
             <Input
@@ -299,12 +295,9 @@ const AddCar = () => {
               initialValue={formState.inputs.model.value}
               initialValid={formState.inputs.model.isValid}
             >
-              {selectedModels.map((x, y) => (
-                <option key={y} selected="selected">
-                  {x.model}
-                </option>
-              ))}
+              <Select data={selectedModels} value={selectedModels[0]} />
             </Input>
+            {/* 
             <Input
               id="year"
               element="input"

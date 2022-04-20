@@ -4,6 +4,7 @@ export const ShareContext = createContext({
     date_ranges : [],
     city:null,
     car: [],
+    brand:'Audi',
     options:[],
     services:[],
     error: false

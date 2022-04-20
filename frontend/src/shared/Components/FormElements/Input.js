@@ -52,20 +52,37 @@ const Input = (props) => {
 
   const element =
     props.element === "select" ? (
-      <select
-      id={props.id}
-      className={props.className}
-      type={props.type}
-      placeholder={props.placeholder}
-      onChange={changeHandler}
-      onFocus={props.onFocus}
-      onBlur={touchHandler}
-      value={inputState.value}
-      ref={props.ref}
-      list={props.list}
-      style={props.style}
-    >{props.children}</select>
-    ) : 
+      <div
+        id={props.id}
+        className={props.className}
+        type={props.type}
+        placeholder={props.placeholder}
+        onChange={changeHandler}
+        onFocus={props.onFocus}
+        onBlur={touchHandler}
+        value={inputState.value}
+        ref={props.ref}
+        list={props.list}
+        style={props.style}
+        onClick={props.onClick}
+      >
+        {/* <label className="select-label">{props.label}</label> */}
+        
+        {props.children}
+      </div>
+    ) : //   <select
+    //   id={props.id}
+    //   className={props.className}
+    //   type={props.type}
+    //   placeholder={props.placeholder}
+    //   onChange={changeHandler}
+    //   onFocus={props.onFocus}
+    //   onBlur={touchHandler}
+    //   value={inputState.value}
+    //   ref={props.ref}
+    //   list={props.list}
+    //   style={props.style}
+    // >{props.children}</select>
     props.element === "input" ? (
       <input
         id={props.id}
