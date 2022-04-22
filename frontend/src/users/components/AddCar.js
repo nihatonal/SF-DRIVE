@@ -13,14 +13,14 @@ import Cardb from "../../assets/cardb.json";
 import Infocars from "../../assets/infocars.json";
 import { useForm } from "../../shared/hooks/SignUpFrom-hook";
 import { useWindowDimensions } from "../../shared/hooks/useWindowDimensions";
-import OptionOfCar from "./OptionOfCar";
+import AddOptionCar from "./AddOptionCar";
 import Select from "../../shared/Components/FormElements/Select";
 
 import "./AddCar.css";
 
 const AddCar = () => {
-  const [stepOne, setStepOne] = useState(true);
-  const [stepTwo, setStepTwo] = useState(false);
+  const [stepOne, setStepOne] = useState(false);//true
+  const [stepTwo, setStepTwo] = useState(true);//false
   const [error, SetError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -280,6 +280,7 @@ const AddCar = () => {
               initialValue={formState.inputs.brand.value}
               initialValid={formState.inputs.brand.isValid}
               src={menu_dropdown}
+              classNameWrapper='inputWrapper'
             >
               <Select data={brandItems} value={formState.inputs.brand.value} />
             </Input>
@@ -294,10 +295,11 @@ const AddCar = () => {
               className="br-grey"
               initialValue={formState.inputs.model.value}
               initialValid={formState.inputs.model.isValid}
+              classNameWrapper='inputWrapper'
             >
-              <Select data={selectedModels} value={selectedModels[0]} />
+              <Select data={selectedModels} value={selectedModels[0] || formState.inputs.model.value } />
             </Input>
-            {/* 
+            
             <Input
               id="year"
               element="input"
@@ -314,6 +316,7 @@ const AddCar = () => {
               className="input-short br-grey"
               initialValue={formState.inputs.year.value}
               initialValid={formState.inputs.year.isValid}
+              classNameWrapper='inputWrapper'
             />
             <Input
               id="plate_number"
@@ -327,6 +330,7 @@ const AddCar = () => {
               className="input-short br-grey"
               initialValue={formState.inputs.plate_number.value}
               initialValid={formState.inputs.plate_number.isValid}
+              classNameWrapper='inputWrapper'
             />
             <Input
               id="vin_number"
@@ -340,41 +344,38 @@ const AddCar = () => {
               className="br-grey"
               initialValue={formState.inputs.vin_number.value}
               initialValid={formState.inputs.vin_number.isValid}
+              classNameWrapper='inputWrapper'
             />
             <Input
               id="color"
               element="select"
-              type="text"
               label="Цвет"
               validators={[VALIDATOR_REQUIRE()]}
               onInput={inputHandler}
               placeholderclassName="input-hidden"
-              classNameWrapper="classNameWrapper"
-              className="br-grey"
               initialValue={formState.inputs.color.value}
               initialValid={formState.inputs.color.isValid}
+              src={menu_dropdown}
+              classNameWrapper='inputWrapper'
             >
-              {Infocars[0].color.map((x, y) => (
-                <option key={y}>{x}</option>
-              ))}
+              <Select data={Infocars[0].color} value={formState.inputs.color.value} />
             </Input>
-
             <Input
               id="engine_type"
               element="select"
-              type="text"
               label="Тип двигателя"
               validators={[VALIDATOR_REQUIRE()]}
               onInput={inputHandler}
               placeholderclassName="input-hidden"
-              className="br-grey"
               initialValue={formState.inputs.engine_type.value}
               initialValid={formState.inputs.engine_type.isValid}
+              src={menu_dropdown}
+              classNameWrapper='inputWrapper'
             >
-              {Infocars[1].engine.map((x, y) => (
-                <option key={y}>{x}</option>
-              ))}
+              <Select data={Infocars[1].engine} value={formState.inputs.engine_type.value} />
             </Input>
+          
+            
             <Input
               id="engine_volume"
               element="input"
@@ -387,6 +388,7 @@ const AddCar = () => {
               className="input-short br-grey"
               initialValue={formState.inputs.engine_volume.value}
               initialValid={formState.inputs.engine_volume.isValid}
+              classNameWrapper='inputWrapper'
             />
             <div className="engine_power">
               <span>Мощность</span>
@@ -402,28 +404,29 @@ const AddCar = () => {
                 className="input-power br-grey"
                 initialValue={formState.inputs.engine_power.value}
                 initialValid={formState.inputs.engine_volume.isValid}
+                classNameWrapper='input-small'
               />
               <p className="engine_power_kw">
                 {calcHorsePower(formState.inputs.engine_power.value)}
               </p>
             </div>
+
             <Input
               id="engine_transmission"
               element="select"
-              type="text"
               label="Трансмиссия"
               validators={[VALIDATOR_REQUIRE()]}
               onInput={inputHandler}
               placeholderclassName="input-hidden"
-              classNameWrapper="classNameWrapper"
-              className="br-grey"
               initialValue={formState.inputs.engine_transmission.value}
               initialValid={formState.inputs.engine_transmission.isValid}
+              src={menu_dropdown}
+              classNameWrapper='inputWrapper'
             >
-              {Infocars[2].transmission.map((x, y) => (
-                <option key={y}>{x}</option>
-              ))}
+              <Select data={Infocars[2].transmission} value={formState.inputs.engine_transmission.value} />
             </Input>
+           
+              
             <Input
               id="engine_run"
               element="input"
@@ -436,6 +439,7 @@ const AddCar = () => {
               className="input-short br-grey"
               initialValue={formState.inputs.engine_run.value}
               initialValid={formState.inputs.engine_run.isValid}
+              classNameWrapper='inputWrapper'
             />
             <Input
               id="pts"
@@ -449,6 +453,7 @@ const AddCar = () => {
               className="br-grey"
               initialValue={formState.inputs.pts.value}
               initialValid={formState.inputs.pts.isValid}
+              classNameWrapper='inputWrapper'
             />
             <Input
               id="sts"
@@ -462,6 +467,7 @@ const AddCar = () => {
               className="br-grey"
               initialValue={formState.inputs.sts.value}
               initialValid={formState.inputs.sts.isValid}
+              classNameWrapper='inputWrapper'
             />
           </div>
 
@@ -479,6 +485,7 @@ const AddCar = () => {
               className="input-short br-grey"
               initialValue={formState.inputs.price.value}
               initialValid={formState.inputs.price.isValid}
+              classNameWrapper='inputWrapper'
             />
             <Input
               id="price_for3"
@@ -492,6 +499,7 @@ const AddCar = () => {
               className="input-short br-grey"
               initialValue={formState.inputs.price_for3.value}
               initialValid={formState.inputs.price_for3.isValid}
+              classNameWrapper='inputWrapper'
             />
             <Input
               id="price_more5"
@@ -505,6 +513,7 @@ const AddCar = () => {
               className="input-short br-grey"
               initialValue={formState.inputs.price_more5.value}
               initialValid={formState.inputs.price_more5.isValid}
+              classNameWrapper='inputWrapper'
             />
           </div>
 
@@ -522,6 +531,7 @@ const AddCar = () => {
               className="br-grey"
               initialValue={formState.inputs.policy.value}
               initialValid={formState.inputs.policy.isValid}
+              classNameWrapper='inputWrapper'
             />
             <div className="container-insurance">
               <Input
@@ -536,11 +546,12 @@ const AddCar = () => {
                 className="br-grey"
                 initialValue={formState.inputs.insurance.value}
                 initialValid={true}
+                classNameWrapper='inputWrapper'
               />
               <Button to="./" className="buy_kasko">
                 Купить КАСКО
               </Button>
-            </div> */}
+            </div> 
           </div>
 
           <div
@@ -557,7 +568,7 @@ const AddCar = () => {
           </div>
         </form>
       )}
-      {stepTwo && <OptionOfCar onClick={stepTwoHandler} />}
+      {stepTwo && <AddOptionCar onClick={stepTwoHandler} />}
     </>
   );
 };
