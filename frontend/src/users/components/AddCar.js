@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import Input from "../../shared/Components/FormElements/Input";
 import Button from "../../shared/Components/FormElements/Button";
 import SendError from "../../SignUpPage/components/SendError";
+import { useHttpClient } from "../../shared/hooks/http-hook";
 import menu_dropdown from "../../assets/icons/menu-down.svg";
 import {
   VALIDATOR_REQUIRE,
@@ -12,6 +13,7 @@ import {
 import Cardb from "../../assets/cardb.json";
 import Infocars from "../../assets/infocars.json";
 import { useForm } from "../../shared/hooks/SignUpFrom-hook";
+import { AuthContext } from '../../shared/context/auth-context';
 import { useWindowDimensions } from "../../shared/hooks/useWindowDimensions";
 import AddOptionCar from "./AddOptionCar";
 import Select from "../../shared/Components/FormElements/Select";
@@ -19,10 +21,12 @@ import Select from "../../shared/Components/FormElements/Select";
 import "./AddCar.css";
 
 const AddCar = () => {
-  const [stepOne, setStepOne] = useState(false);//true
-  const [stepTwo, setStepTwo] = useState(true);//false
-  const [error, SetError] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const auth = useContext(AuthContext);
+  const { isLoading, error, sendRequest } = useHttpClient();
+  const [stepOne, setStepOne] = useState(true); //true
+  const [stepTwo, setStepTwo] = useState(false); //false
+  //const [error, SetError] = useState(false);
+  //const [isLoading, setIsLoading] = useState(false);
 
   const [formState, inputHandler, setFormData] = useForm(
     {
@@ -31,7 +35,7 @@ const AddCar = () => {
         isValid: true,
       },
       model: {
-        value: 'AudiA1',
+        value: "AudiA1",
         isValid: true,
       },
       year: {
@@ -118,13 +122,21 @@ const AddCar = () => {
   // }, [selectedModels]);
 
   selectedModels = [
-    ...new Set([].concat(Cardb.filter((auto) => auto.brand.includes(formState.inputs.brand.value)).map((item) => item.model)).flat()),
+    ...new Set(
+      []
+        .concat(
+          Cardb.filter((auto) =>
+            auto.brand.includes(formState.inputs.brand.value)
+          ).map((item) => item.model)
+        )
+        .flat()
+    ),
   ];
 
   const signupFormHandler = async (e) => {
     e.preventDefault();
-   
-    setIsLoading(true);
+
+    //setIsLoading(true);
     setFormData(
       {
         brand: {
@@ -202,9 +214,45 @@ const AddCar = () => {
       },
       true
     );
+    // try {
+    //   localStorage.setItem(
+    //     "carData",
+    //     JSON.stringify({
+    //       brand: formState.inputs.brand.value,
+    //       model: formState.inputs.model.value,
+    //       year: formState.inputs.year.value,
+    //       plate_number: formState.inputs.plate_number.value,
+    //       vin_number: formState.inputs.vin_number.value,
+    //       color: formState.inputs.color.value,
+    //       engine_type: formState.inputs.engine_type.value,
+    //       engine_volume: formState.inputs.engine_volume.value,
+    //       engine_power: formState.inputs.engine_power.value,
+    //       engine_transmission: formState.inputs.engine_transmission.value,
+    //       engine_run: formState.inputs.engine_run.value,
+    //       pts: formState.inputs.pts.value,
+    //       sts: formState.inputs.sts.value,
+    //       price: formState.inputs.price.value,
+    //       price_for3: formState.inputs.price_for3.value,
+    //       price_more5: formState.inputs.price_more5.value,
+    //       policy: formState.inputs.policy.value,
+    //       insurance: formState.inputs.insurance.value,
+    //     })
+    //   );
+
+    //   setTimeout(() => {
+    //     setStepOne(false);
+    //     setStepTwo(true);
+    //   }, 2000);
+    // } catch (err) {
+    //   SetError(true);
+    //   setIsLoading(false);
+    // }
+
     try {
-      localStorage.setItem(
-        "carData",
+      console.log(formState.inputs)
+      const responseData = await sendRequest(
+        "http://localhost:5000/api/cars",
+        "POST",
         JSON.stringify({
           brand: formState.inputs.brand.value,
           model: formState.inputs.model.value,
@@ -224,17 +272,18 @@ const AddCar = () => {
           price_more5: formState.inputs.price_more5.value,
           policy: formState.inputs.policy.value,
           insurance: formState.inputs.insurance.value,
-        })
+        }),
+        {
+         
+          Authorization: 'Bearer ' + auth.token
+        }
       );
-
+      console.log(responseData);
       setTimeout(() => {
         setStepOne(false);
         setStepTwo(true);
       }, 2000);
-    } catch (err) {
-      SetError(true);
-      setIsLoading(false);
-    }
+    } catch (err) {}
 
     window.scrollTo({ top: 0, behavior: "smooth" });
     setPositionUp(true);
@@ -243,7 +292,7 @@ const AddCar = () => {
   const stepTwoHandler = () => {
     setStepOne(true);
     setStepTwo(false);
-    setIsLoading(false);
+    //setIsLoading(false);
     setPositionUp(false);
   };
 
@@ -252,8 +301,6 @@ const AddCar = () => {
   const [positionUp, setPositionUp] = useState(false);
   const { height } = useWindowDimensions();
   const style_button = { top: height - 234, position: "absolute" };
-
- 
 
   return (
     <>
@@ -280,7 +327,7 @@ const AddCar = () => {
               initialValue={formState.inputs.brand.value}
               initialValid={formState.inputs.brand.isValid}
               src={menu_dropdown}
-              classNameWrapper='inputWrapper'
+              classNameWrapper="inputWrapper"
             >
               <Select data={brandItems} value={formState.inputs.brand.value} />
             </Input>
@@ -295,11 +342,14 @@ const AddCar = () => {
               className="br-grey"
               initialValue={formState.inputs.model.value}
               initialValid={formState.inputs.model.isValid}
-              classNameWrapper='inputWrapper'
+              classNameWrapper="inputWrapper"
             >
-              <Select data={selectedModels} value={selectedModels[0] || formState.inputs.model.value } />
+              <Select
+                data={selectedModels}
+                value={selectedModels[0] || formState.inputs.model.value}
+              />
             </Input>
-            
+
             <Input
               id="year"
               element="input"
@@ -316,7 +366,7 @@ const AddCar = () => {
               className="input-short br-grey"
               initialValue={formState.inputs.year.value}
               initialValid={formState.inputs.year.isValid}
-              classNameWrapper='inputWrapper'
+              classNameWrapper="inputWrapper"
             />
             <Input
               id="plate_number"
@@ -330,7 +380,7 @@ const AddCar = () => {
               className="input-short br-grey"
               initialValue={formState.inputs.plate_number.value}
               initialValid={formState.inputs.plate_number.isValid}
-              classNameWrapper='inputWrapper'
+              classNameWrapper="inputWrapper"
             />
             <Input
               id="vin_number"
@@ -344,7 +394,7 @@ const AddCar = () => {
               className="br-grey"
               initialValue={formState.inputs.vin_number.value}
               initialValid={formState.inputs.vin_number.isValid}
-              classNameWrapper='inputWrapper'
+              classNameWrapper="inputWrapper"
             />
             <Input
               id="color"
@@ -356,9 +406,12 @@ const AddCar = () => {
               initialValue={formState.inputs.color.value}
               initialValid={formState.inputs.color.isValid}
               src={menu_dropdown}
-              classNameWrapper='inputWrapper'
+              classNameWrapper="inputWrapper"
             >
-              <Select data={Infocars[0].color} value={formState.inputs.color.value} />
+              <Select
+                data={Infocars[0].color}
+                value={formState.inputs.color.value}
+              />
             </Input>
             <Input
               id="engine_type"
@@ -370,12 +423,14 @@ const AddCar = () => {
               initialValue={formState.inputs.engine_type.value}
               initialValid={formState.inputs.engine_type.isValid}
               src={menu_dropdown}
-              classNameWrapper='inputWrapper'
+              classNameWrapper="inputWrapper"
             >
-              <Select data={Infocars[1].engine} value={formState.inputs.engine_type.value} />
+              <Select
+                data={Infocars[1].engine}
+                value={formState.inputs.engine_type.value}
+              />
             </Input>
-          
-            
+
             <Input
               id="engine_volume"
               element="input"
@@ -388,7 +443,7 @@ const AddCar = () => {
               className="input-short br-grey"
               initialValue={formState.inputs.engine_volume.value}
               initialValid={formState.inputs.engine_volume.isValid}
-              classNameWrapper='inputWrapper'
+              classNameWrapper="inputWrapper"
             />
             <div className="engine_power">
               <span>Мощность</span>
@@ -404,7 +459,7 @@ const AddCar = () => {
                 className="input-power br-grey"
                 initialValue={formState.inputs.engine_power.value}
                 initialValid={formState.inputs.engine_volume.isValid}
-                classNameWrapper='input-small'
+                classNameWrapper="input-small"
               />
               <p className="engine_power_kw">
                 {calcHorsePower(formState.inputs.engine_power.value)}
@@ -421,12 +476,14 @@ const AddCar = () => {
               initialValue={formState.inputs.engine_transmission.value}
               initialValid={formState.inputs.engine_transmission.isValid}
               src={menu_dropdown}
-              classNameWrapper='inputWrapper'
+              classNameWrapper="inputWrapper"
             >
-              <Select data={Infocars[2].transmission} value={formState.inputs.engine_transmission.value} />
+              <Select
+                data={Infocars[2].transmission}
+                value={formState.inputs.engine_transmission.value}
+              />
             </Input>
-           
-              
+
             <Input
               id="engine_run"
               element="input"
@@ -439,7 +496,7 @@ const AddCar = () => {
               className="input-short br-grey"
               initialValue={formState.inputs.engine_run.value}
               initialValid={formState.inputs.engine_run.isValid}
-              classNameWrapper='inputWrapper'
+              classNameWrapper="inputWrapper"
             />
             <Input
               id="pts"
@@ -453,7 +510,7 @@ const AddCar = () => {
               className="br-grey"
               initialValue={formState.inputs.pts.value}
               initialValid={formState.inputs.pts.isValid}
-              classNameWrapper='inputWrapper'
+              classNameWrapper="inputWrapper"
             />
             <Input
               id="sts"
@@ -467,7 +524,7 @@ const AddCar = () => {
               className="br-grey"
               initialValue={formState.inputs.sts.value}
               initialValid={formState.inputs.sts.isValid}
-              classNameWrapper='inputWrapper'
+              classNameWrapper="inputWrapper"
             />
           </div>
 
@@ -485,7 +542,7 @@ const AddCar = () => {
               className="input-short br-grey"
               initialValue={formState.inputs.price.value}
               initialValid={formState.inputs.price.isValid}
-              classNameWrapper='inputWrapper'
+              classNameWrapper="inputWrapper"
             />
             <Input
               id="price_for3"
@@ -499,7 +556,7 @@ const AddCar = () => {
               className="input-short br-grey"
               initialValue={formState.inputs.price_for3.value}
               initialValid={formState.inputs.price_for3.isValid}
-              classNameWrapper='inputWrapper'
+              classNameWrapper="inputWrapper"
             />
             <Input
               id="price_more5"
@@ -513,7 +570,7 @@ const AddCar = () => {
               className="input-short br-grey"
               initialValue={formState.inputs.price_more5.value}
               initialValid={formState.inputs.price_more5.isValid}
-              classNameWrapper='inputWrapper'
+              classNameWrapper="inputWrapper"
             />
           </div>
 
@@ -531,7 +588,7 @@ const AddCar = () => {
               className="br-grey"
               initialValue={formState.inputs.policy.value}
               initialValid={formState.inputs.policy.isValid}
-              classNameWrapper='inputWrapper'
+              classNameWrapper="inputWrapper"
             />
             <div className="container-insurance">
               <Input
@@ -546,12 +603,12 @@ const AddCar = () => {
                 className="br-grey"
                 initialValue={formState.inputs.insurance.value}
                 initialValid={true}
-                classNameWrapper='inputWrapper'
+                classNameWrapper="inputWrapper"
               />
               <Button to="./" className="buy_kasko">
                 Купить КАСКО
               </Button>
-            </div> 
+            </div>
           </div>
 
           <div

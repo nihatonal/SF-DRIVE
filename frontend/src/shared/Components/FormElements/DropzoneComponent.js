@@ -51,15 +51,15 @@ function DropzoneComponent(props) {
   const [isValid, setIsValid] = useState(false);
   const [initialImages, setInitialImages] = useState(false)
 
-  useEffect(() => {
-    const storedImages = JSON.parse(localStorage.getItem("carImages"));
-    if (storedImages) {
-      setInitialImages(true)
-      //setFiles(storedImages.initialImages)
-      console.log(storedImages.initialImages);
-    }
+  // useEffect(() => {
+  //   const storedImages = JSON.parse(localStorage.getItem("carImages"));
+  //   if (storedImages) {
+  //     setInitialImages(true)
+  //     setFiles(storedImages.initialImages)
+  //     console.log(storedImages.initialImages);
+  //   }
 
-  }, []);
+  // }, []);
 
   const onDrop = useCallback((acceptedFiles) => {
     setShowDropzone(true);
@@ -154,12 +154,12 @@ function DropzoneComponent(props) {
 
       <div className={`preview-info ${props.classPrewiewinfo}`}>
         <div>
-          {/* <p className={`preview-info-name ${props.classPrewiewname}`}>
-            {file.name.slice(0, -4)}
-          </p>
-          <p className={`preview-info-desc ${props.classPrewiewdesc}`}>
-            {formatBytes(file.size)}, {file.type.slice(6)}
-          </p> */}
+            <p className={`preview-info-name ${props.classPrewiewname}`}>
+              {file.name.slice(0, -4)}
+            </p>
+            <p className={`preview-info-desc ${props.classPrewiewdesc}`}>
+              {formatBytes(file.size)}, {file.type.slice(6)}
+            </p>
         </div>
         <div onClick={() => deleteHandler(file.name)}>
           <img
@@ -172,7 +172,7 @@ function DropzoneComponent(props) {
       </div>
     </div>
   ));
-              console.log(files)
+  
   // clean up
   useEffect(
     () => () => {

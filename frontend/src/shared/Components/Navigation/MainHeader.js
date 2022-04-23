@@ -26,7 +26,7 @@ const MainHeader = props => {
   const { pathname } = useLocation();
   if (Error.error) return null;
   
-  if (pathname === "/signup/success" ) return null;
+  if (pathname === "/signup/success" || pathname === "/user/mycars/success" ) return null;
 
  
 

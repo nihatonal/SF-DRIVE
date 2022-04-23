@@ -122,7 +122,7 @@ const SignUpPage = () => {
               'Content-Type': 'application/json'
             }
           );
-         // auth.login(responseData.userId, responseData.token)
+        
           SignUp.userId = responseData.userId;
           navigate('/userphoto'); 
         } catch (err) {

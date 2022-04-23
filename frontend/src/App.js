@@ -16,8 +16,10 @@ import FiveHundredTwo from "./shared/Components/NotFound/FiveHundredTwo";
 import FourHunderFour from "./shared/Components/NotFound/FourHunderFour";
 import SignUpSuccess from "./SignUpPage/pages/SignUpSuccess";
 
+
 import UserMain from "./users/pages/UserMain";
 import MyCars from "./users/pages/MyCars";
+import AddCarSuccess from "./users/components/AddCarSuccess";
 
 import { AuthContext } from "./shared/context/auth-context";
 
@@ -94,7 +96,8 @@ function App() {
       <React.Fragment>
         <Route path="/" element={<MainPage />} />
         <Route exact path="/user" element={<UserMain />} />
-        {/* <Route exact path="/user/mycars" element={<MyCars />} /> */}
+        <Route exact path="/user/mycars" element={<MyCars/>} />
+        <Route exact path="/user/mycars/success" element={<AddCarSuccess/>} />
         <Route path="*" element={<FourHunderFour />} />
       </React.Fragment>
     );
@@ -102,7 +105,8 @@ function App() {
     routes = (
       <React.Fragment>
         <Route exact path="/" element={<MainPage />} />
-        <Route exact path="/user/mycars" element={<MyCars />} />
+        {/* <Route exact path="/user/mycars" element={<MyCars />} />
+        <Route exact path="/user/mycars/success" element={<AddCarSuccess />} /> */}
         <Route exact path="/about" element={<PageAbout />} />
         <Route exact path="/faq" element={<PageFaq />} />
         <Route exact path="/signup" element={<SignUpPage />} />

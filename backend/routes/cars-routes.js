@@ -13,13 +13,6 @@ router.get('/user/:uid', carControllers.getCarsByUserId);
 router.use(checkAuth);
 
 router.post('/',
-    [
-        check('brand')
-        .not()
-        .isEmpty(),
-        check('model').isLength({ min: 1 })
-        
-    ], 
     carControllers.createCar);
 
 router.patch('/:cid',
