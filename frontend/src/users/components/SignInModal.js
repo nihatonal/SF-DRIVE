@@ -1,5 +1,5 @@
 
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
@@ -35,7 +35,10 @@ const SignInModal = (props) => {
         } 
       },false);
 
-      
+      useEffect (() => {
+        console.log(auth.isLoggedIn)
+      },[]);
+
       const authSubmitHandler = async (e) => {
         e.preventDefault();
         try {
@@ -52,14 +55,14 @@ const SignInModal = (props) => {
           );
          //console.log('logged in', auth.userId )
           auth.login(responseData.userId, responseData.token)
-          setClose(true)
+          setClose(true);
           navigate('/user'); 
         } catch (err) {}
         
       }
       
       return (  <Modal
-            show={props.show && !close}
+            show={props.show}
             CloseonClick={props.close}
             title="Авторизация"
             errorSignIn={error ? "Не верная почта или пароль" : ""}

@@ -117,7 +117,6 @@ const UserDocs = () => {
 
     const sendPhoto = async (e) => {
 
-        console.log(theArray)
         e.preventDefault();
         let pathInfo = [];
         theArray.map((file)=> {
@@ -127,8 +126,6 @@ const UserDocs = () => {
         if((formState.inputs.docs.value === null)) return
 
         const userId = SignUp.userId;
-        console.log(userId)
-        console.log(pathInfo)
 
         try {
             

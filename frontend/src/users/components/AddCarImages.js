@@ -1,8 +1,6 @@
 import React, { useState, useContext, useEffect, useCallback } from "react";
 
-import { Link } from "react-router-dom";
 
-import { SignUpContext } from "../../shared/context/signup-context";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import axios from "axios";
 import Button from "../../shared/Components/FormElements/Button";
@@ -16,8 +14,9 @@ import { FaArrowLeft } from "react-icons/fa";
 import "./AddCarImages.css";
 
 const AddCarImages = (props) => {
-  const SignUp = useContext(SignUpContext);
+
   const { isLoading, sendRequest } = useHttpClient();
+  const [is_Loading, setIsLoading] = useState(false);
   const [loading, setLoading] = useState(false);
   const [imageFile, setImageFile] = useState([]);
   const [theArray, setTheArray] = useState([]);
@@ -71,18 +70,17 @@ const AddCarImages = (props) => {
               setLoading(true);
               initialImages.push(response.data.data);
 
-              localStorage.setItem(
-                "carImages",
-                JSON.stringify({
-                  initialImages,
-                })
-              );
+              // localStorage.setItem(
+              //   "carImages",
+              //   JSON.stringify({
+              //     initialImages,
+              //   })
+              // );
             });
         } catch (err) {
           setLoading(false);
           setShowRenew(true);
           setErrorUpload(true);
-          SignUp.error = err.message;
           if (err.response.status === 500) {
             console.log("There was a problem with the server");
           }
@@ -132,38 +130,34 @@ const AddCarImages = (props) => {
     // );
   };
 
+
+  
   const sendPhoto = async (e) => {
-    console.log(theArray);
     e.preventDefault();
+    setIsLoading(true);
 
-    // let pathInfo = [];
-    // theArray.map((file)=> {
-    //     pathInfo.push(file.path)
-    // })
+    let pathInfo = [];
+    theArray.map((file) => {
+      pathInfo.push(file.path);
+    });
 
-    // if((formState.inputs.images.value === null)) return
+    if (formState.inputs.images.value === null) return;
 
-    // const userId = SignUp.userId;
-    // console.log(userId)
-    // console.log(pathInfo)
-
-    // try {
-
-    //     const responseData = await sendRequest(
-    //       `http://localhost:5000/api/users/userdocs/${userId}`,
-    //       'PATCH',
-    //       JSON.stringify({
-    //         images: pathInfo,
-    //       }),
-    //       {
-    //         'Content-Type': 'application/json'
-    //       }
-    //     );
-    setStepThree(false);
-    setStepFour(true);
-    //   } catch (err) {
-    //     setErrorSend(true);
-    //   }
+    try {
+      localStorage.setItem(
+        "carImages",
+        JSON.stringify({
+          pathInfo,
+        })
+      );
+      setTimeout(() => {
+        setStepThree(false);
+      setStepFour(true);
+      }, 2000);
+      
+    } catch (err) {
+      setErrorSend(true);
+    }
 
     window.scrollTo({ top: 0, behavior: "smooth" });
     setPositionUp(true);
@@ -173,16 +167,20 @@ const AddCarImages = (props) => {
     setShowRenew(false);
     setErrorUpload(false);
 
+    let pathInfo = [];
+    theArray.map((file) => {
+      pathInfo.push(file.path);
+    });
+
     try {
-      const formData = new FormData();
-      formData.append("image", formState.inputs.images.value);
-      const responseData = await sendRequest(
-        "http://localhost:5000/api/users/userphoto",
-        "POST",
-        formData
+      localStorage.setItem(
+        "carImages",
+        JSON.stringify({
+          pathInfo,
+        })
       );
-      setImageFile(responseData.data.path);
-      setDelete(true);
+      setStepThree(false);
+      setStepFour(true);
     } catch (err) {
       if (formState.inputs.images.value !== null) setShowRenew(true);
     }
@@ -258,7 +256,7 @@ const AddCarImages = (props) => {
               disabled={!showDelete}
               inverse
             >
-              {!isLoading ? (
+              {!is_Loading ? (
                 "Продолжить"
               ) : (
                 <i className="fa fa-circle-o-notch fa-spin"></i>

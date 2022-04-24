@@ -24,6 +24,7 @@ const getUsers = async (req, res, next) => {
   }
   res.json({users: users.map(user => user.toObject({ getters:true })) });
 };
+
 const getUser = async (req, res, next) => {
   let user;
   const userId = req.params.uid;

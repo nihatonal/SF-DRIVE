@@ -37,16 +37,16 @@ const getCarById = async (req, res, next) => {
 const getCarsByUserId = async (req, res, next) => {
   const userId = req.params.uid;
 
-  // let cars;
-  // try {
-  //   cars = await Car.find({ creator: userId });
-  // } catch(err) {
-  //   const error = new HttpError(
-  //     'Fetching cars failed, please try again later.',
-  //     500
-  //   );
-  //   return next(error);
-  // }
+  let cars;
+  try {
+    cars = await Car.find({ creator: userId });
+  } catch(err) {
+    const error = new HttpError(
+      'Fetching cars failed, please try again later.',
+      500
+    );
+    return next(error);
+  }
   let userWithCars;
   try {
     userWithCars = await User.findById(userId).populate("cars");
@@ -101,8 +101,8 @@ const createCar = async (req, res, next) => {
     options,
     services,
     images,
-    carDocs
-    
+    carDocs,
+    owner,
   } = req.body;
 
   const createdCar = new Car({
@@ -124,17 +124,17 @@ const createCar = async (req, res, next) => {
     price_more5,
     policy,
     insurance,
-    options:[],
-    services:[],
-    images:[],
-    carDocs:[],
-    owner:req.userData.userId,
+    options,
+    services,
+    images,
+    carDocs,
+    owner,
   });
 
   let user;
 
   try {
-    user = await User.findById(req.userData.userId);
+    user = await User.findById(owner);
   } catch (err) {
     const error = new HttpError(
       "Creating place failed, user please try again.",
@@ -144,7 +144,10 @@ const createCar = async (req, res, next) => {
   }
 
   if (!user) {
-    const error = new HttpError("Could not find user for provided id.", 404);
+    const error = new HttpError(
+      `Could not find user for provided id.${owner}`,
+      404
+    );
     return next(error);
   }
 

@@ -14,18 +14,15 @@ const AddOptionCar = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [selectedServices, setSelectedServices] = useState([]);
-  const [carinfo, setCarInfo] = useState([]);
   const [stepThree, setStepThree] = useState(false); //false
   const [stepTwo, setStepTwo] = useState(true); //true
 
   useEffect(() => {
-    const storedData = JSON.parse(localStorage.getItem("carData"));
     const storedOptions = JSON.parse(localStorage.getItem("carOptions"));
-
     if (storedOptions) {
       setSelectedOptions(storedOptions.options);
       setSelectedServices(storedOptions.services);
-      setCarInfo(storedData);
+     
     }
   }, []);
 
@@ -72,9 +69,8 @@ const AddOptionCar = (props) => {
 
     try {
       localStorage.setItem(
-        "carData",
+        "carOptions",
         JSON.stringify({
-          carinfo,
           options: selectedOptions,
           services: selectedServices,
         })

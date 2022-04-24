@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import Input from "../../shared/Components/FormElements/Input";
 import Button from "../../shared/Components/FormElements/Button";
 import SendError from "../../SignUpPage/components/SendError";
-import { useHttpClient } from "../../shared/hooks/http-hook";
+
 import menu_dropdown from "../../assets/icons/menu-down.svg";
 import {
   VALIDATOR_REQUIRE,
@@ -13,7 +13,6 @@ import {
 import Cardb from "../../assets/cardb.json";
 import Infocars from "../../assets/infocars.json";
 import { useForm } from "../../shared/hooks/SignUpFrom-hook";
-import { AuthContext } from '../../shared/context/auth-context';
 import { useWindowDimensions } from "../../shared/hooks/useWindowDimensions";
 import AddOptionCar from "./AddOptionCar";
 import Select from "../../shared/Components/FormElements/Select";
@@ -21,12 +20,12 @@ import Select from "../../shared/Components/FormElements/Select";
 import "./AddCar.css";
 
 const AddCar = () => {
-  const auth = useContext(AuthContext);
-  const { isLoading, error, sendRequest } = useHttpClient();
+
+  //const { sendRequest } = useHttpClient();
   const [stepOne, setStepOne] = useState(true); //true
   const [stepTwo, setStepTwo] = useState(false); //false
-  //const [error, SetError] = useState(false);
-  //const [isLoading, setIsLoading] = useState(false);
+  const [error, SetError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [formState, inputHandler, setFormData] = useForm(
     {
@@ -136,7 +135,7 @@ const AddCar = () => {
   const signupFormHandler = async (e) => {
     e.preventDefault();
 
-    //setIsLoading(true);
+    setIsLoading(true);
     setFormData(
       {
         brand: {
@@ -214,45 +213,9 @@ const AddCar = () => {
       },
       true
     );
-    // try {
-    //   localStorage.setItem(
-    //     "carData",
-    //     JSON.stringify({
-    //       brand: formState.inputs.brand.value,
-    //       model: formState.inputs.model.value,
-    //       year: formState.inputs.year.value,
-    //       plate_number: formState.inputs.plate_number.value,
-    //       vin_number: formState.inputs.vin_number.value,
-    //       color: formState.inputs.color.value,
-    //       engine_type: formState.inputs.engine_type.value,
-    //       engine_volume: formState.inputs.engine_volume.value,
-    //       engine_power: formState.inputs.engine_power.value,
-    //       engine_transmission: formState.inputs.engine_transmission.value,
-    //       engine_run: formState.inputs.engine_run.value,
-    //       pts: formState.inputs.pts.value,
-    //       sts: formState.inputs.sts.value,
-    //       price: formState.inputs.price.value,
-    //       price_for3: formState.inputs.price_for3.value,
-    //       price_more5: formState.inputs.price_more5.value,
-    //       policy: formState.inputs.policy.value,
-    //       insurance: formState.inputs.insurance.value,
-    //     })
-    //   );
-
-    //   setTimeout(() => {
-    //     setStepOne(false);
-    //     setStepTwo(true);
-    //   }, 2000);
-    // } catch (err) {
-    //   SetError(true);
-    //   setIsLoading(false);
-    // }
-
     try {
-      console.log(formState.inputs)
-      const responseData = await sendRequest(
-        "http://localhost:5000/api/cars",
-        "POST",
+      localStorage.setItem(
+        "carData",
         JSON.stringify({
           brand: formState.inputs.brand.value,
           model: formState.inputs.model.value,
@@ -272,27 +235,27 @@ const AddCar = () => {
           price_more5: formState.inputs.price_more5.value,
           policy: formState.inputs.policy.value,
           insurance: formState.inputs.insurance.value,
-        }),
-        {
-         
-          Authorization: 'Bearer ' + auth.token
-        }
+        })
       );
-      console.log(responseData);
+
       setTimeout(() => {
         setStepOne(false);
         setStepTwo(true);
       }, 2000);
-    } catch (err) {}
+    } catch (err) {
+      SetError(true);
+      setIsLoading(false);
+    }
+
 
     window.scrollTo({ top: 0, behavior: "smooth" });
     setPositionUp(true);
   };
-
+  
   const stepTwoHandler = () => {
     setStepOne(true);
     setStepTwo(false);
-    //setIsLoading(false);
+    setIsLoading(false);
     setPositionUp(false);
   };
 
@@ -436,7 +399,7 @@ const AddCar = () => {
               element="input"
               type="text"
               label="Объем"
-              validators={[VALIDATOR_REQUIRE(), VALIDATOR_NUMBER()]}
+              validators={[VALIDATOR_REQUIRE()]}
               onInput={inputHandler}
               placeholder="1,0 л"
               placeholderclassName="input-hidden"

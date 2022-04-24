@@ -20,7 +20,7 @@ const SignUpSuccess = () => {
           пройдёт проверку модераторами.
         </p>
 
-        <Button size={" button--big"} to={"/"}>
+        <Button size={" button--big"} to={"/user"}>
           Перейти на главную
         </Button>
       </div>

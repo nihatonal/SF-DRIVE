@@ -1,6 +1,6 @@
 .mycar-container {
   width: 1440px;
-  height: 690px;
+  /* height: 690px; */
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -17,6 +17,7 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
+  margin-bottom: 102px;
 }
 .mycar-content-title {
   font-weight: 500;
@@ -29,8 +30,20 @@
   font-size: 24px;
   line-height: 147.3%;
 }
+.btn-add-car-wrapper {
+  width: 1440px;
+  height: 84px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top: 1px solid #E5E5E5;
+}
 .btn-add-car {
   width: 250px;
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .mycar-content-title-mobile {
@@ -39,7 +52,7 @@
 @media screen and (max-width: 767px) {
   .mycar-container {
     width: 375px;
-    height: 667px;
+    /* height: 1000px; */
     margin-top: 140px;
     justify-content: flex-start;
   }
@@ -64,5 +77,8 @@
   }
   .mycar-content-subtitle {
     font-size: 16px;
+  }
+  .btn-add-car-wrapper {
+    width: 375px;
   }
 }

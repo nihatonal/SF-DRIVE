@@ -10,7 +10,7 @@ router.get('/:cid', carControllers.getCarById);
 
 router.get('/user/:uid', carControllers.getCarsByUserId);
 
-router.use(checkAuth);
+//router.use(checkAuth);
 
 router.post('/',
     carControllers.createCar);

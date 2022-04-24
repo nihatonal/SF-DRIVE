@@ -4,7 +4,7 @@ import './Avatar.css';
 
 const Avatar = props => {
   return (
-    <div className={`avatar ${props.className}`} style={props.style}>
+    <div className={`avatar ${props.className}`} style={props.style} onClick={props.onClick}>
       <img
         src={props.image}
         alt={props.alt}

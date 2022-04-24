@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import MainHeader from "./MainHeader";
 import NavLinks from "./NavLinks";
 import SideDrawer from "./SideDrawer";
@@ -10,13 +10,13 @@ import close from "../../../assets/icons/close.svg";
 import Avatar from "../UIElements/Avatar";
 import SignInModal from "../../../users/components/SignInModal";
 import RenewPassword from "../../../users/components/RenewPassword";
-import Top from "../../../assets/images/top.jpg";
 import { AuthContext } from "../../context/auth-context";
 import { useHttpClient } from "../../hooks/http-hook";
 import "./MainNavigation.css";
 
 const MainNavigation = () => {
   const auth = useContext(AuthContext);
+  const navigate = useNavigate();
   const { sendRequest } = useHttpClient();
   const [loadedUser, setLoadedUser] = useState();
   //const userId = useParams().userId;
@@ -37,6 +37,7 @@ const MainNavigation = () => {
             `http://localhost:5000/api/users/${userId}`
           );
           setLoadedUser(responseData.user.image);
+          setshowAuthModal(false)
           
         } catch (err) {}
       };
@@ -70,6 +71,11 @@ const MainNavigation = () => {
     setBackAuthModal(true);
     setshowAuthModal(false);
   };
+
+  const logOutHandler = () => {
+    navigate('/');
+    auth.logout();
+  }
 
   const state = 400;
   if (state === 400) {
@@ -149,7 +155,7 @@ const MainNavigation = () => {
                 btnonClick={showAuthHandler}
               />
             ) : (
-              <Avatar image={`http://localhost:5000/${loadedUser}`} alt={"avatar"} />
+              <Avatar image={`http://localhost:5000/${loadedUser}`} alt={"avatar"} onClick={logOutHandler} />
             )}
 
             <div className="header__menu-icon" onClick={openDrawerHandler}>

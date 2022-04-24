@@ -1,22 +1,20 @@
 import React, { useState, useContext, useEffect, useCallback } from "react";
 
-import { Link } from "react-router-dom";
-
-import { SignUpContext } from "../../shared/context/signup-context";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import axios from "axios";
 import Button from "../../shared/Components/FormElements/Button";
 import { useWindowDimensions } from "../../shared/hooks/useWindowDimensions";
 import { useForm } from "../../shared/hooks/SignUpFrom-hook";
 import DropzoneComponent from "../../shared/Components/FormElements/DropzoneComponent";
+import { AuthContext } from "../../shared/context/auth-context";
 import SendError from "../../SignUpPage/components/SendError";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
 
 import "./AddCarImages.css";
 
 const AddCarDocs = (props) => {
-  const SignUp = useContext(SignUpContext);
+  const auth = useContext(AuthContext);
   const navigate = useNavigate();
   const { isLoading, sendRequest } = useHttpClient();
   const [loading, setLoading] = useState(false);
@@ -27,17 +25,33 @@ const AddCarDocs = (props) => {
   const [showRenew, setShowRenew] = useState(false);
   const [errorUpload, setErrorUpload] = useState(false);
 
+  const [carInfo, setCarInfo] = useState();
+  const [options, setOptions] = useState();
+  const [services, setServices] = useState();
+  const [carImages, setCarImages] = useState();
+  const [owner, setOwner] = useState();
+
   const [errorSend, setErrorSend] = useState(false);
   const [formState, inputHandler] = useForm({
-    carDocs: {
+    images: {
       value: null,
       isValid: false,
     },
   });
 
+  useEffect(() => {
+    const storedData = JSON.parse(localStorage.getItem("carData"));
+    const storedOptions = JSON.parse(localStorage.getItem("carOptions"));
+    const storedImages = JSON.parse(localStorage.getItem("carImages"));
+    setOwner(auth.userId);
+    setCarInfo(storedData);
+    setOptions(storedOptions.options);
+    setServices(storedOptions.services);
+    setCarImages(storedImages);
+  }, []);
+
   const uploadphotos = formState.inputs.images.value;
   const infos = [];
-  const initialImages = [];
 
   const uploadImage = useCallback(() => {
     if (!uploadphotos) return;
@@ -69,20 +83,11 @@ const AddCarDocs = (props) => {
               setImageFile(...imageFile, response.data.data[0].path);
               infos.push(response.data.data[0]);
               setLoading(true);
-              initialImages.push(response.data.data);
-
-              localStorage.setItem(
-                "carImages",
-                JSON.stringify({
-                  initialImages,
-                })
-              );
             });
         } catch (err) {
           setLoading(false);
           setShowRenew(true);
           setErrorUpload(true);
-          SignUp.error = err.message;
           if (err.response.status === 500) {
             console.log("There was a problem with the server");
           }
@@ -110,7 +115,7 @@ const AddCarDocs = (props) => {
         `http://localhost:5000/api/users/userphoto`,
         "DELETE",
         JSON.stringify({
-          carDocs: deletedItem,
+          image: deletedItem,
         }),
         {
           "Content-Type": "application/json",
@@ -133,36 +138,56 @@ const AddCarDocs = (props) => {
   };
 
   const sendPhoto = async (e) => {
-    console.log(theArray);
     e.preventDefault();
+    // console.log(carInfo, options, services, carImages);
 
-    // let pathInfo = [];
-    // theArray.map((file)=> {
-    //     pathInfo.push(file.path)
-    // })
+    let pathInfo = [];
+    theArray.map((file) => {
+      pathInfo.push(file.path);
+    });
 
-    // if((formState.inputs.images.value === null)) return
+    // if (formState.inputs.images.value === null) return;
 
-    // const userId = SignUp.userId;
-    // console.log(userId)
-    // console.log(pathInfo)
-
-    // try {
-
-    //     const responseData = await sendRequest(
-    //       `http://localhost:5000/api/users/userdocs/${userId}`,
-    //       'PATCH',
-    //       JSON.stringify({
-    //         images: pathInfo,
-    //       }),
-    //       {
-    //         'Content-Type': 'application/json'
-    //       }
-    //     );
+    try {
+      const responseData = await sendRequest(
+        "http://localhost:5000/api/cars",
+        "POST",
+        JSON.stringify({
+          brand: carInfo.brand,
+          model: carInfo.model,
+          year: carInfo.year,
+          plate_number: carInfo.plate_number,
+          vin_number: carInfo.vin_number,
+          color: carInfo.color,
+          engine_type: carInfo.engine_type,
+          engine_volume: parseFloat(carInfo.engine_volume).toFixed(1),
+          engine_power: carInfo.engine_power,
+          engine_transmission: carInfo.engine_transmission,
+          engine_run: carInfo.engine_run,
+          pts: carInfo.pts,
+          sts: carInfo.sts,
+          price: carInfo.price,
+          price_for3: carInfo.price_for3,
+          price_more5: carInfo.price_more5,
+          policy: carInfo.policy,
+          insurance: carInfo.insurance,
+          options: options,
+          services: services,
+          images: carImages.pathInfo,
+          carDocs: pathInfo,
+          owner: owner,
+        }),
+        {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + auth.token,
+        }
+      );
+      console.log(responseData);
+      localStorage.removeItem('carData');
+      localStorage.removeItem('carOptions');
+      localStorage.removeItem('carImages');
       navigate('/user/mycars/success'); 
-    //   } catch (err) {
-    //     setErrorSend(true);
-    //   }
+    } catch (err) {}
 
     window.scrollTo({ top: 0, behavior: "smooth" });
     setPositionUp(true);
@@ -173,15 +198,15 @@ const AddCarDocs = (props) => {
     setErrorUpload(false);
 
     try {
-      const formData = new FormData();
-      formData.append("image", formState.inputs.images.value);
-      const responseData = await sendRequest(
-        "http://localhost:5000/api/users/userphoto",
-        "POST",
-        formData
-      );
-      setImageFile(responseData.data.path);
-      setDelete(true);
+      //   const formData = new FormData();
+      //   formData.append("image", formState.inputs.images.value);
+      //   const responseData = await sendRequest(
+      //     "http://localhost:5000/api/users/userphoto",
+      //     "POST",
+      //     formData
+      //   );
+      //   setImageFile(responseData.data.path);
+      //   setDelete(true);
     } catch (err) {
       if (formState.inputs.images.value !== null) setShowRenew(true);
     }
@@ -226,8 +251,7 @@ const AddCarDocs = (props) => {
             Назад
           </p>
         </div>
-        {/* <DropzoneApp /> */}
-        {/* http://localhost:5000/uploads/images/398c5b20-c1af-11ec-8a4d-4516644e3f22.jpeg */}
+
         <DropzoneComponent
           id="images"
           name="uploadImages"
