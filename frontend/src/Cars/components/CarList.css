@@ -14,9 +14,7 @@
   margin-bottom: 80px;
 }
 
-.loading-wrapper .fa-circle-o-notch {
-  color: blue;
-}
+
 @media screen and (max-width: 767px) {
   .userCars-container {
     width: 375px;

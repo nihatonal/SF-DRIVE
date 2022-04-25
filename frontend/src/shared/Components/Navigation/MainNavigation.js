@@ -25,7 +25,6 @@ const MainNavigation = () => {
   const [drawerIsOpen, setDrawerIsOpen] = useState(false);
   const [setBackAuth, setBackAuthModal] = useState(false);
 
-  const image = "uploads/images/bfbdf840-b744-11ec-b37f-51e6f53a3ff7.png";
 
   const userId = auth.userId;
 
@@ -37,8 +36,7 @@ const MainNavigation = () => {
             `http://localhost:5000/api/users/${userId}`
           );
           setLoadedUser(responseData.user.image);
-          setshowAuthModal(false)
-          
+          setshowAuthModal(false);
         } catch (err) {}
       };
 
@@ -73,9 +71,9 @@ const MainNavigation = () => {
   };
 
   const logOutHandler = () => {
-    navigate('/');
+    navigate("/");
     auth.logout();
-  }
+  };
 
   const state = 400;
   if (state === 400) {
@@ -101,20 +99,27 @@ const MainNavigation = () => {
             </div>
           </div>
 
-          <nav className="main-navigation__drawer-nav">
+          <nav className="main-navigation__drawer-nav" style={auth.isLoggedIn ? {order:"3"} : null}>
             <NavLinks />
           </nav>
 
-          {/* <Button button={"Войти"} onClick={showAuthHandler} /> */}
-          {/* <ButtonSignIn btn ="Войти" className="header__btn" btnclassName="header__btn-signin" btnonClick={showAuthHandler}/> */}
-          <div className={"side-drawer__btn"}>
-            <button
-              className={"side-drawer__btn-signin"}
-              onClick={showAuthHandler}
-            >
-              Войти
-            </button>
-          </div>
+          {!auth.isLoggedIn ? (
+            <div className={"side-drawer__btn"}>
+              <button
+                className={"side-drawer__btn-signin"}
+                onClick={showAuthHandler}
+              >
+                Войти
+              </button>
+            </div>
+          ) : (
+            <Avatar
+              className={"mobile-avatar"}
+              image={`http://localhost:5000/${loadedUser}`}
+              alt={"avatar"}
+              onClick={logOutHandler}
+            />
+          )}
         </SideDrawer>
 
         <SignInModal
@@ -155,7 +160,11 @@ const MainNavigation = () => {
                 btnonClick={showAuthHandler}
               />
             ) : (
-              <Avatar image={`http://localhost:5000/${loadedUser}`} alt={"avatar"} onClick={logOutHandler} />
+              <Avatar
+                image={`http://localhost:5000/${loadedUser}`}
+                alt={"avatar"}
+                onClick={logOutHandler}
+              />
             )}
 
             <div className="header__menu-icon" onClick={openDrawerHandler}>

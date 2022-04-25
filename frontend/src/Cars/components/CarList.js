@@ -1,27 +1,27 @@
 import React from "react";
 
 import CardUserCar from "./CardUserCar";
-import Mycar from ".././../assets/images/mycar.png";
+import Mycar from "../../assets/images/mycar.png";
 
 import "./CarList.css";
 
 const CarList = (props) => {
-  if (!props.cars) {
-    return (
-      <div className="mycar-content">
-        <img src={Mycar} alt="mycar" />
-        <h2 className="mycar-content-title">
-          Зарабатывайте на своём автомобиле
-        </h2>
-        <h2 className="mycar-content-title-mobile">
-          Зарабатывайте <br></br> на своём автомобиле
-        </h2>
-        <p className="mycar-content-subtitle">
-          Сдавайте автомобиль в аренду и получайте заработок.
-        </p>
-      </div>
-    );
-  }
+  // if (!props.cars.length === undefined) {
+  //   return (
+  //     <div className="mycar-content">
+  //       <img src={Mycar} alt="mycar" />
+  //       <h2 className="mycar-content-title">
+  //         Зарабатывайте на своём автомобиле
+  //       </h2>
+  //       <h2 className="mycar-content-title-mobile">
+  //         Зарабатывайте <br></br> на своём автомобиле
+  //       </h2>
+  //       <p className="mycar-content-subtitle">
+  //         Сдавайте автомобиль в аренду и получайте заработок.
+  //       </p>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="userCars-container" >

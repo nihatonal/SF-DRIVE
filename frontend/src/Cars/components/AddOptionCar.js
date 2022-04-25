@@ -7,7 +7,7 @@ import { extraoptions } from "../../assets/extraoptions";
 import AddCarImages from "./AddCarImages";
 import { useWindowDimensions } from "../../shared/hooks/useWindowDimensions";
 
-import "./OptionOfCar.css";
+import "./AddOptionCar.css";
 
 const AddOptionCar = (props) => {
   const [error, SetError] = useState(false);

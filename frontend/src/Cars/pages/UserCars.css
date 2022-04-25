@@ -49,6 +49,17 @@
 .mycar-content-title-mobile {
   display: none;
 }
+.loading-wrapper {
+  width: 1440px;
+  height: 816px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.loading-wrapper .fa-circle-o-notch {
+  color: #61A199;
+  font-size: 54px;
+}
 @media screen and (max-width: 767px) {
   .mycar-container {
     width: 375px;

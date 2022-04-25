@@ -18,9 +18,10 @@ import SignUpSuccess from "./SignUpPage/pages/SignUpSuccess";
 
 
 import UserMain from "./users/pages/UserMain";
-import MyCars from "./users/pages/MyCars";
-import AddCar from "./users/components/AddCar";
-import AddCarSuccess from "./users/components/AddCarSuccess";
+import UserCars from "./Cars/pages/UserCars";
+import AddCar from "./Cars/components/AddCar";
+import AddCarSuccess from "./Cars/components/AddCarSuccess";
+import UserCar from "./Cars/pages/UserCar";
 
 import { AuthContext } from "./shared/context/auth-context";
 import { useAuth } from './shared/hooks/auth-hook';
@@ -47,7 +48,8 @@ function App() {
     routes = (
       <React.Fragment>
         <Route exact path="/user" element={<UserMain />} />
-        <Route exact path="/user/mycars" element={<MyCars/>} />
+        <Route exact path="/user/usercars" element={<UserCars/>} />
+        <Route exact path="/user/usercar" element={<UserCar/>} />
         <Route exact path="/user/addcar" element={<AddCar/>} />
         <Route exact path="/user/mycars/success" element={<AddCarSuccess/>} />
         <Route path="*" element={<FourHunderFour />} />

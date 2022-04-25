@@ -1,0 +1,97 @@
+.carinfo-container {
+  width: 1026px;
+  height: 1495px;
+  border: 1px solid blue;
+}
+.carinfo-images_wrapper {
+  width: 1026px;
+  height: 464px;
+  display: grid;
+  border: 1px solid red;
+  grid-template-areas:
+    "main side1"
+    "main side2";
+  grid-gap: 20px;
+}
+.carinfo-image_wrapper {
+  width: 328px;
+  height: 222px;
+  border: 1px solid red;
+}
+.main-photo {
+  width: 677px;
+  height: 464px;
+  grid-area: main;
+}
+.side-image-1 {
+  grid-area: side1;
+}
+.side-image-2 {
+  grid-area: side2;
+}
+
+.carinfo-maincontent-wrapper {
+    height: 226px;
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid blue;
+}
+.carinfo-maincontent {
+  width: 520px;
+  height: 144px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.carinfo-maincontent h2 {
+  text-align: left;
+}
+.carinfo-maincontent-prices {
+  display: flex;
+  justify-content: space-between;
+  width: 520px;
+}
+.carinfo-maincontent-price-item {
+  font-family: "Roboto", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  color: #61a199;
+}
+.carinfo-maincontent-price-item span {
+  color: #8d8b99;
+  font-size: 16px;
+}
+.owner-wrapper {
+  width: 328px;
+  height: 226px;
+  background: #f7f7f8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 39px;
+}
+.owner-wrapper-image,
+.owner-wrapper-image img {
+  width: 84px;
+  height: 84px;
+}
+.owner-wrapper p {
+  font-family: "Roboto", sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 147.3%;
+  text-align: center;
+  color: #000000;
+  margin: 10px 0 2px 0;
+}
+.owner-wrapper p:last-child {
+  font-family: "Roboto", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 147.3%;
+  text-align: center;
+  color: #8d8b99;
+}
