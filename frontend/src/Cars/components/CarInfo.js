@@ -26,6 +26,7 @@ const CarInfo = () => {
       fetchPlaces();
     }
   }, [sendRequest, userId]);
+  console.log(loadedUser)
   return (
     <div className="carinfo-container">
       <div className="carinfo-images_wrapper">
@@ -52,13 +53,13 @@ const CarInfo = () => {
           </div>
         </div>
         <div className="owner-wrapper">
-          <Avatar
+          {loadedUser && <Avatar
             className={"owner-wrapper-image"}
             image={`http://localhost:5000/${loadedUser.image}`}
             alt={"avatar"}
-          />
-          <p>{loadedUser.name}</p>
-          <p>Это вы</p>
+          />}
+          {loadedUser && <p>{loadedUser.name}</p>}
+          {loadedUser && <p>Это вы</p>}
         </div>
       </div>
     </div>

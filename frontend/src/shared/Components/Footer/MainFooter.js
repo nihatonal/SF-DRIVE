@@ -8,7 +8,7 @@ const MainFooter = (props) => {
   const { pathname } = useLocation();
   if (
     pathname === "/signup" ||
-    pathname === "/user/mycars" ||
+    pathname === "/user/usercars" ||
     pathname === "/userphoto" ||
     pathname === "/userdocs" ||
     pathname === "/signup/success" ||
