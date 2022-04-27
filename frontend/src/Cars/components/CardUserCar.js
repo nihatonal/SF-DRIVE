@@ -9,8 +9,16 @@ import "./CardUserCar.css";
 
 const CardUserCar = (props) => {
   return (
-    <div className="carCard-container">
-      <img className="car-image" src={`http://localhost:5000/${props.image}`} alt={props.brand} />
+    <div className="carCard-container" onClick={props.onClick} id={props.id}>
+      <div className="car-image_wrapper">
+        <img
+          className="car-image"
+          src={`http://localhost:5000/${props.image}`}
+          alt={props.brand}
+          id={props.id}
+        />
+      </div>
+
       <div className="carCard_content">
         <div className="carCard-title">
           <div className="carCard-star">

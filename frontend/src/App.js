@@ -48,10 +48,10 @@ function App() {
     routes = (
       <React.Fragment>
         <Route exact path="/user" element={<UserMain />} />
-        <Route exact path="/user/usercars" element={<UserCars/>} />
+        <Route exact path="/usercars" element={<UserCars/>} />
         <Route exact path="/user/usercar" element={<UserCar/>} />
-        <Route exact path="/user/addcar" element={<AddCar/>} />
-        <Route exact path="/user/mycars/success" element={<AddCarSuccess/>} />
+        <Route exact path="/usercars/addcar" element={<AddCar/>} />
+        <Route exact path="/user/usercars/success" element={<AddCarSuccess/>} />
         <Route path="*" element={<FourHunderFour />} />
       </React.Fragment>
     );

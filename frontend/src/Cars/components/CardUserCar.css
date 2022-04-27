@@ -4,18 +4,30 @@
   display: flex;
   align-items: center;
   margin-bottom: 30px;
+  cursor: pointer;
 }
 .carCard-container:last-child {
   margin-bottom: 0;
 }
-
-.carCard-container img {
+.car-image_wrapper {
+  width: 242px;
+  height: 176px;
+  overflow: hidden;
+  border-radius: 10px;
+}
+.carCard-container .car-image {
   width: 242px;
   height: 176px;
   border-radius: 10px;
+  transition: all 0.3s;
+}
+.car-image:hover {
+  border: 1px solid red;
+ transform: scale(1.2);
 }
 .carCard_content {
   margin-left: 19px;
+  pointer-events: none;
 }
 .carCard-title {
   font-family: "Roboto", sans-serif;
@@ -24,11 +36,13 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  pointer-events: none;
 }
 .carName {
   font-size: 24px;
   line-height: 28px;
   color: #1b1b1b;
+  pointer-events: none;
 }
 .carCard-star {
   width: 70px;
@@ -37,6 +51,7 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: 10px;
+  pointer-events: none;
 }
 .star {
   font-size: 14px;
@@ -50,10 +65,12 @@
   display: flex;
   align-items: center;
   margin: 14px 0 29px 0;
+  pointer-events: none;
 }
 .carCard-engine-info_item {
   display: flex;
   align-items: center;
+  pointer-events: none;
 }
 .carCard-engine-info_item:first-child {
   margin-right: 29px;
@@ -78,6 +95,7 @@
   font-size: 18px;
   line-height: 21px;
   color: #1b1b1b;
+  pointer-events: none;
 }
 
 @media screen and (max-width: 767px) {
@@ -107,7 +125,7 @@
   .carCard-container .car-image {
     width: 335px;
     height: 245px;
-  } 
+  }
   .carCard-star {
     margin-bottom: 0;
   }

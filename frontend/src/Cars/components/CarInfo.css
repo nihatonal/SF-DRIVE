@@ -17,11 +17,22 @@
   width: 328px;
   height: 222px;
   border: 1px solid red;
+  overflow: hidden;
 }
+
 .main-photo {
   width: 677px;
   height: 464px;
   grid-area: main;
+  overflow: hidden;
+}
+.main-photo .main-img {
+  width: 677px;
+  height: 464px;
+  transition: all 0.3s;
+}
+.main-photo img:hover {
+  transform: scale(1.1);
 }
 .side-image-1 {
   grid-area: side1;
@@ -29,12 +40,22 @@
 .side-image-2 {
   grid-area: side2;
 }
+.carinfo-image_wrapper .second-img {
+  width: 328px;
+  height: 222px;
+  transition: all .3s;
+}
+.carinfo-image_wrapper .second-img:hover {
+  width: 328px;
+  height: 222px;
+  transform: scale(1.1);
+}
 
 .carinfo-maincontent-wrapper {
-    height: 226px;
-    display: flex;
-    justify-content: space-between;
-    border: 1px solid blue;
+  height: 226px;
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid blue;
 }
 .carinfo-maincontent {
   width: 520px;

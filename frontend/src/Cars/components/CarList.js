@@ -39,6 +39,8 @@ const CarList = (props) => {
           engine_type={car.engine_type}
           engine_transmission={car.engine_transmission}
           price={car.price}
+          id={car.id}
+          onClick={props.onClick}
         />
       ))}
     </div>
