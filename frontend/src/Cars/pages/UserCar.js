@@ -27,6 +27,11 @@ const UserCar = (props) => {
         mainImg={props.selectedCar.images[0]}
         secondImg={props.selectedCar.images[1]}
         thirdImg={props.selectedCar.images[2]}
+        engine_volume={props.selectedCar.engine_volume}
+        engine_power={props.selectedCar.engine_power}
+        engine_type={props.selectedCar.engine_type}
+        engine_transmission={props.selectedCar.engine_transmission}
+        engine_run={props.selectedCar.engine_run}
       />
     </div>
   );

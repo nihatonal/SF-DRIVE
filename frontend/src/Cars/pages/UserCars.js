@@ -28,8 +28,6 @@ const UserCars = (props) => {
     fetchPlaces();
   }, [sendRequest, userId]);
 
-  console.log(loadedCars);
-  
 
   const modalHandler = (e) => {
     e.stopPropagation();
@@ -37,7 +35,7 @@ const UserCars = (props) => {
     console.log(loadedCars.filter((car) => car.id === e.target.id));
   };
 
-  console.log(selectedCar && selectedCar[0]);
+
   return (
     <React.Fragment>
       <div

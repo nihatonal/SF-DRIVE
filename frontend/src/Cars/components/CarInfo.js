@@ -27,26 +27,31 @@ const CarInfo = (props) => {
     }
   }, [sendRequest, userId]);
 
+  const splitHandler = (str)=> {
+      const newStr = str.split(" /");
+      return newStr;
+  }
+  
   return (
     <div className="carinfo-container">
       <div className="carinfo-images_wrapper">
         <div className="carinfo-image_wrapper main-photo">
           <img
-          className={`main-img`}
+            className={`main-img`}
             src={`http://localhost:5000/${props.mainImg}`}
             alt={props.model}
           />
         </div>
         <div className="carinfo-image_wrapper side-image-1">
           <img
-           className={`second-img`}
+            className={`second-img`}
             src={`http://localhost:5000/${props.secondImg}`}
             alt={props.model}
           />
         </div>
         <div className="carinfo-image_wrapper side-image-2">
           <img
-           className={`second-img`}
+            className={`second-img`}
             src={`http://localhost:5000/${props.thirdImg}`}
             alt={props.model}
           />
@@ -80,6 +85,36 @@ const CarInfo = (props) => {
           )}
           {loadedUser && <p>{loadedUser.name}</p>}
           {loadedUser && <p>Это вы</p>}
+        </div>
+
+        <div className="carinfo-characters">
+          <h3 className="carinfo-content-title">Характеристики</h3>
+          <div className="carinfo-character-items-wrapper">
+            <div className="carinfo-character-item">
+              <p className="carinfo-character-item-name">Год выпуска</p>
+              <p className="carinfo-character-item-desc">{`${props.year} год`}</p>
+            </div>
+            <div className="carinfo-character-item">
+              <p className="carinfo-character-item-name">Кузов</p>
+              <p className="carinfo-character-item-desc">Седана</p>
+            </div>
+            <div className="carinfo-character-item">
+              <p className="carinfo-character-item-name">Двигатель</p>
+              <p className="carinfo-character-item-desc">{`${props.engine_volume} л / ${props.engine_power} л.с. / ${props.engine_type}`}</p>
+            </div>
+            <div className="carinfo-character-item">
+              <p className="carinfo-character-item-name">Трансмиссия</p>
+              <p className="carinfo-character-item-desc">{splitHandler(props.engine_transmission)[0]}</p>
+            </div>
+            <div className="carinfo-character-item">
+              <p className="carinfo-character-item-name">Привод</p>
+              <p className="carinfo-character-item-desc">{splitHandler(props.engine_transmission)[1]}</p>
+            </div>
+            <div className="carinfo-character-item">
+              <p className="carinfo-character-item-name">Пробег</p>
+              <p className="carinfo-character-item-desc">{`${props.engine_run} км`}</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

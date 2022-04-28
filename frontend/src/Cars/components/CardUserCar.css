@@ -126,6 +126,12 @@
     width: 335px;
     height: 245px;
   }
+  .car-image_wrapper {
+    width: 335px;
+    height: 245px;
+    overflow: hidden;
+    border-radius: 10px;
+  }
   .carCard-star {
     margin-bottom: 0;
   }

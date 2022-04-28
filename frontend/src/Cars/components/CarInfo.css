@@ -43,7 +43,7 @@
 .carinfo-image_wrapper .second-img {
   width: 328px;
   height: 222px;
-  transition: all .3s;
+  transition: all 0.3s;
 }
 .carinfo-image_wrapper .second-img:hover {
   width: 328px;
@@ -56,6 +56,7 @@
   display: flex;
   justify-content: space-between;
   border: 1px solid blue;
+  position: relative;
 }
 .carinfo-maincontent {
   width: 520px;
@@ -115,4 +116,48 @@
   line-height: 147.3%;
   text-align: center;
   color: #8d8b99;
+}
+
+.carinfo-characters {
+  width: 450px;
+  height: 333px;
+  border: 1px solid red;
+  position: absolute;
+  top: 204px;
+}
+.carinfo-content-title {
+  font-family: "Roboto", sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 120%;
+  color: #1b1b1b;
+  margin-bottom: 40px;
+}
+.carinfo-character-items-wrapper {
+  height: 260px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.carinfo-character-item {
+  display: flex;
+}
+.carinfo-character-item-name {
+  font-family: "Roboto", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 147.3%;
+  color: #8d8b99;
+  margin-right: 168px;
+  width:100px;
+}
+.carinfo-character-item-desc {
+  font-family: "Roboto", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 147.3%;
+  color: #000000;
 }
