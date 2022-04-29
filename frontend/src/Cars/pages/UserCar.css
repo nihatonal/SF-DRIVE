@@ -1,11 +1,15 @@
 .usercar-container {
   width: 1440px;
   height: 2925px;
-  border: 1px solid red;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 219px;
+  margin: 0;
+  padding-top: 69px;
+  position: relative;
+}
+.usercar-arrow-wrapper {
+  cursor: pointer;
 }
 .usercar-arrow {
   width: 75px;
@@ -22,4 +26,13 @@
   line-height: 147.3%;
   color: #508e87;
   z-index: 99;
+}
+
+@media screen and (max-width: 767px) {
+  .usercar-container {
+    width: 375px;
+    height: 2925px;
+    padding-top: 69px;
+
+  }
 }

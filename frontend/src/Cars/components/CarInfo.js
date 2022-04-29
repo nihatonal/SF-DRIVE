@@ -33,12 +33,6 @@ const CarInfo = (props) => {
     return newStr;
   };
 
-  function isOption(item) {
-    return item.name === "Крепления Iosfix";
-  }
-
-  console.log(Options.find(isOption))
-
   return (
     <div className="carinfo-container">
       <div className="carinfo-images_wrapper">
@@ -62,6 +56,9 @@ const CarInfo = (props) => {
             src={`http://localhost:5000/${props.thirdImg}`}
             alt={props.model}
           />
+          <p className="carinfo-image-count">{`+ ещё  фото ${
+            props.images.length - 3
+          }`}</p>
         </div>
       </div>
       <div className="carinfo-maincontent-wrapper">
@@ -90,59 +87,66 @@ const CarInfo = (props) => {
               alt={"avatar"}
             />
           )}
-          {loadedUser && <p>{loadedUser.name}</p>}
-          {loadedUser && <p>Это вы</p>}
+          <div className={"owner-info"} >
+            {loadedUser && <p>{loadedUser.name}</p>}
+            {loadedUser && <p>Это вы</p>}
+          </div>
         </div>
-      </div>
-      <div className="carinfo-characters">
-        <h3 className="carinfo-content-title">Характеристики</h3>
-        <div className="carinfo-character-items-wrapper">
-          <div className="carinfo-character-item">
-            <p className="carinfo-character-item-name">Год выпуска</p>
-            <p className="carinfo-character-item-desc">{`${props.year} год`}</p>
-          </div>
-          <div className="carinfo-character-item">
-            <p className="carinfo-character-item-name">Кузов</p>
-            <p className="carinfo-character-item-desc">Седана</p>
-          </div>
-          <div className="carinfo-character-item">
-            <p className="carinfo-character-item-name">Двигатель</p>
-            <p className="carinfo-character-item-desc">{`${props.engine_volume} л / ${props.engine_power} л.с. / ${props.engine_type}`}</p>
-          </div>
-          <div className="carinfo-character-item">
-            <p className="carinfo-character-item-name">Трансмиссия</p>
-            <p className="carinfo-character-item-desc">
-              {splitHandler(props.engine_transmission)[0]}
-            </p>
-          </div>
-          <div className="carinfo-character-item">
-            <p className="carinfo-character-item-name">Привод</p>
-            <p className="carinfo-character-item-desc">
-              {splitHandler(props.engine_transmission)[1]}
-            </p>
-          </div>
-          <div className="carinfo-character-item">
-            <p className="carinfo-character-item-name">Пробег</p>
-            <p className="carinfo-character-item-desc">{`${props.engine_run} км`}</p>
+
+        <div className="carinfo-characters">
+          <h3 className="carinfo-content-title">Характеристики</h3>
+          <div className="carinfo-character-items-wrapper">
+            <div className="carinfo-character-item">
+              <p className="carinfo-character-item-name">Год выпуска</p>
+              <p className="carinfo-character-item-desc">{`${props.year} год`}</p>
+            </div>
+            <div className="carinfo-character-item">
+              <p className="carinfo-character-item-name">Кузов</p>
+              <p className="carinfo-character-item-desc">Седана</p>
+            </div>
+            <div className="carinfo-character-item">
+              <p className="carinfo-character-item-name">Двигатель</p>
+              <p className="carinfo-character-item-desc">{`${props.engine_volume} л / ${props.engine_power} л.с. / ${props.engine_type}`}</p>
+            </div>
+            <div className="carinfo-character-item">
+              <p className="carinfo-character-item-name">Трансмиссия</p>
+              <p className="carinfo-character-item-desc">
+                {splitHandler(props.engine_transmission)[0]}
+              </p>
+            </div>
+            <div className="carinfo-character-item">
+              <p className="carinfo-character-item-name">Привод</p>
+              <p className="carinfo-character-item-desc">
+                {splitHandler(props.engine_transmission)[1]}
+              </p>
+            </div>
+            <div className="carinfo-character-item">
+              <p className="carinfo-character-item-name">Пробег</p>
+              <p className="carinfo-character-item-desc">{`${props.engine_run} км`}</p>
+            </div>
           </div>
         </div>
       </div>
 
+      <div className="carinfo-line"></div>
       <div>
         <h3 className="carinfo-content-title">Опции</h3>
         <div className="carinfo-options_items">
           {props.options.map((item) => (
-            <div className="carinfo-options_item">
-              <img src={Options[0].image} alt={Options[0].id} />
+            <div
+              className="carinfo-options_item"
+              key={Options.filter((x) => x.name === item)[0].id}
+            >
+              <img
+                src={Options.filter((x) => x.name === item)[0].image}
+                alt={Options.filter((x) => x.name === item)[0].name}
+              />
               <p>{item}</p>
             </div>
           ))}
-          {/* <div className="carinfo-options_item">
-            <img src={Options[0].image} alt={Options[0].id} />
-            <p>Крепления Isofix</p>
-          </div> */}
         </div>
       </div>
+      <div className="carinfo-line"></div>
     </div>
   );
 };

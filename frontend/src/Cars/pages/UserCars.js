@@ -32,9 +32,7 @@ const UserCars = (props) => {
   const modalHandler = (e) => {
     e.stopPropagation();
     setSelectedCar(loadedCars.filter((car) => car.id === e.target.id));
-    console.log(loadedCars.filter((car) => car.id === e.target.id));
   };
-
 
   return (
     <React.Fragment>
@@ -48,11 +46,11 @@ const UserCars = (props) => {
           </div>
         )}
 
-        {!isLoading && loadedCars && (
+        {!isLoading && loadedCars && !selectedCar && (
           <CarList cars={loadedCars} onClick={modalHandler} />
         )}
 
-        {!isLoading && !loadedCars && (
+        {!isLoading && !loadedCars && !selectedCar &&(
           <div className="usercars-content">
             <img src={Mycar} alt="usercars" />
             <h2 className="usercars-content-title">
@@ -67,7 +65,7 @@ const UserCars = (props) => {
           </div>
         )}
 
-       { selectedCar && <UserCar selectedCar={selectedCar[0]} />}
+       { selectedCar && <UserCar selectedCar={selectedCar[0]} onClick={()=>setSelectedCar(null)} />}
 
 
         <div className="btn-add-car-wrapper">

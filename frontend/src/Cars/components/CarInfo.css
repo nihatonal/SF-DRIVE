@@ -1,13 +1,14 @@
 .carinfo-container {
   width: 1026px;
   height: 1495px;
-  border: 1px solid blue;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 .carinfo-images_wrapper {
   width: 1026px;
   height: 464px;
   display: grid;
-  border: 1px solid red;
   grid-template-areas:
     "main side1"
     "main side2";
@@ -16,8 +17,8 @@
 .carinfo-image_wrapper {
   width: 328px;
   height: 222px;
-  border: 1px solid red;
   overflow: hidden;
+  cursor: pointer;
 }
 
 .main-photo {
@@ -39,6 +40,7 @@
 }
 .side-image-2 {
   grid-area: side2;
+  position: relative;
 }
 .carinfo-image_wrapper .second-img {
   width: 328px;
@@ -50,13 +52,33 @@
   height: 222px;
   transform: scale(1.1);
 }
-
+.carinfo-image-count {
+  font-family: "Roboto", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  width: 134px;
+  height: 44px;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 8px;
+  color: #fff;
+  position: absolute;
+  top: 89px;
+  left: 97px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.carinfo-image-count:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
 .carinfo-maincontent-wrapper {
-  height: 226px;
+  height: 597px;
   display: flex;
   justify-content: space-between;
-  border: 1px solid blue;
   position: relative;
+  border: 1px solid red;
 }
 .carinfo-maincontent {
   width: 520px;
@@ -67,6 +89,7 @@
 }
 .carinfo-maincontent h2 {
   text-align: left;
+  width: 650px;
 }
 .carinfo-maincontent-prices {
   display: flex;
@@ -121,8 +144,7 @@
 .carinfo-characters {
   width: 450px;
   height: 333px;
-  border: 1px solid red;
-  /* position: absolute; */
+  position: absolute;
   top: 204px;
 }
 .carinfo-content-title {
@@ -162,8 +184,7 @@
   color: #000000;
 }
 
-
-.carinfo-options_items{
+.carinfo-options_items {
   display: flex;
   width: 845px;
   height: 118px;
@@ -184,4 +205,109 @@
   font-size: 16px;
   line-height: 147.3%;
   color: #000000;
+}
+.carinfo-line {
+  width: 1026px;
+  height: 1px;
+  background: #e0e0e0;
+}
+
+@media screen and (max-width: 767px) {
+  .carinfo-container {
+    width: 375px;
+    height: 1495px;
+    border: 1px solid #e0e0e0;
+    align-items: center;
+  }
+  .side-image-1,
+  .side-image-2 {
+    display: none;
+  }
+  .carinfo-images_wrapper,
+  .carinfo-image_wrapper,
+  .carinfo-images_wrapper .main-img {
+    width: 335px;
+    height: 230px;
+  }
+  .carinfo-maincontent-wrapper {
+    width: 375px;
+    height: 229px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    border: 1px solid red;
+  }
+
+  .carinfo-maincontent {
+    width: 325px;
+    height: 111px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .carinfo-maincontent h2 {
+    text-align: left;
+    width: 325px;
+  }
+  .carinfo-maincontent-prices {
+    display: flex;
+    justify-content: space-between;
+    width: 325px;
+    height: 72px;
+  }
+  .carinfo-maincontent-price-item {
+    font-size: 16px;
+    width: 80px;
+    text-align: center;
+  }
+  .carinfo-maincontent-price-item p {
+    line-height: 160%;
+  }
+  .carinfo-maincontent-price-item span {
+    font-size: 12px;
+    color: #8d8b99;
+    line-height: 140%;
+    text-align: center;
+  }
+  .owner-wrapper {
+    width: 335px;
+    height: 88px;
+    background: #f7f7f8;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding:0;
+    padding-left: 20px;
+  }
+  .owner-wrapper-image,
+  .owner-wrapper-image img {
+    width: 48px;
+    height: 48px;
+    display: block;
+  }
+  .owner-info {
+    height: 42px;
+    margin-left: 14px;
+  }
+  .owner-wrapper p {
+    font-size: 16px;
+    text-align: left;
+    margin: 0;
+  }
+  .owner-wrapper p:last-child {
+    font-size: 12px;
+    text-align: left;
+  }
+  .carinfo-content-title {
+    font-size: 20px;
+    margin-bottom: 24px;
+  }
+  .carinfo-characters {
+    width: 450px;
+    height: 333px;
+    position: absolute;
+    top: 300px;
+  }
 }

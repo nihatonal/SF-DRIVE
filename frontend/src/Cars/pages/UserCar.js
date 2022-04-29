@@ -8,14 +8,14 @@ import "./UserCar.css";
 const UserCar = (props) => {
   return (
     <div className="usercar-container">
-      <Link to="/usercars">
+      <div onClick={props.onClick} className="usercar-arrow-wrapper">
         <p className={"usercar-arrow"}>
           <i className={"fa"}>
             <FaArrowLeft />
           </i>
           Назад
         </p>
-      </Link>
+      </div>
 
       <CarInfo
         brand={props.selectedCar.brand}
@@ -24,6 +24,7 @@ const UserCar = (props) => {
         price={props.selectedCar.price}
         price_for3={props.selectedCar.price_for3}
         price_more5={props.selectedCar.price_more5}
+        images={props.selectedCar.images}
         mainImg={props.selectedCar.images[0]}
         secondImg={props.selectedCar.images[1]}
         thirdImg={props.selectedCar.images[2]}
