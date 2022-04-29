@@ -13,7 +13,7 @@ const UserCars = (props) => {
   const auth = useContext(AuthContext);
   const [loadedCars, setLoadedCars] = useState();
   const [selectedCar, setSelectedCar] = useState();
-  const { isLoading, error, sendRequest } = useHttpClient();
+  const { isLoading, sendRequest } = useHttpClient();
   const userId = auth.userId;
 
   useEffect(() => {
@@ -39,7 +39,7 @@ const UserCars = (props) => {
   return (
     <React.Fragment>
       <div
-        className="mycar-container"
+        className="usercars-container"
         style={loadedCars && { marginTop: "150px" }}
       >
         {isLoading && (
@@ -53,15 +53,15 @@ const UserCars = (props) => {
         )}
 
         {!isLoading && !loadedCars && (
-          <div className="mycar-content">
-            <img src={Mycar} alt="mycar" />
-            <h2 className="mycar-content-title">
+          <div className="usercars-content">
+            <img src={Mycar} alt="usercars" />
+            <h2 className="usercars-content-title">
               Зарабатывайте на своём автомобиле
             </h2>
-            <h2 className="mycar-content-title-mobile">
+            <h2 className="usercars-content-title-mobile">
               Зарабатывайте <br></br> на своём автомобиле
             </h2>
-            <p className="mycar-content-subtitle">
+            <p className="usercars-content-subtitle">
               Сдавайте автомобиль в аренду и получайте заработок.
             </p>
           </div>

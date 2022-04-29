@@ -1,4 +1,4 @@
-.mycar-container {
+.usercars-container {
   width: 1440px;
   /* height: 690px; */
   display: flex;
@@ -7,7 +7,7 @@
   justify-content: space-between;
   margin-top: 170px;
 }
-.mycar-content {
+.usercars-content {
   width: 625px;
   height: 537px;
   font-family: "Roboto", sans-serif;
@@ -19,13 +19,13 @@
   text-align: center;
   margin-bottom: 102px;
 }
-.mycar-content-title {
+.usercars-content-title {
   font-weight: 500;
   font-size: 48px;
   line-height: 120%;
   margin: 60px 0 25px 0;
 }
-.mycar-content-subtitle {
+.usercars-content-subtitle {
   font-weight: 400;
   font-size: 24px;
   line-height: 147.3%;
@@ -46,7 +46,7 @@
   align-items: center;
 }
 
-.mycar-content-title-mobile {
+.usercars-content-title-mobile {
   display: none;
 }
 .loading-wrapper {
@@ -61,32 +61,32 @@
   font-size: 54px;
 }
 @media screen and (max-width: 767px) {
-  .mycar-container {
+  .usercars-container {
     width: 375px;
     /* height: 1000px; */
     margin-top: 140px;
     justify-content: flex-start;
   }
-  .mycar-content {
+  .usercars-content {
     width: 335px;
     height: 383px;
     margin-bottom: 70px;
   }
-  .mycar-content img {
+  .usercars-content img {
     width: 263px;
     height: 202px;
   }
-  .mycar-content-title {
+  .usercars-content-title {
     display: none;
   }
-  .mycar-content-title-mobile {
+  .usercars-content-title-mobile {
     display: block;
     font-weight: 500;
     line-height: 120%;
     font-size: 32px;
     margin: 42px 0 15px 0;
   }
-  .mycar-content-subtitle {
+  .usercars-content-subtitle {
     font-size: 16px;
   }
   .btn-add-car-wrapper {

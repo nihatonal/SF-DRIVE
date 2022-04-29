@@ -122,7 +122,7 @@
   width: 450px;
   height: 333px;
   border: 1px solid red;
-  position: absolute;
+  /* position: absolute; */
   top: 204px;
 }
 .carinfo-content-title {
@@ -151,9 +151,33 @@
   line-height: 147.3%;
   color: #8d8b99;
   margin-right: 168px;
-  width:100px;
+  width: 100px;
 }
 .carinfo-character-item-desc {
+  font-family: "Roboto", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 147.3%;
+  color: #000000;
+}
+
+
+.carinfo-options_items{
+  display: flex;
+  width: 845px;
+  height: 118px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.carinfo-options_item {
+  display: flex;
+  height: 24px;
+  width: 258px;
+  align-items: center;
+}
+.carinfo-options_item p {
+  margin-left: 20px;
   font-family: "Roboto", sans-serif;
   font-style: normal;
   font-weight: 400;
