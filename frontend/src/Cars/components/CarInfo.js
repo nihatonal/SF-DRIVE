@@ -4,6 +4,8 @@ import Avatar from "../../shared/Components/UIElements/Avatar";
 import { AuthContext } from "../../shared/context/auth-context";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import { Options } from "../../assets/Options.js";
+import image_icon from "../../assets/images/image-multiple.svg";
+
 import "./CarInfo.css";
 
 const CarInfo = (props) => {
@@ -36,27 +38,30 @@ const CarInfo = (props) => {
   return (
     <div className="carinfo-container">
       <div className="carinfo-images_wrapper">
-        <div className="carinfo-image_wrapper main-photo">
+        <div className="carinfo-image_wrapper main-photo" onClick={props.onClick}>
           <img
             className={`main-img`}
             src={`http://localhost:5000/${props.mainImg}`}
             alt={props.model}
           />
+          <div className="image-icon_wrapper" onClick={props.onClick}>
+            <img src={image_icon} alt="image_icon" />
+          </div>
         </div>
-        <div className="carinfo-image_wrapper side-image-1">
+        <div className="carinfo-image_wrapper side-image-1" onClick={props.onClick}>
           <img
             className={`second-img`}
             src={`http://localhost:5000/${props.secondImg}`}
             alt={props.model}
           />
         </div>
-        <div className="carinfo-image_wrapper side-image-2">
+        <div className="carinfo-image_wrapper side-image-2" onClick={props.onClick}>
           <img
             className={`second-img`}
             src={`http://localhost:5000/${props.thirdImg}`}
             alt={props.model}
           />
-          <p className="carinfo-image-count">{`+ ещё  фото ${
+          <p className="carinfo-image-count" onClick={props.onClick}>{`+ ещё  фото ${
             props.images.length - 3
           }`}</p>
         </div>
@@ -87,7 +92,7 @@ const CarInfo = (props) => {
               alt={"avatar"}
             />
           )}
-          <div className={"owner-info"} >
+          <div className={"owner-info"}>
             {loadedUser && <p>{loadedUser.name}</p>}
             {loadedUser && <p>Это вы</p>}
           </div>

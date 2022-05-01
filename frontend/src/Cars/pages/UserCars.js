@@ -3,16 +3,18 @@ import React, { useState, useEffect, useContext } from "react";
 import Button from "../../shared/Components/FormElements/Button";
 import CarList from "../components/CarList";
 import { AuthContext } from "../../shared/context/auth-context";
+import { ShareContext } from "../../shared/context/share-contex";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import Mycar from "../../assets/images/mycar.png";
-import UserCar from "./UserCar";
+import { useNavigate } from 'react-router-dom';
 
 import "./UserCars.css";
 
-const UserCars = (props) => {
+const UserCars = () => {
   const auth = useContext(AuthContext);
+  const shared = useContext(ShareContext);
+  const navigate = useNavigate();
   const [loadedCars, setLoadedCars] = useState();
-  const [selectedCar, setSelectedCar] = useState();
   const { isLoading, sendRequest } = useHttpClient();
   const userId = auth.userId;
 
@@ -31,7 +33,13 @@ const UserCars = (props) => {
 
   const modalHandler = (e) => {
     e.stopPropagation();
-    setSelectedCar(loadedCars.filter((car) => car.id === e.target.id));
+    shared.selectedCar = loadedCars.filter((car) => car.id === e.target.id);
+
+    localStorage.setItem(
+      "selectedCar",
+      JSON.stringify(shared.selectedCar))
+
+    navigate('/usercars/usercar'); 
   };
 
   return (
@@ -46,11 +54,11 @@ const UserCars = (props) => {
           </div>
         )}
 
-        {!isLoading && loadedCars && !selectedCar && (
+        {!isLoading && loadedCars && (
           <CarList cars={loadedCars} onClick={modalHandler} />
         )}
 
-        {!isLoading && !loadedCars && !selectedCar &&(
+        {!isLoading && !loadedCars && (
           <div className="usercars-content">
             <img src={Mycar} alt="usercars" />
             <h2 className="usercars-content-title">
@@ -64,9 +72,6 @@ const UserCars = (props) => {
             </p>
           </div>
         )}
-
-       { selectedCar && <UserCar selectedCar={selectedCar[0]} onClick={()=>setSelectedCar(null)} />}
-
 
         <div className="btn-add-car-wrapper">
           <Button to="/usercars/addcar" inverse className="btn-add-car">

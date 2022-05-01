@@ -53,7 +53,7 @@ const SignInModal = (props) => {
       //console.log('logged in', auth.userId )
       auth.login(responseData.userId, responseData.token);
       setClose(true);
-      navigate("/user");
+      navigate("/rentacar");
     } catch (err) {}
   };
 

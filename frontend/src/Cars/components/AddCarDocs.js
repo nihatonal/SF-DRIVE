@@ -158,6 +158,7 @@ const AddCarDocs = (props) => {
           year: carInfo.year,
           plate_number: carInfo.plate_number,
           vin_number: carInfo.vin_number,
+          car_body:carInfo.car_body,
           color: carInfo.color,
           engine_type: carInfo.engine_type,
           engine_volume: parseFloat(carInfo.engine_volume).toFixed(1),
@@ -186,7 +187,7 @@ const AddCarDocs = (props) => {
       localStorage.removeItem('carData');
       localStorage.removeItem('carOptions');
       localStorage.removeItem('carImages');
-      navigate('/user/mycars/success'); 
+      navigate('/user/usercars/success'); 
     } catch (err) {}
 
     window.scrollTo({ top: 0, behavior: "smooth" });

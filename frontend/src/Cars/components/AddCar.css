@@ -56,7 +56,6 @@
   line-height: 147.3%;
   text-align: left;
   margin-bottom: 30px;
-  
 }
 @media screen and (max-width: 767px) {
   .form-content h2 {
@@ -115,8 +114,15 @@
 .input-power {
   width: 155px;
 }
-.classNameWrapper {
+.info-car .inputWrapper:nth-last-child(8),
+.info-car .inputWrapper:nth-last-child(4) {
   margin-bottom: 60px;
+}
+@media screen and (max-width: 767px) {
+  .info-car .inputWrapper:nth-last-child(8),
+  .info-car .inputWrapper:nth-last-child(4) {
+    margin-bottom: 50px;
+  }
 }
 .button-container {
   width: 1440px;

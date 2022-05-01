@@ -17,7 +17,7 @@ import FourHunderFour from "./shared/Components/NotFound/FourHunderFour";
 import SignUpSuccess from "./SignUpPage/pages/SignUpSuccess";
 
 
-import UserMain from "./users/pages/UserMain";
+import RentACar from "./Cars/pages/RentACar";
 import UserCars from "./Cars/pages/UserCars";
 import AddCar from "./Cars/components/AddCar";
 import AddCarSuccess from "./Cars/components/AddCarSuccess";
@@ -47,9 +47,9 @@ function App() {
   if (token) {
     routes = (
       <React.Fragment>
-        <Route exact path="/user" element={<UserMain />} />
+        <Route exact path="/rentacar" element={<RentACar />} />
         <Route exact path="/usercars" element={<UserCars/>} />
-        <Route exact path="/user/usercar" element={<UserCar/>} />
+        <Route exact path="/usercars/usercar" element={<UserCar/>} />
         <Route exact path="/usercars/addcar" element={<AddCar/>} />
         <Route exact path="/user/usercars/success" element={<AddCarSuccess/>} />
         <Route path="*" element={<FourHunderFour />} />

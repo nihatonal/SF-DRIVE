@@ -5,6 +5,24 @@ const HttpError = require("../models/http-error");
 const Car = require("../models/car");
 const User = require("../models/user");
 
+
+// Getting all cars from
+
+const getCars = async (req, res, next) => {
+  let cars;
+  
+  try {
+    cars = await Car.find({},'-password');  
+  } catch(err) {
+    const error = new HttpError(
+      'Fetching users failed, please try again later.',
+      500
+    );
+      return next(error);
+  }
+  res.json({cars: cars.map(car => car.toObject({ getters:true })) });
+};
+
 // Getting a photo of just a car
 
 const getCarById = async (req, res, next) => {
@@ -86,6 +104,7 @@ const createCar = async (req, res, next) => {
     plate_number,
     vin_number,
     color,
+    car_body,
     engine_type,
     engine_volume,
     engine_power,
@@ -111,6 +130,7 @@ const createCar = async (req, res, next) => {
     year,
     plate_number,
     vin_number,
+    car_body,
     color,
     engine_type,
     engine_volume,
@@ -262,6 +282,8 @@ const deleteCar = async (req, res, next) => {
   res.status(200).json({ message: "Deleted car." });
 };
 
+
+exports.getCars = getCars;
 exports.getCarById = getCarById;
 exports.getCarsByUserId = getCarsByUserId;
 exports.createCar = createCar;

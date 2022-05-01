@@ -7,5 +7,6 @@ export const ShareContext = createContext({
     brand:'Audi',
     options:[],
     services:[],
-    error: false
+    error: false,
+    selectedCar: {}
 });

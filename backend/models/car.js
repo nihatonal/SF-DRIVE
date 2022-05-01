@@ -9,6 +9,7 @@ const carSchema = new Schema({
   plate_number: { type: String, required: true },
   vin_number: { type: String, required: true },
   color: { type: String, required: true },
+  car_body: { type: String, required: true },
   engine_type: { type: String, required: true },
   engine_volume: { type: String, required: true },
   engine_power: { type: String, required: true },

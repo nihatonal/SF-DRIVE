@@ -20,7 +20,6 @@ import Select from "../../shared/Components/FormElements/Select";
 import "./AddCar.css";
 
 const AddCar = () => {
-
   //const { sendRequest } = useHttpClient();
   const [stepOne, setStepOne] = useState(true); //true
   const [stepTwo, setStepTwo] = useState(false); //false
@@ -48,6 +47,10 @@ const AddCar = () => {
       vin_number: {
         value: "",
         isValid: false,
+      },
+      car_body: {
+        value: "Седан",
+        isValid: true,
       },
       color: {
         value: "Белый",
@@ -116,10 +119,6 @@ const AddCar = () => {
 
   let selectedModels;
 
-  // useEffect(() => {
-  //   selectedModels = Cardb.filter((auto) => auto.brand.includes(formState.inputs.brand.value));
-  // }, [selectedModels]);
-
   selectedModels = [
     ...new Set(
       []
@@ -160,6 +159,10 @@ const AddCar = () => {
         },
         color: {
           value: formState.inputs.color.value,
+          isValid: true,
+        },
+        car_body: {
+          value: formState.inputs.car_body.value,
           isValid: true,
         },
         engine_type: {
@@ -222,6 +225,7 @@ const AddCar = () => {
           year: formState.inputs.year.value,
           plate_number: formState.inputs.plate_number.value,
           vin_number: formState.inputs.vin_number.value,
+          car_body: formState.inputs.car_body.value,
           color: formState.inputs.color.value,
           engine_type: formState.inputs.engine_type.value,
           engine_volume: formState.inputs.engine_volume.value,
@@ -247,11 +251,10 @@ const AddCar = () => {
       setIsLoading(false);
     }
 
-
     window.scrollTo({ top: 0, behavior: "smooth" });
     setPositionUp(true);
   };
-  
+
   const stepTwoHandler = () => {
     setStepOne(true);
     setStepTwo(false);
@@ -374,6 +377,23 @@ const AddCar = () => {
               <Select
                 data={Infocars[0].color}
                 value={formState.inputs.color.value}
+              />
+            </Input>
+            <Input
+              id="car_body"
+              element="select"
+              label="Кузов"
+              validators={[VALIDATOR_REQUIRE()]}
+              onInput={inputHandler}
+              placeholderclassName="input-hidden"
+              initialValue={formState.inputs.car_body.value}
+              initialValid={formState.inputs.car_body.isValid}
+              src={menu_dropdown}
+              classNameWrapper="inputWrapper"
+            >
+              <Select
+                data={Infocars[3].carbody}
+                value={formState.inputs.car_body.value}
               />
             </Input>
             <Input
