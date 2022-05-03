@@ -6,12 +6,13 @@ import OptionCar from "../components/OptionCar";
 import { ShareContext } from "../../shared/context/share-contex";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import Button from "../../shared/Components/FormElements/Button";
-import { GetUser } from "../../shared/hooks/get-user";
+import { useNavigate } from 'react-router-dom';
 import date_picker from "../../assets/icons/calender.svg";
 
 import "./RentACar.css";
 const RentACar = () => {
   const share = useContext(ShareContext);
+  const navigate = useNavigate();
   const { isLoading, sendRequest } = useHttpClient();
   const [loadedCars, setLoadedCars] = useState();
   const [loadedUser, setLoadedUser] = useState();
@@ -55,6 +56,14 @@ const RentACar = () => {
     getDates();
   }, [getDates]);
 
+  const modalHandler = (e) => {
+    e.stopPropagation();
+    const selectCar = loadedCars.filter((car) => car.id === e.target.id)
+    localStorage.setItem("selectedCar", JSON.stringify(selectCar));
+
+    navigate("/rentacar/rentusercar");
+  };
+
   const test = (e) => {
     e.preventDefault();
     setDates(share.date_ranges);
@@ -83,8 +92,8 @@ const RentACar = () => {
         {loadedCars && (
           <div className="recommended-cars-wrapper">
             {loadedCars.map((item) => (
-              <div className="recommended-car-item" key={item.id}>
-                <div className="recommended-car-item_filter"></div>
+              <div className="recommended-car-item" key={item.id} onClick={modalHandler} >
+                <div className="recommended-car-item_filter" id={item.id}></div>
                 <img src={`http://localhost:5000/${item.images[0]}`} />
                 <div className="recommended-car-item-content">
                   <p>{`${item.brand} ${item.model}, ${item.year}`}</p>

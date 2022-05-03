@@ -1,5 +1,6 @@
 import React, { useEffect, useContext, useState } from "react";
 
+import { Link } from "react-router-dom";
 import Avatar from "../../shared/Components/UIElements/Avatar";
 import { AuthContext } from "../../shared/context/auth-context";
 import { useHttpClient } from "../../shared/hooks/http-hook";
@@ -16,18 +17,16 @@ const CarInfo = (props) => {
   const userId = auth.userId;
 
   useEffect(() => {
-    if (auth.isLoggedIn) {
-      const fetchPlaces = async () => {
-        try {
-          const responseData = await sendRequest(
-            `http://localhost:5000/api/users/${userId}`
-          );
-          setLoadedUser(responseData.user);
-        } catch (err) {}
-      };
+    const fetchPlaces = async () => {
+      try {
+        const responseData = await sendRequest(
+          `http://localhost:5000/api/users/${props.owner}`
+        );
+        setLoadedUser(responseData.user);
+      } catch (err) {}
+    };
 
-      fetchPlaces();
-    }
+    fetchPlaces();
   }, [sendRequest, userId]);
 
   const splitHandler = (str) => {
@@ -38,7 +37,10 @@ const CarInfo = (props) => {
   return (
     <div className="carinfo-container">
       <div className="carinfo-images_wrapper">
-        <div className="carinfo-image_wrapper main-photo" onClick={props.onClick}>
+        <div
+          className="carinfo-image_wrapper main-photo"
+          onClick={props.onClick}
+        >
           <img
             className={`main-img`}
             src={`http://localhost:5000/${props.mainImg}`}
@@ -48,22 +50,29 @@ const CarInfo = (props) => {
             <img src={image_icon} alt="image_icon" />
           </div>
         </div>
-        <div className="carinfo-image_wrapper side-image-1" onClick={props.onClick}>
+        <div
+          className="carinfo-image_wrapper side-image-1"
+          onClick={props.onClick}
+        >
           <img
             className={`second-img`}
             src={`http://localhost:5000/${props.secondImg}`}
             alt={props.model}
           />
         </div>
-        <div className="carinfo-image_wrapper side-image-2" onClick={props.onClick}>
+        <div
+          className="carinfo-image_wrapper side-image-2"
+          onClick={props.onClick}
+        >
           <img
             className={`second-img`}
             src={`http://localhost:5000/${props.thirdImg}`}
             alt={props.model}
           />
-          <p className="carinfo-image-count" onClick={props.onClick}>{`+ ещё  фото ${
-            props.images.length - 3
-          }`}</p>
+          <p
+            className="carinfo-image-count"
+            onClick={props.onClick}
+          >{`+ ещё  фото ${props.images.length - 3}`}</p>
         </div>
       </div>
       <div className="carinfo-maincontent-wrapper">
@@ -84,7 +93,7 @@ const CarInfo = (props) => {
             </div>
           </div>
         </div>
-        <div className="owner-wrapper">
+        <div className={loadedUser && userId === props.owner? "owner-wrapper" : "owner-wrapper renter"}>
           {loadedUser && (
             <Avatar
               className={"owner-wrapper-image"}
@@ -92,10 +101,20 @@ const CarInfo = (props) => {
               alt={"avatar"}
             />
           )}
+
+          {userId === props.owner ? <div className={"owner-info"}>
+            {loadedUser && <p>{loadedUser.name}</p>}
+            {loadedUser && <p className={"owner-info-status"}>Это вы</p>}
+          </div>
+            :
           <div className={"owner-info"}>
             {loadedUser && <p>{loadedUser.name}</p>}
-            {loadedUser && <p>Это вы</p>}
-          </div>
+            {loadedUser && <p className={"owner-info-status"}>Владелец</p>}
+
+            <Link className="link-to-profil" to="/">
+              Посмотреть профиль
+            </Link>
+          </div>}
         </div>
 
         <div className="carinfo-characters">

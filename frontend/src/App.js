@@ -18,6 +18,7 @@ import SignUpSuccess from "./SignUpPage/pages/SignUpSuccess";
 
 
 import RentACar from "./Cars/pages/RentACar";
+import RentUserCar from "./Cars/pages/RentUserCar";
 import UserCars from "./Cars/pages/UserCars";
 import AddCar from "./Cars/components/AddCar";
 import AddCarSuccess from "./Cars/components/AddCarSuccess";
@@ -48,6 +49,7 @@ function App() {
     routes = (
       <React.Fragment>
         <Route exact path="/rentacar" element={<RentACar />} />
+        <Route exact path="/rentacar/rentusercar" element={<RentUserCar />} />
         <Route exact path="/usercars" element={<UserCars/>} />
         <Route exact path="/usercars/usercar" element={<UserCar/>} />
         <Route exact path="/usercars/addcar" element={<AddCar/>} />
