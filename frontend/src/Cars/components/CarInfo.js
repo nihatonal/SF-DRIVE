@@ -93,7 +93,7 @@ const CarInfo = (props) => {
             </div>
           </div>
         </div>
-        <div className={loadedUser && userId === props.owner? "owner-wrapper" : "owner-wrapper renter"}>
+        <div className={loadedUser && userId === props.owner ? "owner-wrapper" : "owner-wrapper renter"}>
           {loadedUser && (
             <Avatar
               className={"owner-wrapper-image"}

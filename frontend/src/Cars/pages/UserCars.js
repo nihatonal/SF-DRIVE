@@ -22,7 +22,10 @@ const UserCars = () => {
     const fetchPlaces = async () => {
       try {
         const responseData = await sendRequest(
-          `http://localhost:5000/api/cars/user/${userId}`
+          `http://localhost:5000/api/cars/user/${userId}`,
+          {
+            Authorization: 'Bearer ' + auth.token
+          }
         );
         setLoadedCars(responseData.cars);
       } catch (err) {}

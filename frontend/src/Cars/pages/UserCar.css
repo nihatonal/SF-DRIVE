@@ -30,6 +30,16 @@
 .fa {
   font-size: 24px;
 }
+.button-container .btn-delete {
+  width: 239px;
+  height: 51px;
+  background: #fbdddd;
+  color: #f88c8c;
+  margin-left:20px;
+}
+.button-container .btn-delete:hover {
+  background: #fdcfcf;
+}
 @media screen and (max-width: 767px) {
   .usercar-container {
     width: 375px;

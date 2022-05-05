@@ -5,13 +5,13 @@ const carControllers = require('../controllers/cars-controllers');
 
 const checkAuth = require('../middleware/check-auth');
 const router = express.Router();
-
+router.use(checkAuth);
 router.get('/', carControllers.getCars);
 router.get('/:cid', carControllers.getCarById);
 
 router.get('/user/:uid', carControllers.getCarsByUserId);
 
-//router.use(checkAuth);
+
 
 router.post('/',
     carControllers.createCar);

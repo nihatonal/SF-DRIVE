@@ -214,9 +214,7 @@ const login = async (req, res, next) => {
 
 const uploadImage = async (req, res, next) => {
     try {
-     // console.log(req.file);
       const data = req.file;
-     // res.send({cograts: "data recieved"});
       res.json({message: "data recieved", data: data });
     }catch {
       res.status(500).send("error");
@@ -233,7 +231,7 @@ const updateUser = async (req,res, next) => {
 
   const { image } = req.body;
   const userId = req.params.uid;
- //const userId = "621fa5e7599f48d19e75020d";
+
 
   let user;
   try {

@@ -1,3 +1,4 @@
+const fs = require('fs');
 const { validationResult } = require("express-validator");
 const mongoose = require("mongoose");
 
@@ -5,22 +6,21 @@ const HttpError = require("../models/http-error");
 const Car = require("../models/car");
 const User = require("../models/user");
 
-
 // Getting all cars from
 
 const getCars = async (req, res, next) => {
   let cars;
-  
+
   try {
-    cars = await Car.find({},'-password');  
-  } catch(err) {
+    cars = await Car.find({}, "-password");
+  } catch (err) {
     const error = new HttpError(
-      'Fetching users failed, please try again later.',
+      "Fetching users failed, please try again later.",
       500
     );
-      return next(error);
+    return next(error);
   }
-  res.json({cars: cars.map(car => car.toObject({ getters:true })) });
+  res.json({ cars: cars.map((car) => car.toObject({ getters: true })) });
 };
 
 // Getting a photo of just a car
@@ -55,16 +55,17 @@ const getCarById = async (req, res, next) => {
 const getCarsByUserId = async (req, res, next) => {
   const userId = req.params.uid;
 
-  let cars;
-  try {
-    cars = await Car.find({ creator: userId });
-  } catch(err) {
-    const error = new HttpError(
-      'Fetching cars failed, please try again later.',
-      500
-    );
-    return next(error);
-  }
+  // let cars;
+  // try {
+  //   cars = await Car.find({ creator: userId });
+  // } catch (err) {
+  //   const error = new HttpError(
+  //     "Fetching cars failed, please try again later.",
+  //     500
+  //   );
+  //   return next(error);
+  // }
+
   let userWithCars;
   try {
     userWithCars = await User.findById(userId).populate("cars");
@@ -165,7 +166,7 @@ const createCar = async (req, res, next) => {
 
   if (!user) {
     const error = new HttpError(
-      `Could not find user for provided id.${owner}`,
+      `Could not find user for provided id.`,
       404
     );
     return next(error);
@@ -257,12 +258,15 @@ const deleteCar = async (req, res, next) => {
     const error = new HttpError("Could not find car for this id.", 404);
     return next(error);
   }
+  const { userId} = req.body;
+  console.log(req.body)
   if (car.owner.id !== req.userData.userId) {
     const error = new HttpError("You are now allowed to delete this car.", 401);
+   
     return next(error);
   }
 
-  //const imagePath = car.image
+  const imagesPath = car.images;
 
   try {
     const sess = await mongoose.startSession();
@@ -279,9 +283,14 @@ const deleteCar = async (req, res, next) => {
     return next(error);
   }
 
+  imagesPath.map((item) => {
+    fs.unlink(item, (err) => {
+      console.log(err);
+    });
+  });
+
   res.status(200).json({ message: "Deleted car." });
 };
-
 
 exports.getCars = getCars;
 exports.getCarById = getCarById;

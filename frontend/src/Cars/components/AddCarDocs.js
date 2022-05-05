@@ -139,8 +139,7 @@ const AddCarDocs = (props) => {
 
   const sendPhoto = async (e) => {
     e.preventDefault();
-    // console.log(carInfo, options, services, carImages);
-
+   
     let pathInfo = [];
     theArray.map((file) => {
       pathInfo.push(file.path);
@@ -180,7 +179,7 @@ const AddCarDocs = (props) => {
         }),
         {
           "Content-Type": "application/json",
-          Authorization: "Bearer " + auth.token,
+          Authorization: 'Bearer ' + auth.token
         }
       );
       console.log(responseData);

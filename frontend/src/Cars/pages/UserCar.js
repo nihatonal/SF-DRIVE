@@ -4,18 +4,40 @@ import { Link } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
 import CarInfo from "../components/CarInfo";
 import Carousel from "../../shared/Components/UIElements/Carousel";
+import Button from "../../shared/Components/FormElements/Button";
 import ModalCar from "../../shared/Components/UIElements/ModalCar";
+import { useHttpClient } from '../../shared/hooks/http-hook';
+import { AuthContext } from '../../shared/context/auth-context';
 import "./UserCar.css";
 
 const UserCar = () => {
   const [show, setShow] = useState(false);
+  const { isLoading, sendRequest } = useHttpClient();
+  const auth = useContext(AuthContext);
   const [selectedCar, setSelectedCar] = useState();
+  // const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const selectedCar = JSON.parse(localStorage.getItem("selectedCar"));
     setSelectedCar(selectedCar);
   }, []);
-  console.log(selectedCar);
+
+
+  const confirmDeleteHandler = async () => {
+    
+    try {
+      await sendRequest(
+        `http://localhost:5000/api/cars/${selectedCar[0].id}`,
+        "DELETE",
+        null,
+        {
+          Authorization: 'Bearer ' + auth.token
+        }
+      );
+     
+    } catch (err) {}
+  };
+
   return (
     <div className="usercar-container">
       <Link to={"/usercars"} className="usercar-arrow-wrapper">
@@ -45,6 +67,7 @@ const UserCar = () => {
           engine_transmission={selectedCar[0].engine_transmission}
           engine_run={selectedCar[0].engine_run}
           options={selectedCar[0].options}
+          owner={selectedCar[0].owner}
           onClick={() => setShow(true)}
         />
       )}
@@ -53,6 +76,24 @@ const UserCar = () => {
           <Carousel slides={selectedCar[0].images} />
         </ModalCar>
       )}
+
+      <div className={"button-container"}>
+        <Button type="submit" style={{ width: "196px" }} inverse>
+          {!isLoading ? (
+            "Редактировать"
+          ) : (
+            <i className="fa fa-circle-o-notch fa-spin"></i>
+          )}
+        </Button>
+
+        <Button type="submit" className="btn-delete" inverse onClick={confirmDeleteHandler}>
+          {!isLoading ? (
+            "Удалить автомобиль"
+          ) : (
+            <i className="fa fa-circle-o-notch fa-spin"></i>
+          )}
+        </Button>
+      </div>
     </div>
   );
 };
