@@ -5,31 +5,51 @@ import OptionCity from "../components/OptionCity";
 import OptionCar from "../components/OptionCar";
 import { ShareContext } from "../../shared/context/share-contex";
 import { useHttpClient } from "../../shared/hooks/http-hook";
+import { AuthContext } from "../../shared/context/auth-context";
 import Button from "../../shared/Components/FormElements/Button";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import date_picker from "../../assets/icons/calender.svg";
+import axios from "axios";  
 
 import "./RentACar.css";
 const RentACar = () => {
+  const auth = useContext(AuthContext);
   const share = useContext(ShareContext);
   const navigate = useNavigate();
   const { isLoading, sendRequest } = useHttpClient();
+  const [loading, setLoading] = useState(false);
   const [loadedCars, setLoadedCars] = useState();
   const [loadedUser, setLoadedUser] = useState();
   const [dates, setDates] = useState(share.date_ranges);
 
   useEffect(() => {
     const fetchCars = async () => {
-      try {
-        const responseData = await sendRequest(
-          `http://localhost:5000/api/cars/`
-        );
+      setLoading(true)
+      return axios
+        .get(`http://localhost:5000/api/cars/`, {
+          headers: {
+            Authorization: 'Bearer ' + auth.token,
+            "Content-Type": "application/json",
+          },
+        })
+        .then((res) => {
+          setLoadedCars(res.data.cars);
+          setLoading(false)
+        });
+      // try {
+      //   const responseData = await sendRequest(
+      //     `http://localhost:5000/api/cars/`,
+      //     {
+      //       Authorization: "Bearer " + auth.token,
+      //       "Content-Type": "application/json",
+      //     }
+      //   );
 
-        setLoadedCars(responseData.cars);
-      } catch (err) {}
+      //   setLoadedCars(responseData.cars);
+      // } catch (err) {}
     };
     fetchCars();
-  }, [sendRequest]);
+  }, [auth.token]);
 
   useEffect(() => {
     const fetchCars = async () => {
@@ -58,7 +78,7 @@ const RentACar = () => {
 
   const modalHandler = (e) => {
     e.stopPropagation();
-    const selectCar = loadedCars.filter((car) => car.id === e.target.id)
+    const selectCar = loadedCars.filter((car) => car.id === e.target.id);
     localStorage.setItem("selectedCar", JSON.stringify(selectCar));
 
     navigate("/rentacar/rentusercar");
@@ -92,7 +112,11 @@ const RentACar = () => {
         {loadedCars && (
           <div className="recommended-cars-wrapper">
             {loadedCars.map((item) => (
-              <div className="recommended-car-item" key={item.id} onClick={modalHandler} >
+              <div
+                className="recommended-car-item"
+                key={item.id}
+                onClick={modalHandler}
+              >
                 <div className="recommended-car-item_filter" id={item.id}></div>
                 <img src={`http://localhost:5000/${item.images[0]}`} />
                 <div className="recommended-car-item-content">

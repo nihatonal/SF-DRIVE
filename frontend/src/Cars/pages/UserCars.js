@@ -6,7 +6,9 @@ import { AuthContext } from "../../shared/context/auth-context";
 import { ShareContext } from "../../shared/context/share-contex";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import Mycar from "../../assets/images/mycar.png";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+
+import axios from "axios";
 
 import "./UserCars.css";
 
@@ -15,34 +17,45 @@ const UserCars = () => {
   const shared = useContext(ShareContext);
   const navigate = useNavigate();
   const [loadedCars, setLoadedCars] = useState();
-  const { isLoading, sendRequest } = useHttpClient();
+  //const { isLoading, sendRequest } = useHttpClient();
+  const [loading, setLoading] = useState(false);
   const userId = auth.userId;
 
   useEffect(() => {
+    setLoading(true)
     const fetchPlaces = async () => {
-      try {
-        const responseData = await sendRequest(
-          `http://localhost:5000/api/cars/user/${userId}`,
-          {
-            Authorization: 'Bearer ' + auth.token
-          }
-        );
-        setLoadedCars(responseData.cars);
-      } catch (err) {}
+      return axios
+        .get(`http://localhost:5000/api/cars/user/${userId}`, {
+          headers: {
+            Authorization: 'Bearer ' + auth.token,
+            "Content-Type": "application/json",
+          },
+        })
+        .then((res) => {
+          setLoadedCars(res.data.cars);
+          setLoading(false)
+        });
+
+      //   try {
+      //     const responseData = await sendRequest(
+      //       `http://localhost:5000/api/cars/user/${userId}`,
+      //       {
+      //         Authorization: 'Bearer ' + auth.token
+      //       }
+      //     );
+      //     setLoadedCars(responseData.cars);
+      //   } catch (err) {}
     };
     fetchPlaces();
-  }, [sendRequest, userId]);
-
+  }, [userId]);
 
   const modalHandler = (e) => {
     e.stopPropagation();
     shared.selectedCar = loadedCars.filter((car) => car.id === e.target.id);
 
-    localStorage.setItem(
-      "selectedCar",
-      JSON.stringify(shared.selectedCar))
+    localStorage.setItem("selectedCar", JSON.stringify(shared.selectedCar));
 
-    navigate('/usercars/usercar'); 
+    navigate("/usercars/usercar");
   };
 
   return (
@@ -51,17 +64,17 @@ const UserCars = () => {
         className="usercars-container"
         style={loadedCars && { marginTop: "150px" }}
       >
-        {isLoading && (
+        {loading && (
           <div className="loading-wrapper">
             <i className="fa fa-circle-o-notch fa-spin"></i>
           </div>
         )}
 
-        {!isLoading && loadedCars && (
+        {!loading && loadedCars && (
           <CarList cars={loadedCars} onClick={modalHandler} />
         )}
 
-        {!isLoading && !loadedCars && (
+        {!loading && !loadedCars && (
           <div className="usercars-content">
             <img src={Mycar} alt="usercars" />
             <h2 className="usercars-content-title">

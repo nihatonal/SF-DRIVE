@@ -6,8 +6,9 @@ import CarInfo from "../components/CarInfo";
 import Carousel from "../../shared/Components/UIElements/Carousel";
 import Button from "../../shared/Components/FormElements/Button";
 import ModalCar from "../../shared/Components/UIElements/ModalCar";
-import { useHttpClient } from '../../shared/hooks/http-hook';
-import { AuthContext } from '../../shared/context/auth-context';
+import { useHttpClient } from "../../shared/hooks/http-hook";
+import { AuthContext } from "../../shared/context/auth-context";
+import axios from "axios";
 import "./UserCar.css";
 
 const UserCar = () => {
@@ -22,9 +23,20 @@ const UserCar = () => {
     setSelectedCar(selectedCar);
   }, []);
 
-
   const confirmDeleteHandler = async () => {
-    
+    // await axios
+    //   .delete(`http://localhost:5000/api/cars/${selectedCar[0].id}`, {
+    //     headers: {
+    //       Authorization: "Bearer " + auth.token,
+    //       "Content-Type": "application/json",
+    //     },
+    //   })
+    //   .then((res) => {
+    //     console.log(res);
+    //     setSelectedCar(null);
+    //     localStorage.removeItem('selectedCar');
+    //   });
+
     try {
       await sendRequest(
         `http://localhost:5000/api/cars/${selectedCar[0].id}`,
@@ -34,7 +46,7 @@ const UserCar = () => {
           Authorization: 'Bearer ' + auth.token
         }
       );
-     
+
     } catch (err) {}
   };
 
@@ -86,7 +98,12 @@ const UserCar = () => {
           )}
         </Button>
 
-        <Button type="submit" className="btn-delete" inverse onClick={confirmDeleteHandler}>
+        <Button
+          type="submit"
+          className="btn-delete"
+          inverse
+          onClick={confirmDeleteHandler}
+        >
           {!isLoading ? (
             "Удалить автомобиль"
           ) : (

@@ -258,8 +258,7 @@ const deleteCar = async (req, res, next) => {
     const error = new HttpError("Could not find car for this id.", 404);
     return next(error);
   }
-  const { userId} = req.body;
-  console.log(req.body)
+
   if (car.owner.id !== req.userData.userId) {
     const error = new HttpError("You are now allowed to delete this car.", 401);
    
@@ -272,12 +271,12 @@ const deleteCar = async (req, res, next) => {
     const sess = await mongoose.startSession();
     sess.startTransaction();
     await car.remove({ session: sess });
-    car.creator.cars.pull(car);
+    car.owner.cars.pull(car);
     await car.creator.save({ session: sess });
     await sess.commitTransaction();
   } catch (err) {
     const error = new HttpError(
-      "Something  went wrong, could not delete car.",
+      "Something  went wrong session, could not delete car.",
       500
     );
     return next(error);
