@@ -266,13 +266,14 @@ const deleteCar = async (req, res, next) => {
   }
 
   const imagesPath = car.images;
+  const docsPath = car.carDocs;
 
   try {
     const sess = await mongoose.startSession();
     sess.startTransaction();
     await car.remove({ session: sess });
     car.owner.cars.pull(car);
-    await car.creator.save({ session: sess });
+    await car.owner.save({ session: sess });
     await sess.commitTransaction();
   } catch (err) {
     const error = new HttpError(
@@ -283,6 +284,11 @@ const deleteCar = async (req, res, next) => {
   }
 
   imagesPath.map((item) => {
+    fs.unlink(item, (err) => {
+      console.log(err);
+    });
+  });
+  docsPath.map((item) => {
     fs.unlink(item, (err) => {
       console.log(err);
     });

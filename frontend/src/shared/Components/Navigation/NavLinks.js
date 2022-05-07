@@ -35,7 +35,7 @@ const NavLinks = (props) => {
           className={({ isActive }) =>
             isActive ? "header__nav-item is-active" : "header__nav-item"
           }
-          to={"/usercars"}
+          to={`/${auth.userId}/cars`}
         >
           Мои автомобили
         </NavLink>

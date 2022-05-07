@@ -3,13 +3,20 @@ import { Link } from "react-router-dom";
 
 import { FaArrowLeft } from "react-icons/fa";
 import CarInfo from "../components/CarInfo";
+import Button from "../../shared/Components/FormElements/Button";
+import { useHttpClient } from "../../shared/hooks/http-hook";
+import { AuthContext } from "../../shared/context/auth-context";
 import Carousel from "../../shared/Components/UIElements/Carousel";
 import ModalCar from "../../shared/Components/UIElements/ModalCar";
+import { useNavigate } from "react-router-dom";
 import "./UserCar.css";
 
 const RentUserCar = () => {
+  const { isLoading, sendRequest } = useHttpClient();
+  const auth = useContext(AuthContext);
   const [show, setShow] = useState(false);
   const [selectedCar, setSelectedCar] = useState();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const selectedCar = JSON.parse(localStorage.getItem("selectedCar"));
@@ -17,9 +24,26 @@ const RentUserCar = () => {
   }, []);
   console.log(selectedCar);
 
+  const confirmDeleteHandler = async () => {
+
+    try {
+      await sendRequest(
+        `http://localhost:5000/api/cars/${selectedCar[0].id}`,
+        "DELETE",
+        null,
+        {
+          Authorization: "Bearer " + auth.token,
+        }
+      );
+          setSelectedCar(null);
+          localStorage.removeItem('selectedCar');
+          navigate("/rentacar");
+    } catch (err) {}
+  };
+
   return (
     <div className="usercar-container">
-      <Link to={"/rentacar"} className="usercar-arrow-wrapper">
+      <Link to={"/rentacar"} className="usercar-arrow-wrapper" onClick={()=>localStorage.removeItem('selectedCar')}>
         <p className={"usercar-arrow"}>
           <i className={"fa"}>
             <FaArrowLeft />
@@ -55,6 +79,28 @@ const RentUserCar = () => {
           <Carousel slides={selectedCar[0].images} />
         </ModalCar>
       )}
+      {selectedCar && selectedCar[0].owner === auth.userId && <div className={"button-container"}>
+        <Button type="submit" style={{ width: "196px" }} inverse>
+          {!isLoading ? (
+            "Редактировать"
+          ) : (
+            <i className="fa fa-circle-o-notch fa-spin"></i>
+          )}
+        </Button>
+
+        <Button
+          type="submit"
+          className="btn-delete"
+          inverse
+          onClick={confirmDeleteHandler}
+        >
+          {!isLoading ? (
+            "Удалить автомобиль"
+          ) : (
+            <i className="fa fa-circle-o-notch fa-spin"></i>
+          )}
+        </Button>
+      </div>}
     </div>
   );
 };

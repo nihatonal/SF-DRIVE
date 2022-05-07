@@ -55,7 +55,7 @@ const UserCars = () => {
 
     localStorage.setItem("selectedCar", JSON.stringify(shared.selectedCar));
 
-    navigate("/usercars/usercar");
+    navigate(`/${auth.userId}/${shared.selectedCar[0].id}`);
   };
 
   return (
@@ -90,7 +90,7 @@ const UserCars = () => {
         )}
 
         <div className="btn-add-car-wrapper">
-          <Button to="/usercars/addcar" inverse className="btn-add-car">
+          <Button to={`/${auth.userId}/addcar`} inverse className="btn-add-car">
             Добавить автомобиль
           </Button>
         </div>

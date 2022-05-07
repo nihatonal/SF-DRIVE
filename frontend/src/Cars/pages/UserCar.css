@@ -35,10 +35,18 @@
   height: 51px;
   background: #fbdddd;
   color: #f88c8c;
-  margin-left:20px;
+  margin-left: 20px;
 }
 .button-container .btn-delete:hover {
   background: #fdcfcf;
+}
+.button-container .toupdatecar {
+  width: 196px;
+  height: 51px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
 }
 @media screen and (max-width: 767px) {
   .usercar-container {

@@ -23,6 +23,7 @@ import UserCars from "./Cars/pages/UserCars";
 import AddCar from "./Cars/components/AddCar";
 import AddCarSuccess from "./Cars/components/AddCarSuccess";
 import UserCar from "./Cars/pages/UserCar";
+import UpdateCar from "./Cars/pages/UpdateCar";
 
 import { AuthContext } from "./shared/context/auth-context";
 import { useAuth } from './shared/hooks/auth-hook';
@@ -49,11 +50,12 @@ function App() {
     routes = (
       <React.Fragment>
         <Route exact path="/rentacar" element={<RentACar />} />
-        <Route exact path="/rentacar/rentusercar" element={<RentUserCar />} />
-        <Route exact path="/usercars" element={<UserCars/>} />
-        <Route exact path="/usercars/usercar" element={<UserCar/>} />
-        <Route exact path="/usercars/addcar" element={<AddCar/>} />
-        <Route exact path="/user/usercars/success" element={<AddCarSuccess/>} />
+        <Route exact path="/rentacar/:cid" element={<RentUserCar />} />
+        <Route exact path="/:userId/cars" element={<UserCars/>} />
+        <Route exact path="/:userId/:cid" element={<UserCar/>} />
+        <Route exact path="/:userId/addcar" element={<AddCar/>} />
+        <Route exact path="/cars/:cid" element={<UpdateCar/>} />
+        <Route exact path="/:userId/success" element={<AddCarSuccess/>} />
         <Route path="*" element={<FourHunderFour />} />
       </React.Fragment>
     );

@@ -81,7 +81,7 @@ const RentACar = () => {
     const selectCar = loadedCars.filter((car) => car.id === e.target.id);
     localStorage.setItem("selectedCar", JSON.stringify(selectCar));
 
-    navigate("/rentacar/rentusercar");
+    navigate(`/rentacar/${selectCar[0].id}`);
   };
 
   const test = (e) => {

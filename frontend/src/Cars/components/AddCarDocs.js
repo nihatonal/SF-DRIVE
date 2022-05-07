@@ -182,7 +182,6 @@ const AddCarDocs = (props) => {
           Authorization: 'Bearer ' + auth.token
         }
       );
-      console.log(responseData);
       localStorage.removeItem('carData');
       localStorage.removeItem('carOptions');
       localStorage.removeItem('carImages');

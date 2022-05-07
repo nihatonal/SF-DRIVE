@@ -8,7 +8,7 @@ import Button from "../../shared/Components/FormElements/Button";
 import ModalCar from "../../shared/Components/UIElements/ModalCar";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import { AuthContext } from "../../shared/context/auth-context";
-import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import "./UserCar.css";
 
 const UserCar = () => {
@@ -16,7 +16,7 @@ const UserCar = () => {
   const { isLoading, sendRequest } = useHttpClient();
   const auth = useContext(AuthContext);
   const [selectedCar, setSelectedCar] = useState();
-  // const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const selectedCar = JSON.parse(localStorage.getItem("selectedCar"));
@@ -24,18 +24,6 @@ const UserCar = () => {
   }, []);
 
   const confirmDeleteHandler = async () => {
-    // await axios
-    //   .delete(`http://localhost:5000/api/cars/${selectedCar[0].id}`, {
-    //     headers: {
-    //       Authorization: "Bearer " + auth.token,
-    //       "Content-Type": "application/json",
-    //     },
-    //   })
-    //   .then((res) => {
-    //     console.log(res);
-    //     setSelectedCar(null);
-    //     localStorage.removeItem('selectedCar');
-    //   });
 
     try {
       await sendRequest(
@@ -43,16 +31,18 @@ const UserCar = () => {
         "DELETE",
         null,
         {
-          Authorization: 'Bearer ' + auth.token
+          Authorization: "Bearer " + auth.token,
         }
       );
-
+          setSelectedCar(null);
+          localStorage.removeItem('selectedCar');
+          navigate("/usercars");
     } catch (err) {}
   };
 
   return (
     <div className="usercar-container">
-      <Link to={"/usercars"} className="usercar-arrow-wrapper">
+      <Link to={`/${auth.userId}/cars`} className="usercar-arrow-wrapper" onClick={()=>localStorage.removeItem('selectedCar')}>
         <p className={"usercar-arrow"}>
           <i className={"fa"}>
             <FaArrowLeft />
@@ -90,7 +80,7 @@ const UserCar = () => {
       )}
 
       <div className={"button-container"}>
-        <Button type="submit" style={{ width: "196px" }} inverse>
+        <Button className='toupdatecar' to={selectedCar && `/cars/${selectedCar[0].id}`} style={{ width: "196px" }} inverse>
           {!isLoading ? (
             "Редактировать"
           ) : (
