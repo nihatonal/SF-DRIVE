@@ -49,17 +49,6 @@ function DropzoneComponent(props) {
   const [files, setFiles] = useState([]);
   const [showDropzone, setShowDropzone] = useState(false);
   const [isValid, setIsValid] = useState(false);
-  const [initialImages, setInitialImages] = useState(false)
-
-  // useEffect(() => {
-  //   const storedImages = JSON.parse(localStorage.getItem("carImages"));
-  //   if (storedImages) {
-  //     setInitialImages(true)
-  //     setFiles(storedImages.initialImages)
-  //     console.log(storedImages.initialImages);
-  //   }
-
-  // }, []);
 
   const onDrop = useCallback((acceptedFiles) => {
     setShowDropzone(true);
@@ -71,8 +60,8 @@ function DropzoneComponent(props) {
         preview: URL.createObjectURL(file),
       })
     );
-
     setFiles((curr) => [...curr, ...imagefiles]);
+
     const imageArray = Array.from(acceptedFiles).map((file) => file);
 
     if (imageArray && imageArray.length !== 0) {
@@ -83,8 +72,6 @@ function DropzoneComponent(props) {
       setIsValid(false);
       fileIsValid = false;
     }
-
-   
 
     props.onInput(props.id, pickedFile, fileIsValid);
   }, []);
@@ -121,8 +108,8 @@ function DropzoneComponent(props) {
   const cancelHandler = () => {};
 
   const thumbs = files.map((file) => (
+
     <div className={`preview-wrapper ${props.classPreview}`} key={uuidv4()}>
-      {/* http://localhost:5000/uploads/images/398c5b20-c1af-11ec-8a4d-4516644e3f22.jpeg */}
       <div
         className={`preview-img-wrapper mobile-img-wrapper ${props.classPreviewImg}`}
       >
@@ -154,12 +141,12 @@ function DropzoneComponent(props) {
 
       <div className={`preview-info ${props.classPrewiewinfo}`}>
         <div>
-            <p className={`preview-info-name ${props.classPrewiewname}`}>
-              {file.name.slice(0, -4)}
-            </p>
-            <p className={`preview-info-desc ${props.classPrewiewdesc}`}>
-              {formatBytes(file.size)}, {file.type.slice(6)}
-            </p>
+          <p className={`preview-info-name ${props.classPrewiewname}`}>
+            {file.name.slice(0, -4)}
+          </p>
+          <p className={`preview-info-desc ${props.classPrewiewdesc}`}>
+            {formatBytes(file.size)}, {file.type.slice(6)}
+          </p>
         </div>
         <div onClick={() => deleteHandler(file.name)}>
           <img
@@ -172,7 +159,8 @@ function DropzoneComponent(props) {
       </div>
     </div>
   ));
-  
+
+
   // clean up
   useEffect(
     () => () => {
@@ -189,7 +177,7 @@ function DropzoneComponent(props) {
       <div
         {...getRootProps({ style })}
         className={
-          !showDropzone
+          !showDropzone && !props.initials 
             ? `dropzone-wrapper ${props.dropclassName}`
             : `dropzone-wrapper small ${props.dropclassName}`
         }
@@ -197,7 +185,7 @@ function DropzoneComponent(props) {
         <input {...getInputProps()} id={props.id} name={props.name} />
 
         <div className={`dropzone-content ${props.dropcontentclass}`}>
-          <img src={cloud} />
+          <img src={cloud} alt='cloud'/>
           {!showDropzone ? (
             <p className={"input-desc"}>
               Перетащите или <span>выберите файл</span>
@@ -216,8 +204,11 @@ function DropzoneComponent(props) {
           </div>
         </div>
       </div>
-
+      
       {thumbs}
+      {props.initials}
+
+      
     </section>
   );
 }

@@ -38,7 +38,9 @@
   top: 44px;
   overflow: scroll;
   overflow-x: hidden;
+  background:#fff;
   padding: 18px 0 24px 0;
+  z-index: 99;
 }
 
 .droplist-car-item {

@@ -6,6 +6,12 @@ import "./Navlinks.css";
 
 const NavLinks = (props) => {
   const auth = useContext(AuthContext);
+  const cleanLocalStorage = () => {
+    localStorage.removeItem("carData");
+    localStorage.removeItem("carOptions");
+    localStorage.removeItem("initialImages");
+    localStorage.removeItem("selectedCar");
+  };
 
   return (
     <>
@@ -17,6 +23,7 @@ const NavLinks = (props) => {
             isActive ? "header__nav-item is-active" : "header__nav-item"
           }
           to="/rentacar"
+          onClick={cleanLocalStorage}
         >
           Бронирования
         </NavLink>
@@ -36,6 +43,7 @@ const NavLinks = (props) => {
             isActive ? "header__nav-item is-active" : "header__nav-item"
           }
           to={`/${auth.userId}/cars`}
+          onClick={cleanLocalStorage}
         >
           Мои автомобили
         </NavLink>

@@ -1,40 +1,56 @@
 import React, { useState, useEffect, useContext } from "react";
 import { SignUpContext } from "../../context/signup-context";
+import { AuthContext } from "../../context/auth-context";
 import { useLocation } from "react-router-dom";
-import './MainHeader.css';
+import "./MainHeader.css";
 
-const MainHeader = props => {
+const MainHeader = (props) => {
+  const auth = useContext(AuthContext);
 
   const Error = useContext(SignUpContext);
 
-  const [scrolled, setScrolled ] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
-  useEffect(_ => {
-    const handleScroll = _ => { 
+
+
+  useEffect((_) => {
+    const handleScroll = (_) => {
       if (window.pageYOffset > 90) {
-        setScrolled(true)
+        setScrolled(true);
       } else {
-        setScrolled(false)
+        setScrolled(false);
       }
-    }
-    window.addEventListener('scroll', handleScroll)
-    return _ => {
-      window.removeEventListener('scroll', handleScroll)
-    }
-  }, [])
+    };
+    window.addEventListener("scroll", handleScroll);
+    return (_) => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   const { pathname } = useLocation();
-  if (Error.error) return null;
-  
-  if (pathname === "/signup/success" || pathname === "/user/mycars/success" ) return null;
 
- 
+  if (Error.error) return null;
+
+  if (
+    pathname === "/signup/success" ||
+    pathname === `/${auth.userId}/success` ||
+    pathname === "/conditions" ||
+    pathname === "/messages"
+    
+  )
+    return null;
 
   return (
-      <header className = {scrolled === false ? "header content_wrapper" : "header content_wrapper sticky" } >
-        {props.children}
-      </header>
-  )
+    <header
+      className={
+        scrolled === false
+          ? "header content_wrapper"
+          : "header content_wrapper sticky"
+      }
+    >
+      {props.children}
+    </header>
+  );
 };
 
 export default MainHeader;

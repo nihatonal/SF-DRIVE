@@ -1,12 +1,14 @@
-import React from "react";
+import React,{useContext} from "react";
 
 import Logo from "../../shared/Components/Navigation/Logo";
 import Button from "../../shared/Components/FormElements/Button";
 import Success from "../../assets/images/addcarsuccess.png";
+import { AuthContext } from "../../shared/context/auth-context";
 
 import "./AddCarSuccess.css";
 
 const SignUpSuccess = () => {
+  const auth = useContext(AuthContext);
   return (
     <React.Fragment>
       <Logo />
@@ -20,7 +22,7 @@ const SignUpSuccess = () => {
           пройдёт проверку модераторами.
         </p>
 
-        <Button size={" button--big"} to={"/usercars"}>
+        <Button size={" button--big"} to={`/${auth.userId}/cars`}>
           Перейти на главную
         </Button>
       </div>

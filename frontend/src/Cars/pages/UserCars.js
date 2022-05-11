@@ -17,34 +17,30 @@ const UserCars = () => {
   const shared = useContext(ShareContext);
   const navigate = useNavigate();
   const [loadedCars, setLoadedCars] = useState();
-  //const { isLoading, sendRequest } = useHttpClient();
   const [loading, setLoading] = useState(false);
+  const [noCars, setNoCars] = useState(false);
   const userId = auth.userId;
 
   useEffect(() => {
-    setLoading(true)
+    setLoading(true);
     const fetchPlaces = async () => {
       return axios
         .get(`http://localhost:5000/api/cars/user/${userId}`, {
           headers: {
-            Authorization: 'Bearer ' + auth.token,
+            Authorization: "Bearer " + auth.token,
             "Content-Type": "application/json",
           },
         })
         .then((res) => {
           setLoadedCars(res.data.cars);
-          setLoading(false)
+          setLoading(false);
+          setNoCars(false);
+        })
+        .catch((error) => {
+          console.log(error);
+          setLoading(false);
+          setNoCars(true);
         });
-
-      //   try {
-      //     const responseData = await sendRequest(
-      //       `http://localhost:5000/api/cars/user/${userId}`,
-      //       {
-      //         Authorization: 'Bearer ' + auth.token
-      //       }
-      //     );
-      //     setLoadedCars(responseData.cars);
-      //   } catch (err) {}
     };
     fetchPlaces();
   }, [userId]);
@@ -64,7 +60,7 @@ const UserCars = () => {
         className="usercars-container"
         style={loadedCars && { marginTop: "150px" }}
       >
-        {loading && (
+        {loading && !noCars && (
           <div className="loading-wrapper">
             <i className="fa fa-circle-o-notch fa-spin"></i>
           </div>
@@ -74,7 +70,7 @@ const UserCars = () => {
           <CarList cars={loadedCars} onClick={modalHandler} />
         )}
 
-        {!loading && !loadedCars && (
+        {!loading && noCars && (
           <div className="usercars-content">
             <img src={Mycar} alt="usercars" />
             <h2 className="usercars-content-title">

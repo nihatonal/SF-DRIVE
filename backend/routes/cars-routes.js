@@ -22,12 +22,7 @@ router.post('/',
     carControllers.createCar);
 
 router.patch('/:cid',
-    [
-        check('title')
-        .not()
-        .isEmpty(),
-        check('description').isLength({ min: 5 })
-    ],
+   
     carControllers.updateCar);
 
 router.delete('/:cid', carControllers.deleteCar);

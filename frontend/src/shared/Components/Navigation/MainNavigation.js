@@ -75,8 +75,7 @@ const MainNavigation = () => {
     auth.logout();
   };
 
-  const state = 400;
-  if (state === 400) {
+
     return (
       <React.Fragment>
         {drawerIsOpen && <Backdrop onClick={closeDrawerHandler} />}
@@ -138,7 +137,7 @@ const MainNavigation = () => {
         <MainHeader>
           <div className="header__wrapper content-container">
             <div className={"header__logo"}>
-              <Link className={"header__logo-name"} to="/">
+              <Link className={"header__logo-name"} to={auth.isLoggedIn ? `/rentacar` : "/"}>
                 <p>SkillDrive</p>
               </Link>
               <div className={"header__logo-line first"}></div>
@@ -176,9 +175,6 @@ const MainNavigation = () => {
         </MainHeader>
       </React.Fragment>
     );
-  } else {
-    return null;
-  }
 };
 
 export default MainNavigation;

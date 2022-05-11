@@ -53,6 +53,10 @@ const SignInModal = (props) => {
       //console.log('logged in', auth.userId )
       auth.login(responseData.userId, responseData.token);
       setClose(true);
+      localStorage.removeItem('carData');
+      localStorage.removeItem('carOptions');
+      localStorage.removeItem('initialImages');
+      localStorage.removeItem('selectedCar');
       navigate("/rentacar");
     } catch (err) {}
   };

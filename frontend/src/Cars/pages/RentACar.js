@@ -9,7 +9,7 @@ import { AuthContext } from "../../shared/context/auth-context";
 import Button from "../../shared/Components/FormElements/Button";
 import { useNavigate } from "react-router-dom";
 import date_picker from "../../assets/icons/calender.svg";
-import axios from "axios";  
+import axios from "axios";
 
 import "./RentACar.css";
 const RentACar = () => {
@@ -24,17 +24,17 @@ const RentACar = () => {
 
   useEffect(() => {
     const fetchCars = async () => {
-      setLoading(true)
+      setLoading(true);
       return axios
         .get(`http://localhost:5000/api/cars/`, {
           headers: {
-            Authorization: 'Bearer ' + auth.token,
+            Authorization: "Bearer " + auth.token,
             "Content-Type": "application/json",
           },
         })
         .then((res) => {
           setLoadedCars(res.data.cars);
-          setLoading(false)
+          setLoading(false);
         });
       // try {
       //   const responseData = await sendRequest(
@@ -109,6 +109,11 @@ const RentACar = () => {
 
       <div className="recommended-cars-container">
         <h3>Рекомендуем поблизости</h3>
+        {loading && (
+          <div className="loading-wrapper">
+            <i className="fa fa-circle-o-notch fa-spin"></i>
+          </div>
+        )}
         {loadedCars && (
           <div className="recommended-cars-wrapper">
             {loadedCars.map((item) => (

@@ -13,6 +13,7 @@ const Select = (props) => {
   const onChangeHandler = (item) => {
     setShowList(false);
     setSelectedItem(item);
+   // console.log(item)
   };
   return (
     <>
@@ -28,14 +29,16 @@ const Select = (props) => {
         />
         <p
           className={`select-input ${props.classSelectInput}`}
+          style={props.styleSelectInput}
           onClick={openHandler}
         >
-          {selectedItem || props.value}
+          {props.value}
+          {props.selected}
         </p>
         {showList && (
           <div id="droplist" className="droplist-container">
             {props.data.map((x, y) => (
-              <div className="droplist-item" key={y}>
+              <div className="droplist-item" key={y} onChange={props.onChange}>
                 <input
                   className="radio"
                   id={y}

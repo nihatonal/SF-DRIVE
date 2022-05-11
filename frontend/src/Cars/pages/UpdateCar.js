@@ -15,7 +15,7 @@ import Infocars from "../../assets/infocars.json";
 import { useForm } from "../../shared/hooks/SignUpFrom-hook";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import { useWindowDimensions } from "../../shared/hooks/useWindowDimensions";
-import AddOptionCar from "../components/AddOptionCar";
+import UpdateOptionCar from "../components/UpdateOptionCar";
 import Select from "../../shared/Components/FormElements/Select";
 
 import "../components/AddCar.css";
@@ -27,16 +27,17 @@ const UpdateCar = () => {
   const [error, SetError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [loadedCar, setLoadedCar] = useState();
+  const [initialStatus, setInitialStatus] = useState(false);
   const carId = useParams().cid;
-  
+
   const [formState, inputHandler, setFormData] = useForm(
     {
       brand: {
-        value: "Audi",
+        value: "",
         isValid: true,
       },
       model: {
-        value: "AudiA1",
+        value: "",
         isValid: true,
       },
       year: {
@@ -52,15 +53,15 @@ const UpdateCar = () => {
         isValid: false,
       },
       car_body: {
-        value: "Седан",
+        value: "",
         isValid: true,
       },
       color: {
-        value: "Белый",
+        value: "",
         isValid: true,
       },
       engine_type: {
-        value: "Бензин",
+        value: "",
         isValid: true,
       },
       engine_volume: {
@@ -72,7 +73,7 @@ const UpdateCar = () => {
         isValid: false,
       },
       engine_transmission: {
-        value: "Автомат",
+        value: "",
         isValid: true,
       },
       engine_run: {
@@ -114,24 +115,6 @@ const UpdateCar = () => {
   const calcHorsePower = (x) => {
     return (x / 1.36).toFixed(3);
   };
-
-  const brandItems = [
-    ...new Set([].concat(Cardb.map((item) => item.brand)).flat()),
-  ];
-
-  let selectedModels;
-
-  selectedModels = [
-    ...new Set(
-      []
-        .concat(
-          Cardb.filter((auto) =>
-            auto.brand.includes(formState.inputs.brand.value)
-          ).map((item) => item.model)
-        )
-        .flat()
-    ),
-  ];
 
   useEffect(() => {
     const fetchPlace = async () => {
@@ -234,6 +217,24 @@ const UpdateCar = () => {
     fetchPlace();
   }, [sendRequest, carId, setFormData]);
 
+  const brandItems = [
+    ...new Set([].concat(Cardb.map((item) => item.brand)).flat()),
+  ];
+
+  let selectedModels;
+
+  selectedModels = [
+    ...new Set(
+      []
+        .concat(
+          Cardb.filter((auto) =>
+            auto.brand.includes(formState.inputs.brand.value)
+          ).map((item) => item.model)
+        )
+        .flat()
+    ),
+  ];
+
   const signupFormHandler = async (e) => {
     e.preventDefault();
 
@@ -323,20 +324,20 @@ const UpdateCar = () => {
       localStorage.setItem(
         "carData",
         JSON.stringify({
-          brand: formState.inputs.brand.value,
-          model: formState.inputs.model.value,
-          year: formState.inputs.year.value,
+          brand: loadedCar.brand,
+          model: loadedCar.model,
+          year: loadedCar.year,
           plate_number: formState.inputs.plate_number.value,
-          vin_number: formState.inputs.vin_number.value,
-          car_body: formState.inputs.car_body.value,
-          color: formState.inputs.color.value,
-          engine_type: formState.inputs.engine_type.value,
-          engine_volume: formState.inputs.engine_volume.value,
-          engine_power: formState.inputs.engine_power.value,
-          engine_transmission: formState.inputs.engine_transmission.value,
+          vin_number: loadedCar.vin_number,
+          car_body: loadedCar.car_body,
+          color: loadedCar.color,
+          engine_type: loadedCar.engine_type,
+          engine_volume: loadedCar.engine_volume,
+          engine_power: loadedCar.engine_power,
+          engine_transmission: loadedCar.engine_transmission,
           engine_run: formState.inputs.engine_run.value,
-          pts: formState.inputs.pts.value,
-          sts: formState.inputs.sts.value,
+          pts: loadedCar.pts,
+          sts: loadedCar.sts,
           price: formState.inputs.price.value,
           price_for3: formState.inputs.price_for3.value,
           price_more5: formState.inputs.price_more5.value,
@@ -363,6 +364,7 @@ const UpdateCar = () => {
     setStepTwo(false);
     setIsLoading(false);
     setPositionUp(false);
+    setInitialStatus(true)
   };
 
   //After submit scroll butoon up
@@ -380,7 +382,7 @@ const UpdateCar = () => {
         <form className="form__container-addcar" onSubmit={signupFormHandler}>
           <div className={"form__container-head"}>
             <p className={"form__container-head-subtitle"}>Шаг 1 из 4</p>
-            <h1 className={"form__container-head-title"}>Новый автомобиль</h1>
+            <h1 className={"form__container-head-title"}>Редактировать автомобиль</h1>
           </div>
 
           <div className="form-content info-car">
@@ -397,10 +399,12 @@ const UpdateCar = () => {
               initialValid={true}
               src={menu_dropdown}
               classNameWrapper="inputWrapper"
+              style={{pointerEvents:'none'}}
             >
               <Select
                 data={brandItems}
                 value={loadedCar.brand || formState.inputs.brand.value}
+                styleSelectInput={{ color:'#e0e0e0'}}
               />
             </Input>
 
@@ -411,14 +415,15 @@ const UpdateCar = () => {
               validators={[VALIDATOR_REQUIRE()]}
               onInput={inputHandler}
               placeholderclassName="input-hidden"
-              className="br-grey"
               initialValue={formState.inputs.model.value}
               initialValid={true}
               classNameWrapper="inputWrapper"
+              style={{pointerEvents:'none'}}
             >
               <Select
                 data={selectedModels}
                 value={loadedCar.model || formState.inputs.model.value}
+                styleSelectInput={{ color:'#e0e0e0'}}
               />
             </Input>
 
@@ -439,6 +444,7 @@ const UpdateCar = () => {
               initialValue={loadedCar.year || formState.inputs.year.value}
               initialValid={true}
               classNameWrapper="inputWrapper"
+              style={{pointerEvents:'none',color:'#e0e0e0'}}
             />
             <Input
               id="plate_number"
@@ -450,8 +456,8 @@ const UpdateCar = () => {
               placeholder="А000АА000"
               placeholderclassName="input-hidden"
               className="input-short br-grey"
-              initialValue={
-                loadedCar.plate_number || formState.inputs.plate_number.value
+              initialValue={!initialStatus ?
+                loadedCar.plate_number : formState.inputs.plate_number.value
               }
               initialValid={true}
               classNameWrapper="inputWrapper"
@@ -471,6 +477,7 @@ const UpdateCar = () => {
               }
               initialValid={true}
               classNameWrapper="inputWrapper"
+              style={{pointerEvents:'none',color:'#e0e0e0'}}
             />
             <Input
               id="color"
@@ -483,10 +490,12 @@ const UpdateCar = () => {
               initialValid={true}
               src={menu_dropdown}
               classNameWrapper="inputWrapper"
+              style={{pointerEvents:'none'}}
             >
               <Select
                 data={Infocars[0].color}
                 value={loadedCar.color || formState.inputs.color.value}
+                styleSelectInput={{ color:'#e0e0e0'}}
               />
             </Input>
             <Input
@@ -502,10 +511,12 @@ const UpdateCar = () => {
               initialValid={true}
               src={menu_dropdown}
               classNameWrapper="inputWrapper"
+              style={{pointerEvents:'none'}}
             >
               <Select
                 data={Infocars[3].carbody}
                 value={loadedCar.car_body || formState.inputs.car_body.value}
+                styleSelectInput={{ color:'#e0e0e0'}}
               />
             </Input>
             <Input
@@ -521,12 +532,14 @@ const UpdateCar = () => {
               initialValid={true}
               src={menu_dropdown}
               classNameWrapper="inputWrapper"
+              style={{pointerEvents:'none'}}
             >
               <Select
                 data={Infocars[1].engine}
                 value={
                   loadedCar.engine_type || formState.inputs.engine_type.value
                 }
+                styleSelectInput={{ color:'#e0e0e0'}}
               />
             </Input>
 
@@ -545,6 +558,7 @@ const UpdateCar = () => {
               }
               initialValid={true}
               classNameWrapper="inputWrapper"
+              style={{pointerEvents:'none',color:'#e0e0e0'}}
             />
             <div className="engine_power">
               <span>Мощность</span>
@@ -563,6 +577,7 @@ const UpdateCar = () => {
                 }
                 initialValid={true}
                 classNameWrapper="input-small"
+                style={{pointerEvents:'none',color:'#e0e0e0'}}
               />
               <p className="engine_power_kw">
                 {calcHorsePower(
@@ -585,6 +600,7 @@ const UpdateCar = () => {
               initialValid={true}
               src={menu_dropdown}
               classNameWrapper="inputWrapper"
+              style={{pointerEvents:'none'}}
             >
               <Select
                 data={Infocars[2].transmission}
@@ -592,6 +608,7 @@ const UpdateCar = () => {
                   loadedCar.engine_transmission ||
                   formState.inputs.engine_transmission.value
                 }
+                styleSelectInput={{ color:'#e0e0e0'}}
               />
             </Input>
 
@@ -605,8 +622,8 @@ const UpdateCar = () => {
               onInput={inputHandler}
               placeholderclassName="input-hidden"
               className="input-short br-grey"
-              initialValue={
-                loadedCar.engine_run || formState.inputs.engine_run.value
+              initialValue={ !initialStatus ? 
+                loadedCar.engine_run : formState.inputs.engine_run.value
               }
               initialValid={true}
               classNameWrapper="inputWrapper"
@@ -624,6 +641,7 @@ const UpdateCar = () => {
               initialValue={loadedCar.pts || formState.inputs.pts.value}
               initialValid={true}
               classNameWrapper="inputWrapper"
+              style={{pointerEvents:'none',color:'#e0e0e0'}}
             />
             <Input
               id="sts"
@@ -635,7 +653,7 @@ const UpdateCar = () => {
               onInput={inputHandler}
               placeholderclassName="input-hidden"
               className="br-grey"
-              initialValue={loadedCar.sts || formState.inputs.sts.value}
+              initialValue={!initialStatus ? loadedCar.sts : formState.inputs.sts.value}
               initialValid={true}
               classNameWrapper="inputWrapper"
             />
@@ -653,7 +671,7 @@ const UpdateCar = () => {
               onInput={inputHandler}
               placeholderclassName="input-hidden"
               className="input-short br-grey"
-              initialValue={loadedCar.price || formState.inputs.price.value}
+              initialValue={!initialStatus ? loadedCar.price : formState.inputs.price.value}
               initialValid={true}
               classNameWrapper="inputWrapper"
             />
@@ -667,8 +685,8 @@ const UpdateCar = () => {
               onInput={inputHandler}
               placeholderclassName="input-hidden"
               className="input-short br-grey"
-              initialValue={
-                loadedCar.price_for3 || formState.inputs.price_for3.value
+              initialValue={!initialStatus ? 
+                loadedCar.price_for3 : formState.inputs.price_for3.value
               }
               initialValid={true}
               classNameWrapper="inputWrapper"
@@ -683,8 +701,8 @@ const UpdateCar = () => {
               onInput={inputHandler}
               placeholderclassName="input-hidden"
               className="input-short br-grey"
-              initialValue={
-                loadedCar.price_more5 || formState.inputs.price_more5.value
+              initialValue={!initialStatus ?
+                loadedCar.price_more5 : formState.inputs.price_more5.value
               }
               initialValid={true}
               classNameWrapper="inputWrapper"
@@ -703,7 +721,7 @@ const UpdateCar = () => {
               onInput={inputHandler}
               placeholderclassName="input-hidden"
               className="br-grey"
-              initialValue={loadedCar.policy || formState.inputs.policy.value}
+              initialValue={!initialStatus ? loadedCar.policy : formState.inputs.policy.value}
               initialValid={true}
               classNameWrapper="inputWrapper"
             />
@@ -718,8 +736,8 @@ const UpdateCar = () => {
                 validators={[VALIDATOR_REQUIRE()]}
                 placeholderclassName="input-hidden"
                 className="br-grey"
-                initialValue={
-                  loadedCar.insurance || formState.inputs.insurance.value
+                initialValue={!initialStatus ?
+                  loadedCar.insurance : formState.inputs.insurance.value
                 }
                 initialValid={true}
                 classNameWrapper="inputWrapper"
@@ -744,7 +762,7 @@ const UpdateCar = () => {
           </div>
         </form>
       )}
-      {stepTwo && <AddOptionCar onClick={stepTwoHandler} />}
+      {stepTwo && <UpdateOptionCar onClick={stepTwoHandler} />}
     </>
   );
 };

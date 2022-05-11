@@ -1,5 +1,4 @@
-import React, { useState, useContext, useEffect, useCallback } from "react";
-
+import React, { useState, useEffect, useCallback } from "react";
 
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import axios from "axios";
@@ -14,7 +13,6 @@ import { FaArrowLeft } from "react-icons/fa";
 import "./AddCarImages.css";
 
 const AddCarImages = (props) => {
-
   const { isLoading, sendRequest } = useHttpClient();
   const [is_Loading, setIsLoading] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -35,9 +33,8 @@ const AddCarImages = (props) => {
   });
 
   const uploadphotos = formState.inputs.images.value;
-  const infos = [];
-  const initialImages = [];
-
+  const infos = []; 
+  
   const uploadImage = useCallback(() => {
     if (!uploadphotos) return;
     const uploadPhoto = async () => {
@@ -68,14 +65,6 @@ const AddCarImages = (props) => {
               setImageFile(...imageFile, response.data.data[0].path);
               infos.push(response.data.data[0]);
               setLoading(true);
-              initialImages.push(response.data.data);
-
-              // localStorage.setItem(
-              //   "carImages",
-              //   JSON.stringify({
-              //     initialImages,
-              //   })
-              // );
             });
         } catch (err) {
           setLoading(false);
@@ -130,8 +119,6 @@ const AddCarImages = (props) => {
     // );
   };
 
-
-  
   const sendPhoto = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -152,9 +139,8 @@ const AddCarImages = (props) => {
       );
       setTimeout(() => {
         setStepThree(false);
-      setStepFour(true);
+        setStepFour(true);
       }, 2000);
-      
     } catch (err) {
       setErrorSend(true);
     }

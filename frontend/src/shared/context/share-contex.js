@@ -8,5 +8,6 @@ export const ShareContext = createContext({
     options:[],
     services:[],
     error: false,
-    selectedCar: {}
+    selectedCar: {},
+    notFound:false
 });

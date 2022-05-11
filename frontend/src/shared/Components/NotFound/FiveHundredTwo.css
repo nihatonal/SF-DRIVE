@@ -5,8 +5,11 @@
 .notfound {
     position: absolute;
     top: 31px;
-    left: 40px;
+    left: 33px;
     z-index: 99;
+}
+.notfound .header__logo-line {
+    left: 40px;
 }
 .notfound-content {
     height: 538px;

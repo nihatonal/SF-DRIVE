@@ -69,10 +69,10 @@ const CarInfo = (props) => {
             src={`http://localhost:5000/${props.thirdImg}`}
             alt={props.model}
           />
-          <p
+          {props.images.length > 1 && <p
             className="carinfo-image-count"
             onClick={props.onClick}
-          >{`+ ещё  фото ${props.images.length - 3}`}</p>
+          >{`+ ещё  фото ${props.images.length - 3}`}</p>}
         </div>
       </div>
       <div className="carinfo-maincontent-wrapper">

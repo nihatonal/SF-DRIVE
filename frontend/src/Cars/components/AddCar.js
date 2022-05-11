@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Input from "../../shared/Components/FormElements/Input";
 import Button from "../../shared/Components/FormElements/Button";
 import SendError from "../../SignUpPage/components/SendError";
@@ -25,6 +25,8 @@ const AddCar = () => {
   const [stepTwo, setStepTwo] = useState(false); //false
   const [error, SetError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [selected, setSelected] = useState();
+  const [selectedItem, setSelectedItem] = useState();
 
   const [formState, inputHandler, setFormData] = useForm(
     {
@@ -33,7 +35,7 @@ const AddCar = () => {
         isValid: true,
       },
       model: {
-        value: "AudiA1",
+        value: "",
         isValid: true,
       },
       year: {
@@ -69,7 +71,7 @@ const AddCar = () => {
         isValid: false,
       },
       engine_transmission: {
-        value: "Автомат",
+        value: "Автомат / Передний привод",
         isValid: true,
       },
       engine_run: {
@@ -117,19 +119,37 @@ const AddCar = () => {
     ...new Set([].concat(Cardb.map((item) => item.brand)).flat()),
   ];
 
-  let selectedModels;
+  useEffect(() => {
+    setSelected([
+      ...new Set(
+        []
+          .concat(
+            Cardb.filter((auto) =>
+              auto.brand.includes(formState.inputs.brand.value)
+            ).map((item) => item.model)
+          )
+          .flat()
+      ),
+    ]);
 
-  selectedModels = [
-    ...new Set(
-      []
-        .concat(
-          Cardb.filter((auto) =>
-            auto.brand.includes(formState.inputs.brand.value)
-          ).map((item) => item.model)
-        )
-        .flat()
-    ),
-  ];
+    setSelectedItem(
+      [
+        ...new Set(
+          []
+            .concat(
+              Cardb.filter((auto) =>
+                auto.brand.includes(formState.inputs.brand.value)
+              ).map((item) => item.model)
+            )
+            .flat()
+        ),
+      ][0]
+    );
+  }, [formState.inputs.brand.value]);
+
+  const OnChangeModel = (e) => {
+    setSelectedItem(e.target.value);
+  };
 
   const signupFormHandler = async (e) => {
     e.preventDefault();
@@ -221,7 +241,7 @@ const AddCar = () => {
         "carData",
         JSON.stringify({
           brand: formState.inputs.brand.value,
-          model: formState.inputs.model.value,
+          model: selectedItem,
           year: formState.inputs.year.value,
           plate_number: formState.inputs.plate_number.value,
           vin_number: formState.inputs.vin_number.value,
@@ -305,14 +325,14 @@ const AddCar = () => {
               validators={[VALIDATOR_REQUIRE()]}
               onInput={inputHandler}
               placeholderclassName="input-hidden"
-              className="br-grey"
               initialValue={formState.inputs.model.value}
               initialValid={formState.inputs.model.isValid}
               classNameWrapper="inputWrapper"
             >
               <Select
-                data={selectedModels}
-                value={selectedModels[0] || formState.inputs.model.value}
+                data={selected}
+                value={selected && selectedItem}
+                onChange={OnChangeModel}
               />
             </Input>
 

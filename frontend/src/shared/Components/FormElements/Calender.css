@@ -14,6 +14,9 @@ body {
   align-items: center;
   justify-content: space-between;
   padding-bottom: 27px;
+  background:#fff;
+  position: relative;
+  z-index: 99;
 }
 .calendar--nav {
   color: #fff;

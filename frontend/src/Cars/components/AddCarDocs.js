@@ -139,7 +139,7 @@ const AddCarDocs = (props) => {
 
   const sendPhoto = async (e) => {
     e.preventDefault();
-   
+
     let pathInfo = [];
     theArray.map((file) => {
       pathInfo.push(file.path);
@@ -157,7 +157,7 @@ const AddCarDocs = (props) => {
           year: carInfo.year,
           plate_number: carInfo.plate_number,
           vin_number: carInfo.vin_number,
-          car_body:carInfo.car_body,
+          car_body: carInfo.car_body,
           color: carInfo.color,
           engine_type: carInfo.engine_type,
           engine_volume: parseFloat(carInfo.engine_volume).toFixed(1),
@@ -179,13 +179,13 @@ const AddCarDocs = (props) => {
         }),
         {
           "Content-Type": "application/json",
-          Authorization: 'Bearer ' + auth.token
+          Authorization: "Bearer " + auth.token,
         }
       );
-      localStorage.removeItem('carData');
-      localStorage.removeItem('carOptions');
-      localStorage.removeItem('carImages');
-      navigate('/user/usercars/success'); 
+      localStorage.removeItem("carData");
+      localStorage.removeItem("carOptions");
+      localStorage.removeItem("carImages");
+      navigate(`/${auth.userId}/success`);
     } catch (err) {}
 
     window.scrollTo({ top: 0, behavior: "smooth" });

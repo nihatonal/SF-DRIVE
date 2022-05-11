@@ -12,10 +12,10 @@ import MainFooter from "./shared/Components/Footer/MainFooter";
 import SignUpPage from "./SignUpPage/pages/SignUpPage";
 import SignUpPhoto from "./SignUpPage/pages/SignUpPhoto";
 import UserDocs from "./SignUpPage/pages/UserDocs";
-import FiveHundredTwo from "./shared/Components/NotFound/FiveHundredTwo";
-import FourHunderFour from "./shared/Components/NotFound/FourHunderFour";
 import SignUpSuccess from "./SignUpPage/pages/SignUpSuccess";
 
+import FiveHundredTwo from "./shared/Components/NotFound/FiveHundredTwo";
+import FourHunderFour from "./shared/Components/NotFound/FourHunderFour";
 
 import RentACar from "./Cars/pages/RentACar";
 import RentUserCar from "./Cars/pages/RentUserCar";
@@ -26,14 +26,14 @@ import UserCar from "./Cars/pages/UserCar";
 import UpdateCar from "./Cars/pages/UpdateCar";
 
 import { AuthContext } from "./shared/context/auth-context";
-import { useAuth } from './shared/hooks/auth-hook';
+import { useAuth } from "./shared/hooks/auth-hook";
 
 import "./App.css";
 
-
 function App() {
-  
+
   const { token, login, logout, userId } = useAuth();
+
 
   const Wrapper = ({ children }) => {
     const location = useLocation();
@@ -51,12 +51,12 @@ function App() {
       <React.Fragment>
         <Route exact path="/rentacar" element={<RentACar />} />
         <Route exact path="/rentacar/:cid" element={<RentUserCar />} />
-        <Route exact path="/:userId/cars" element={<UserCars/>} />
-        <Route exact path="/:userId/:cid" element={<UserCar/>} />
-        <Route exact path="/:userId/addcar" element={<AddCar/>} />
-        <Route exact path="/cars/:cid" element={<UpdateCar/>} />
-        <Route exact path="/:userId/success" element={<AddCarSuccess/>} />
-        <Route path="*" element={<FourHunderFour />} />
+        <Route exact path="/:userId/cars" element={<UserCars />} />
+        <Route exact path="/:userId/:cid" element={<UserCar />} />
+        <Route exact path="/:userId/addcar" element={<AddCar />} />
+        <Route exact path="/cars/:cid" element={<UpdateCar />} />
+        <Route exact path="/:userId/success" element={<AddCarSuccess />} />
+        <Route exact path="*" element={<FourHunderFour />} />
       </React.Fragment>
     );
   } else {

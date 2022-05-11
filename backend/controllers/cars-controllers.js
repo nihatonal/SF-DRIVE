@@ -1,4 +1,4 @@
-const fs = require('fs');
+const fs = require("fs");
 const { validationResult } = require("express-validator");
 const mongoose = require("mongoose");
 
@@ -165,10 +165,7 @@ const createCar = async (req, res, next) => {
   }
 
   if (!user) {
-    const error = new HttpError(
-      `Could not find user for provided id.`,
-      404
-    );
+    const error = new HttpError(`Could not find user for provided id.`, 404);
     return next(error);
   }
 
@@ -203,7 +200,21 @@ const updateCar = async (req, res, next) => {
     );
   }
 
-  const { title, description } = req.body;
+  const {
+    plate_number,
+    engine_run,
+    sts,
+    price,
+    price_for3,
+    price_more5,
+    policy,
+    insurance,
+    options,
+    services,
+    images,
+    carDocs
+  } = req.body;
+
   const carId = req.params.cid;
 
   let car;
@@ -222,14 +233,24 @@ const updateCar = async (req, res, next) => {
     return next(error);
   }
 
-  car.title = title;
-  car.description = description;
+  car.plate_number = plate_number,
+    car.engine_run = engine_run,
+    car.sts = sts,
+    car.price = price,
+    car.price_for3 = price_for3,
+    car.price_more5 = price_more5,
+    car.policy = policy,
+    car.insurance = insurance,
+    car.options = options,
+    car.services = services,
+    car.images = images,
+    car.carDocs= carDocs
 
   try {
     await car.save();
   } catch (err) {
     const error = new HttpError(
-      "Something went wrong, could not update place!!.",
+      "Something went wrong, could not update car!!.",
       500
     );
     return next(error);
@@ -261,7 +282,7 @@ const deleteCar = async (req, res, next) => {
 
   if (car.owner.id !== req.userData.userId) {
     const error = new HttpError("You are now allowed to delete this car.", 401);
-   
+
     return next(error);
   }
 

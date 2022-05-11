@@ -36,7 +36,7 @@ const UserCar = () => {
       );
           setSelectedCar(null);
           localStorage.removeItem('selectedCar');
-          navigate("/usercars");
+          navigate(`/${auth.userId}/cars`);
     } catch (err) {}
   };
 
