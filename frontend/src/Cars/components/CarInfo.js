@@ -17,10 +17,11 @@ const CarInfo = (props) => {
   const userId = auth.userId;
 
   useEffect(() => {
+    
     const fetchPlaces = async () => {
       try {
         const responseData = await sendRequest(
-          `http://localhost:5000/api/users/${props.owner}`
+          process.env.REACT_APP_BACKEND_URL +`/users/${props.owner}`
         );
         setLoadedUser(responseData.user);
       } catch (err) {}
@@ -34,6 +35,7 @@ const CarInfo = (props) => {
     return newStr;
   };
 
+
   return (
     <div className="carinfo-container">
       <div className="carinfo-images_wrapper">
@@ -43,7 +45,7 @@ const CarInfo = (props) => {
         >
           <img
             className={`main-img`}
-            src={`http://localhost:5000/${props.mainImg}`}
+            src={process.env.REACT_APP_ASSETS_URL +`${props.mainImg}`}
             alt={props.model}
           />
           <div className="image-icon_wrapper" onClick={props.onClick}>
@@ -56,7 +58,7 @@ const CarInfo = (props) => {
         >
           <img
             className={`second-img`}
-            src={`http://localhost:5000/${props.secondImg}`}
+            src={process.env.REACT_APP_ASSETS_URL +`${props.secondImg}`}
             alt={props.model}
           />
         </div>
@@ -66,7 +68,7 @@ const CarInfo = (props) => {
         >
           <img
             className={`second-img`}
-            src={`http://localhost:5000/${props.thirdImg}`}
+            src={process.env.REACT_APP_ASSETS_URL +`${props.thirdImg}`}
             alt={props.model}
           />
           {props.images.length > 1 && <p
@@ -97,7 +99,7 @@ const CarInfo = (props) => {
           {loadedUser && (
             <Avatar
               className={"owner-wrapper-image"}
-              image={`http://localhost:5000/${loadedUser.image}`}
+              image={process.env.REACT_APP_ASSETS_URL +`${loadedUser.image}`}
               alt={"avatar"}
             />
           )}

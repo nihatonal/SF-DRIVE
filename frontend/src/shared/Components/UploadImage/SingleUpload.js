@@ -42,7 +42,7 @@ const ImageUpload = props => {
     formData.append(props.id, file);
     formData.append('image', formState.inputs.image.value);
     const responseData = await sendRequest(
-      'http://localhost:5000/api/users/userphoto',
+      process.env.REACT_APP_BACKEND_URL +'/users/userphoto',
       'POST',
       formData,
     );

@@ -26,7 +26,7 @@ const RentACar = () => {
     const fetchCars = async () => {
       setLoading(true);
       return axios
-        .get(`http://localhost:5000/api/cars/`, {
+        .get(process.env.REACT_APP_BACKEND_URL + "/cars/", {
           headers: {
             Authorization: "Bearer " + auth.token,
             "Content-Type": "application/json",
@@ -36,17 +36,6 @@ const RentACar = () => {
           setLoadedCars(res.data.cars);
           setLoading(false);
         });
-      // try {
-      //   const responseData = await sendRequest(
-      //     `http://localhost:5000/api/cars/`,
-      //     {
-      //       Authorization: "Bearer " + auth.token,
-      //       "Content-Type": "application/json",
-      //     }
-      //   );
-
-      //   setLoadedCars(responseData.cars);
-      // } catch (err) {}
     };
     fetchCars();
   }, [auth.token]);
@@ -55,7 +44,7 @@ const RentACar = () => {
     const fetchCars = async () => {
       try {
         const responseData = await sendRequest(
-          `http://localhost:5000/api/users/`
+          process.env.REACT_APP_BACKEND_URL + "/users/"
         );
 
         setLoadedUser(responseData.users);
@@ -123,7 +112,10 @@ const RentACar = () => {
                 onClick={modalHandler}
               >
                 <div className="recommended-car-item_filter" id={item.id}></div>
-                <img src={`http://localhost:5000/${item.images[0]}`} />
+                <img
+                  src={process.env.REACT_APP_ASSETS_URL + `${item.images[0]}`}
+                  alt="car"
+                />
                 <div className="recommended-car-item-content">
                   <p>{`${item.brand} ${item.model}, ${item.year}`}</p>
                   <p>{`от ${item.price} ₽/сутки`}</p>
@@ -131,9 +123,11 @@ const RentACar = () => {
                 {loadedUser && (
                   <img
                     className="user_photo"
-                    src={`http://localhost:5000/${
-                      getUser(item.owner)[0].image
-                    }`}
+                    src={
+                      process.env.REACT_APP_ASSETS_URL +
+                      `${getUser(item.owner)[0].image}`
+                    }
+                    alt="userImage"
                   />
                 )}
               </div>

@@ -27,7 +27,7 @@ const UserCar = () => {
 
     try {
       await sendRequest(
-        `http://localhost:5000/api/cars/${selectedCar[0].id}`,
+        process.env.REACT_APP_BACKEND_URL +`/cars/${selectedCar[0].id}`,
         "DELETE",
         null,
         {

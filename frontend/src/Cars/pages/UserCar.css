@@ -59,4 +59,16 @@
     top: 17px;
     font-size: 12px;
   }
+  .usercar-container .button-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 375px;
+    height: 144px;
+  }
+  .button-container .toupdatecar,
+  .button-container .btn-delete {
+    width: 335px;
+    margin-left: 0;
+  }
 }

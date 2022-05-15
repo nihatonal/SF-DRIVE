@@ -40,7 +40,7 @@ const Carousel = ({ slides }) => {
           >
             {index === current && (
               <div className="slide-image-wrapper">
-                <img src={`http://localhost:5000/${slide}`} alt={slide} />
+                <img src={process.env.REACT_APP_ASSETS_URL +`${slide}`} alt={slide} />
               </div>
             )}
           </div>

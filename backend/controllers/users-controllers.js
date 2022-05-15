@@ -32,7 +32,7 @@ const getUser = async (req, res, next) => {
     user = await User.findById(userId);  
   } catch(err) {
     const error = new HttpError(
-      'Fetching users failed, please try again later.',
+      'Fetching user failed, please try again later.',
       500
     );
       return next(error);
@@ -131,7 +131,7 @@ const signup = async (req, res, next) => {
     try {
       token = jwt.sign(
         {userId:createdUser.id, email:createdUser.email},
-        'supersecret', 
+        `${process.env.JWT_KEY}`, 
         {expiresIn: '1h'}
       );
     } catch(err) {
@@ -192,7 +192,7 @@ const login = async (req, res, next) => {
   try {
     token = jwt.sign(
       { userId: existingUser.id, email: existingUser.email },
-      'supersecret_dont_share',
+      `${process.env.JWT_KEY}`,
       { expiresIn: '1h' }
     );
   } catch (err) {

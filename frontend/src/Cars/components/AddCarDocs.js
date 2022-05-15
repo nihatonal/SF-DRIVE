@@ -64,7 +64,7 @@ const AddCarDocs = (props) => {
 
         try {
           await axios
-            .post("http://localhost:5000/api/users/userdocs", formData, {
+            .post(process.env.REACT_APP_BACKEND_URL +"/users/userdocs", formData, {
               headers: {
                 "Content-Type": "multipart/form-data",
               },
@@ -88,6 +88,7 @@ const AddCarDocs = (props) => {
           setLoading(false);
           setShowRenew(true);
           setErrorUpload(true);
+          setErrorSend(true)
           if (err.response.status === 500) {
             console.log("There was a problem with the server");
           }
@@ -112,7 +113,7 @@ const AddCarDocs = (props) => {
 
     try {
       await sendRequest(
-        `http://localhost:5000/api/users/userphoto`,
+        process.env.REACT_APP_BACKEND_URL +'/users/userphoto',
         "DELETE",
         JSON.stringify({
           image: deletedItem,
@@ -129,12 +130,6 @@ const AddCarDocs = (props) => {
     theArray.map((file) => {
       pathInfo.push(file);
     });
-    // localStorage.setItem(
-    //   "carImages",
-    //   JSON.stringify({
-    //     pathInfo,
-    //   })
-    // );
   };
 
   const sendPhoto = async (e) => {
@@ -149,7 +144,7 @@ const AddCarDocs = (props) => {
 
     try {
       const responseData = await sendRequest(
-        "http://localhost:5000/api/cars",
+        process.env.REACT_APP_BACKEND_URL +"/cars",
         "POST",
         JSON.stringify({
           brand: carInfo.brand,

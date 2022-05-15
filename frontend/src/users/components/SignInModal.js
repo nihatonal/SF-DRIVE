@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, {useContext} from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
@@ -21,7 +21,7 @@ const SignInModal = (props) => {
   const auth = useContext(AuthContext);
   const navigate = useNavigate();
   const { error, isLoading, sendRequest } = useHttpClient();
-  const [close, setClose] = useState(false);
+  //const [close, setClose] = useState(false);
   const [formState, inputHandler] = useForm(
     {
       email: {
@@ -40,7 +40,7 @@ const SignInModal = (props) => {
     e.preventDefault();
     try {
       const responseData = await sendRequest(
-        "http://localhost:5000/api/users/login",
+        process.env.REACT_APP_BACKEND_URL +"/users/login",
         "POST",
         JSON.stringify({
           email: formState.inputs.email.value,
@@ -52,7 +52,7 @@ const SignInModal = (props) => {
       );
       //console.log('logged in', auth.userId )
       auth.login(responseData.userId, responseData.token);
-      setClose(true);
+      //setClose(true);
       localStorage.removeItem('carData');
       localStorage.removeItem('carOptions');
       localStorage.removeItem('initialImages');

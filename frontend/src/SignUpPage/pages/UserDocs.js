@@ -50,7 +50,7 @@ const UserDocs = () => {
             formData.append('uploadImages', file);
 
         try {
-         await axios.post('http://localhost:5000/api/users/userdocs', formData, {
+         await axios.post(process.env.REACT_APP_BACKEND_URL +'/users/userdocs', formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           },
@@ -101,7 +101,7 @@ const UserDocs = () => {
 
         try {
             await sendRequest(
-              `http://localhost:5000/api/users/userphoto`,
+              process.env.REACT_APP_BACKEND_URL +`/users/userphoto`,
               'DELETE',
               JSON.stringify({
                 image: deletedItem,
@@ -130,7 +130,7 @@ const UserDocs = () => {
         try {
             
             const responseData = await sendRequest(
-              `http://localhost:5000/api/users/userdocs/${userId}`,
+              process.env.REACT_APP_BACKEND_URL +`/users/userdocs/${userId}`,
               'PATCH',
               JSON.stringify({
                 docs: pathInfo,
@@ -161,7 +161,7 @@ const UserDocs = () => {
             const formData = new FormData();
             formData.append('image', formState.inputs.docs.value);
             const responseData = await sendRequest(
-              'http://localhost:5000/api/users/userphoto',
+              process.env.REACT_APP_BACKEND_URL +'/users/userphoto',
               'POST',
               formData,
             );

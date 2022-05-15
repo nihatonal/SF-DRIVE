@@ -2,7 +2,6 @@
   height: 1693px;
   width: 1440px;
   margin-top: 190px;
-  border: 1px solid red;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -97,7 +96,7 @@
 @media screen and (max-width: 767px) {
   .usermain-container {
     width: 375px;
-    height: 3812px;
+    height: 3687px;
     margin-top: 108px;
   }
   .search-title {
@@ -106,6 +105,7 @@
   }
   .search-bar {
     margin-top: 30px;
+    margin-bottom: 40px;
     width: 335px;
     height: 206px;
     flex-direction: column;
@@ -120,5 +120,18 @@
   }
   .search-btn {
     width: 335px;
+  }
+
+  .recommended-cars-container h3 {
+    font-size: 24px;
+    margin-bottom: 30px;
+  }
+  .recommended-cars-wrapper {
+    width: 375px;
+    display: grid;
+    grid-template-columns: auto;
+    justify-items: center;
+    row-gap: 20px;
+    column-gap: 0;
   }
 }

@@ -120,7 +120,7 @@ const UpdateCar = () => {
     const fetchPlace = async () => {
       try {
         const responseData = await sendRequest(
-          `http://localhost:5000/api/cars/${carId}`
+          process.env.REACT_APP_BACKEND_URL +`/cars/${carId}`
         );
         console.log(responseData.car);
         setLoadedCar(responseData.car);

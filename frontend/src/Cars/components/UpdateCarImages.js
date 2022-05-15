@@ -14,7 +14,7 @@ import { FaArrowLeft } from "react-icons/fa";
 import "./AddCarImages.css";
 
 const UpdateCarImages = (props) => {
-  const { isLoading, sendRequest } = useHttpClient();
+  const { sendRequest } = useHttpClient();
   const [is_Loading, setIsLoading] = useState(false);
   const [loading, setLoading] = useState(false);
   const [imageFile, setImageFile] = useState([]);
@@ -62,7 +62,7 @@ const UpdateCarImages = (props) => {
 
         try {
           await axios
-            .post("http://localhost:5000/api/users/userdocs", formData, {
+            .post(process.env.REACT_APP_BACKEND_URL +"/users/userdocs", formData, {
               headers: {
                 "Content-Type": "multipart/form-data",
               },
@@ -93,7 +93,8 @@ const UpdateCarImages = (props) => {
       });
     };
     uploadPhoto();
-  }, [formState.inputs.images.value]);
+  //}, [formState.inputs.images.value]);
+}, []);
 
   useEffect(() => {
     uploadImage();
@@ -110,7 +111,7 @@ const UpdateCarImages = (props) => {
 
     try {
       await sendRequest(
-        `http://localhost:5000/api/users/userphoto`,
+        process.env.REACT_APP_BACKEND_URL +"/users/userphoto",
         "DELETE",
         JSON.stringify({
           image: deletedItem,
@@ -131,7 +132,7 @@ const UpdateCarImages = (props) => {
     const updatedArray = initialImages.filter((img) => img !== deletedItem);
     try {
       await sendRequest(
-        `http://localhost:5000/api/users/userphoto`,
+        process.env.REACT_APP_BACKEND_URL +"/users/userphoto",
         "DELETE",
         JSON.stringify({
           image: deletedItem,

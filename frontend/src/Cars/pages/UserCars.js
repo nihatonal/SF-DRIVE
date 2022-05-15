@@ -4,7 +4,6 @@ import Button from "../../shared/Components/FormElements/Button";
 import CarList from "../components/CarList";
 import { AuthContext } from "../../shared/context/auth-context";
 import { ShareContext } from "../../shared/context/share-contex";
-import { useHttpClient } from "../../shared/hooks/http-hook";
 import Mycar from "../../assets/images/mycar.png";
 import { useNavigate } from "react-router-dom";
 
@@ -25,7 +24,7 @@ const UserCars = () => {
     setLoading(true);
     const fetchPlaces = async () => {
       return axios
-        .get(`http://localhost:5000/api/cars/user/${userId}`, {
+        .get(process.env.REACT_APP_BACKEND_URL +`/cars/user/${userId}`, {
           headers: {
             Authorization: "Bearer " + auth.token,
             "Content-Type": "application/json",

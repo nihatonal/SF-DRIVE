@@ -13,7 +13,7 @@ const SignUpSuccess = () => {
     <React.Fragment>
       <Logo />
       <div className="container-success">
-        <img src={Success} />
+        <img src={Success}  alt={'Success'}/>
 
         <h2 className="container-success-title">Успех!</h2>
 

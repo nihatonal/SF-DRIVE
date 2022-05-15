@@ -39,7 +39,7 @@ const SignUpPhoto = () => {
                 const formData = new FormData();
                 formData.append('image', formState.inputs.image.value);
                 const responseData = await sendRequest(
-                  'http://localhost:5000/api/users/userphoto',
+                  process.env.REACT_APP_BACKEND_URL +'/users/userphoto',
                   'POST',
                   formData,
                 );
@@ -68,7 +68,7 @@ const SignUpPhoto = () => {
         setLoading(true)
         try {
             await sendRequest(
-              `http://localhost:5000/api/users/userphoto/${userId}`,
+              process.env.REACT_APP_BACKEND_URL +`/users/userphoto/${userId}`,
               'PATCH',
               JSON.stringify({
                 image: imageFile,
@@ -99,7 +99,7 @@ const SignUpPhoto = () => {
         setLoading(false);
         try {
             await sendRequest(
-              `http://localhost:5000/api/users/userphoto`,
+              process.env.REACT_APP_BACKEND_URL +`/users/userphoto`,
               'DELETE',
               JSON.stringify({
                 image: imageFile,
@@ -121,7 +121,7 @@ const SignUpPhoto = () => {
             const formData = new FormData();
             formData.append('image', formState.inputs.image.value);
             const responseData = await sendRequest(
-              'http://localhost:5000/api/users/userphoto',
+              process.env.REACT_APP_BACKEND_URL +'/users/userphoto',
               'POST',
               formData,
             );

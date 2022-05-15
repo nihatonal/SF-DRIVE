@@ -10,7 +10,7 @@ const InitialImages = (props) => {
       <div
         className={`preview-img-wrapper mobile-img-wrapper ${props.classPreviewImg}`}
       >
-        <img src={`http://localhost:5000/${props.file}`} alt={props.file} />
+        <img src={process.env.REACT_APP_ASSETS_URL +`${props.file}`} alt={props.file} />
       </div>
 
       <div className={`preview-info ${props.classPrewiewinfo}`}>

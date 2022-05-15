@@ -22,13 +22,12 @@ const RentUserCar = () => {
     const selectedCar = JSON.parse(localStorage.getItem("selectedCar"));
     setSelectedCar(selectedCar);
   }, []);
-  console.log(selectedCar);
 
   const confirmDeleteHandler = async () => {
 
     try {
       await sendRequest(
-        `http://localhost:5000/api/cars/${selectedCar[0].id}`,
+        process.env.REACT_APP_BACKEND_URL +`/cars/${selectedCar[0].id}`,
         "DELETE",
         null,
         {

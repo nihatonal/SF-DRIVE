@@ -46,7 +46,7 @@ const OptionCar = (props) => {
       <div className="input_car-wrapper">
         <label className="input_car-placeholder">Категория</label>
         <img
-          className="menu-dropdown"
+          className="menu-dropdown search-car"
           src={menu_dropdown}
           alt="menu-dropdown"
         />

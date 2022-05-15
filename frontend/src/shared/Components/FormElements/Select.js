@@ -6,13 +6,11 @@ import "./Select.css";
 
 const Select = (props) => {
   const [showList, setShowList] = useState(false);
-  const [selectedItem, setSelectedItem] = useState();
   const openHandler = () => {
     setShowList(true);
   };
   const onChangeHandler = (item) => {
     setShowList(false);
-    setSelectedItem(item);
    // console.log(item)
   };
   return (

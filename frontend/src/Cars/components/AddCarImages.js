@@ -46,7 +46,7 @@ const AddCarImages = (props) => {
 
         try {
           await axios
-            .post("http://localhost:5000/api/users/userdocs", formData, {
+            .post(process.env.REACT_APP_BACKEND_URL +"/users/userdocs", formData, {
               headers: {
                 "Content-Type": "multipart/form-data",
               },
@@ -94,7 +94,7 @@ const AddCarImages = (props) => {
 
     try {
       await sendRequest(
-        `http://localhost:5000/api/users/userphoto`,
+        process.env.REACT_APP_BACKEND_URL +"/users/userphoto",
         "DELETE",
         JSON.stringify({
           image: deletedItem,

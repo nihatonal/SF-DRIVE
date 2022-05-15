@@ -16,14 +16,14 @@ const Heading = ({ date, changeMonth, resetDate, changeYear }) => {
 
   return <nav className="calendar--nav">
   <div className="calender-nav-item">
-      <img src={left} onClick= {() => changeMonth(date.month() - 1)} />
+      <img src={left} onClick= {() => changeMonth(date.month() - 1)}  alt='calender'/>
       <h1 onClick={() => resetDate()}>{str.charAt(0).toUpperCase() + str.slice(1)}</h1>
-      <img src={right} onClick= {() => changeMonth(date.month() + 1)} />
+      <img src={right} onClick= {() => changeMonth(date.month() + 1)}  alt='calender'/>
   </div>
   <div className="calender-nav-item">
-      <img src={left} onClick= {() => changeYear(date.year() - 1)} />
+      <img src={left} onClick= {() => changeYear(date.year() - 1)} alt='calender'/>
       <h1 style={{width: "45px"}} onClick={() => resetDate()}>{date.format('YYYY')}</h1>
-      <img src={right} onClick= {() => changeYear(date.year() + 1)} />
+      <img src={right} onClick= {() => changeYear(date.year() + 1)} alt='calender'/>
   </div>
   
 </nav>
@@ -157,7 +157,7 @@ class Calendar extends React.Component {
 
   changeDate(date) {
     
-    let { startDate, endDate, date_range, isValid, show } = this.state;
+    let { startDate, endDate, date_range, show } = this.state;
 
     if (startDate === null || date.isBefore(startDate, 'day') || !startDate.isSame(endDate, 'day')) {
       startDate = moment(date);
@@ -168,7 +168,6 @@ class Calendar extends React.Component {
     } else if (date.isAfter(startDate, 'day')) {
       endDate = moment(date);
       date_range = [moment(startDate).format("DD/MM/YY"), moment(endDate).format("DD/MM/YY") ];
-      isValid = true;
       show = false;
     }
 
@@ -183,7 +182,6 @@ class Calendar extends React.Component {
   
 
   render() {
-    const {date_ranges, error} = this.context;
     const { date, startDate, endDate, date_range, show} = this.state;
     this.context.date_ranges = date_range;
 

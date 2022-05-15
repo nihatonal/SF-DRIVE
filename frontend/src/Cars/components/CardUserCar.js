@@ -1,6 +1,5 @@
 import React from "react";
 
-import Camaro from "../../assets/Camaro.jpg";
 import engine from "../../assets/images/engine.png";
 import shift from "../../assets/images/car_shift.png";
 import star from "../../assets/images/star.png";
@@ -13,7 +12,7 @@ const CardUserCar = (props) => {
       <div className="car-image_wrapper">
         <img
           className="car-image"
-          src={`http://localhost:5000/${props.image}`}
+          src={process.env.REACT_APP_ASSETS_URL +`${props.image}`}
           alt={props.brand}
           id={props.id}
         />

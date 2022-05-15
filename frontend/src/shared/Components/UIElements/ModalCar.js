@@ -3,7 +3,6 @@ import ReactDOM from "react-dom";
 import { CSSTransition } from "react-transition-group";
 
 import Backdrop from "./Backdrop";
-import x from "../../../assets/icons/close.svg";
 import { AiOutlineClose } from "react-icons/ai";
 import "./ModalCar.css";
 
