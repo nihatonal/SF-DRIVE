@@ -77,6 +77,7 @@ const UpdateCarImages = (props) => {
               },
             })
             .then((response) => {
+              console.log(response.data.data[0].path);
               setTheArray((prevArray) => [...prevArray, response.data.data[0]]);
               setImageFile(...imageFile, response.data.data[0].path);
               infos.push(response.data.data[0]);
@@ -93,8 +94,7 @@ const UpdateCarImages = (props) => {
       });
     };
     uploadPhoto();
-  //}, [formState.inputs.images.value]);
-}, []);
+}, [formState.inputs.images.value]);
 
   useEffect(() => {
     uploadImage();
@@ -170,6 +170,7 @@ const UpdateCarImages = (props) => {
       pathInfo.push(file.path);
     });
 
+    console.log(pathInfo)
     try {
       localStorage.setItem(
         "carImages",

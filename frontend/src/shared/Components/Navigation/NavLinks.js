@@ -11,6 +11,7 @@ const NavLinks = (props) => {
     localStorage.removeItem("carOptions");
     localStorage.removeItem("initialImages");
     localStorage.removeItem("selectedCar");
+    localStorage.removeItem("initialDocs");
   };
 
   return (

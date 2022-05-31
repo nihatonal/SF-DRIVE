@@ -1,7 +1,6 @@
 import React, {useContext, useEffect, useState} from "react";
 import { useLocation } from "react-router-dom";
 import { AuthContext } from "../../context/auth-context";
-import { ShareContext } from "../../context/share-contex";
 import SocialLinks from "./SocialLinks";
 import "./MainFooter.css";
 
@@ -19,15 +18,16 @@ const MainFooter = (props) => {
   }, [carId]);
 
   if (
-    pathname === "/signup" ||
+    
     pathname === `/${auth.userId}/cars` ||
-    pathname === "/userphoto" ||
-    pathname === "/userdocs" ||
+    pathname === `/${auth.userId}/${carId}` ||
     pathname === `/${auth.userId}/success` ||
     pathname === `/${auth.userId}/addcar` ||
-    pathname === `/${auth.userId}/${carId}` ||
     pathname === `/rentacar/${carId}` ||
-    pathname === `/cars/${carId}`
+    pathname === `/cars/${carId}` ||
+    pathname === "/signup" ||
+    pathname === "/userphoto" ||
+    pathname === "/userdocs" 
   )
     return null;
 

@@ -10,7 +10,7 @@ import { AuthContext } from "../../shared/context/auth-context";
 import SendError from "../../SignUpPage/components/SendError";
 import { useNavigate, useParams } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
-
+import InitialImages from "./InitialImages";
 import "./AddCarImages.css";
 
 const UpdateCarDocs = (props) => {
@@ -30,6 +30,7 @@ const UpdateCarDocs = (props) => {
   const [options, setOptions] = useState();
   const [services, setServices] = useState();
   const [carImages, setCarImages] = useState();
+  const [initialDocs, setInitialDocs] = useState();
 
   const [errorSend, setErrorSend] = useState(false);
   const [formState, inputHandler] = useForm({
@@ -38,6 +39,20 @@ const UpdateCarDocs = (props) => {
       isValid: false,
     },
   });
+
+  // useEffect(() => {
+  //   const selectedCar = JSON.parse(localStorage.getItem("selectedCar"));
+  //   if (selectedCar) {
+  //     setInitialDocs(selectedCar[0].carDocs);
+  //   }
+  //   const initialDocs = selectedCar[0].carDocs;
+  //   localStorage.setItem(
+  //     "initialImages", 
+  //     JSON.stringify({
+  //       initialDocs,
+  //     })
+  //   );
+  // }, []);
 
   useEffect(() => {
     const storedData = JSON.parse(localStorage.getItem("carData"));
@@ -56,7 +71,6 @@ const UpdateCarDocs = (props) => {
     }
     console.log(storedImages.pathInfo)
    
-    
   }, []);
 
   const uploadphotos = formState.inputs.images.value;
@@ -133,18 +147,42 @@ const UpdateCarDocs = (props) => {
     } catch (err) {}
   };
 
-  const backHandler = () => {
-    let pathInfo = [];
-    theArray.map((file) => {
-      pathInfo.push(file);
-    });
-    // localStorage.setItem(
-    //   "carImages",
-    //   JSON.stringify({
-    //     pathInfo,
-    //   })
-    // );
+  const deleteInitialHandler = async (e) => {
+    const deletedItem =
+      e.target.parentElement.parentElement.parentElement.children[0].children[0]
+        .alt;
+    console.log(deletedItem);
+
+    const updatedArray = initialDocs.filter((img) => img !== deletedItem);
+    try {
+      await sendRequest(
+        process.env.REACT_APP_BACKEND_URL +"/users/userphoto",
+        "DELETE",
+        JSON.stringify({
+          image: deletedItem,
+        }),
+        {
+          "Content-Type": "application/json",
+        }
+      );
+    } catch (err) {}
+
+    setInitialDocs(updatedArray);
+    console.log(updatedArray);
+
+    localStorage.setItem(
+      "initialDocs",
+      JSON.stringify({
+        updatedArray,
+      })
+    );
   };
+  const backHandler = () => {
+    // setStepThree(true);
+    // setStepFour(false);
+    setPositionUp(false);
+  };
+
 
   const sendPhoto = async (e) => {
     e.preventDefault();
@@ -264,6 +302,16 @@ const UpdateCarDocs = (props) => {
           percentage={percentage}
           initialValue={formState.inputs.images.value}
           initialValid={formState.inputs.images.isValid}
+          // initials={
+          //   initialDocs &&
+          //   initialDocs.map((image, index) => (
+          //     <InitialImages
+          //       file={image}
+          //       key={index}
+          //       onDelete={(e) => deleteInitialHandler(e)}
+          //     />
+          //   ))
+          // }
         />
 
         <div
@@ -275,7 +323,7 @@ const UpdateCarDocs = (props) => {
             className="button-docs"
             inverseClass="button-photo"
             onClick={sendPhoto}
-            disabled={!showDelete}
+            disabled={!initialDocs}
             inverse
           >
             {!isLoading ? (

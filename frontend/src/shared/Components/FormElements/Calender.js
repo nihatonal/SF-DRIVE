@@ -115,8 +115,9 @@ class Calendar extends React.Component {
       date: moment(),
       startDate:moment().add(1, 'day'),
       endDate: moment().add(5, 'day'),
-      date_range: [moment().format("DD/MM/YY"), moment().format("DD/MM/YY")],
-      show: false,
+      date_range: [moment().format("YYYY/MM/DD"), moment().format("YYYY/MM/DD")],
+      date_range_ui: [moment().format("DD.MM.YY"), moment().format("DD.MM.YY")],
+      show: this.props.show,
     }
     this.showHandler = this.showHandler.bind(this);
     this.closeHandler = this.closeHandler.bind(this);
@@ -157,7 +158,7 @@ class Calendar extends React.Component {
 
   changeDate(date) {
     
-    let { startDate, endDate, date_range, show } = this.state;
+    let { startDate, endDate, date_range, date_range_ui, show } = this.state;
 
     if (startDate === null || date.isBefore(startDate, 'day') || !startDate.isSame(endDate, 'day')) {
       startDate = moment(date);
@@ -167,40 +168,41 @@ class Calendar extends React.Component {
       endDate = null;
     } else if (date.isAfter(startDate, 'day')) {
       endDate = moment(date);
-      date_range = [moment(startDate).format("DD/MM/YY"), moment(endDate).format("DD/MM/YY") ];
-      show = false;
+      date_range = [moment(startDate).format("YYYY/MM/DD"), moment(endDate).format("YYYY/MM/DD") ];
+      date_range_ui = [moment(startDate).format("DD.MM.YY"), moment(endDate).format("DD.MM.YY") ];
     }
 
     this.setState({
       startDate,
       endDate,
       date_range,
+      date_range_ui,
       show});
    
   }
-  
-  
-
   render() {
-    const { date, startDate, endDate, date_range, show} = this.state;
+    const { date, startDate, endDate, date_range,date_range_ui, show} = this.state;
     this.context.date_ranges = date_range;
+    this.context.date_ranges_ui = date_range_ui;
 
     return (
       <OutsideClickHandler
-      onOutsideClick={() => {
-        this.setState({show:false});
+      onOutsideClick={
+        this.props.close
+      //   () => {
+      //   this.setState({show:false});
+      // }
+      }>
+        {React.createElement("div", {  className: ! this.props.show ? "date_range-wrapper" : "date_range-wrapper date_range-focus" , onClick:  this.props.showHandler },
 
-      }}>
-        {React.createElement("div", {  className: !show ? "date_range-wrapper" : "date_range-wrapper date_range-focus" , },
-
-        React.createElement("div", {className: "date_range-picker", onClick: this.showHandler},
+        React.createElement("div", {className: "date_range-picker"},
         React.createElement("p", {  className: "date_range-picker-subtitle"}, "Период аренды"),
-        React.createElement("p", {  className: "date_range-picker-dates"}, `${this.context.date_ranges[0]} - ${this.context.date_ranges[1]}` )),
+        React.createElement("p", {  className: "date_range-picker-dates"}, `${this.context.date_ranges_ui[0]} - ${this.context.date_ranges_ui[1]}` )),
         React.createElement("img", { src:this.props.image, onClick: this.showHandler}),
         
-        show && React.createElement( "div", { className:`calendar ${this.props.className}`},
+        this.props.show && React.createElement( "div", { className:`calendar ${this.props.className}`},
         React.createElement(Heading, { date: date, changeMonth: month => this.changeMonth(month), changeYear: year => this.changeYear(year), resetDate: () => this.resetDate() }),
-        React.createElement(Days, { onClick: date => this.changeDate(date), date: date, startDate: startDate, endDate: endDate }))
+        React.createElement(Days, { onClick: date => this.changeDate(date) || this.props.onClick ,date: date, startDate: startDate, endDate: endDate }))
         
         )}
       </OutsideClickHandler>

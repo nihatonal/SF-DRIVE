@@ -20,6 +20,7 @@ const getCars = async (req, res, next) => {
     );
     return next(error);
   }
+  
   res.json({ cars: cars.map((car) => car.toObject({ getters: true })) });
 };
 

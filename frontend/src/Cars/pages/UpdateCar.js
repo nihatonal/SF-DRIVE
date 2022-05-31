@@ -122,7 +122,7 @@ const UpdateCar = () => {
         const responseData = await sendRequest(
           process.env.REACT_APP_BACKEND_URL +`/cars/${carId}`
         );
-        console.log(responseData.car);
+        //console.log(responseData.car);
         setLoadedCar(responseData.car);
         localStorage.setItem(
           "carOptions",

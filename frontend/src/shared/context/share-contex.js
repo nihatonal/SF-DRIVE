@@ -2,7 +2,8 @@ import { createContext } from 'react';
 
 export const ShareContext = createContext({
     date_ranges : [],
-    city:null,
+    date_ranges_ui: [],
+    city: null,
     car: [],
     brand:'Audi',
     options:[],

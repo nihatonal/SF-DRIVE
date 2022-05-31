@@ -109,7 +109,7 @@ const CarInfo = (props) => {
             {loadedUser && <p className={"owner-info-status"}>Это вы</p>}
           </div>
             :
-          <div className={"owner-info"}>
+          <div className={"owner-info owner-link"}>
             {loadedUser && <p>{loadedUser.name}</p>}
             {loadedUser && <p className={"owner-info-status"}>Владелец</p>}
 

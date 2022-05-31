@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState, useCallback } from "react";
-
+import moment from "moment";
+import "moment/locale/ru";
 import Calender from "../../shared/Components/FormElements/Calender";
 import OptionCity from "../components/OptionCity";
 import OptionCar from "../components/OptionCar";
@@ -18,26 +19,29 @@ const RentACar = () => {
   const navigate = useNavigate();
   const { isLoading, sendRequest } = useHttpClient();
   const [loading, setLoading] = useState(false);
+  const [show, setShow] = useState(false);
   const [loadedCars, setLoadedCars] = useState();
   const [loadedUser, setLoadedUser] = useState();
-  const [dates, setDates] = useState(share.date_ranges);
+  const [dbCars, setDbCars] = useState();
 
   useEffect(() => {
-    const fetchCars = async () => {
-      setLoading(true);
-      return axios
-        .get(process.env.REACT_APP_BACKEND_URL + "/cars/", {
-          headers: {
-            Authorization: "Bearer " + auth.token,
-            "Content-Type": "application/json",
-          },
-        })
-        .then((res) => {
-          setLoadedCars(res.data.cars);
-          setLoading(false);
-        });
-    };
-    fetchCars();
+    setLoading(true);
+    axios
+      .get(process.env.REACT_APP_BACKEND_URL + "/cars/", {
+        headers: {
+          Authorization: "Bearer " + auth.token,
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res) => {
+        console.log(res.data.cars);
+        setLoadedCars(res.data.cars);
+        setDbCars(res.data.cars);
+        setLoading(false);
+      });
+      if(share.city === null){
+          share.city = "Москва"
+      }
   }, [auth.token]);
 
   useEffect(() => {
@@ -57,13 +61,13 @@ const RentACar = () => {
     return loadedUser.filter((user) => user.id === x);
   };
 
-  const getDates = useCallback(() => {
-    setDates(share.date_ranges);
-  }, [share.date_ranges[0]]);
+  // const getDates = useCallback(() => {
+  //   setDates(share.date_ranges);
+  // }, [share.date_ranges[0]]);
 
-  useEffect(() => {
-    getDates();
-  }, [getDates]);
+  // useEffect(() => {
+  //   getDates();
+  // }, [getDates]);
 
   const modalHandler = (e) => {
     e.stopPropagation();
@@ -72,11 +76,41 @@ const RentACar = () => {
 
     navigate(`/rentacar/${selectCar[0].id}`);
   };
+  const showHandlers = () => {
+    setShow(true);
+  };
+  function expandDates(startDate, stopDate) {
+    var dateArray = [];
+    var currentDate = moment(startDate);
+    var stopDate = moment(stopDate);
+    while (currentDate <= stopDate) {
+      dateArray.push(moment(currentDate).format("DD-MM-YYYY"));
+      currentDate = moment(currentDate).add(1, "days");
+    }
+    return dateArray;
+  }
+  let checker = (src, target) => target.some((v) => src.includes(v));
 
-  const test = (e) => {
+  const searchHandler = (e) => {
     e.preventDefault();
-    setDates(share.date_ranges);
-    console.log(share.date_ranges, share.car, share.city);
+    //setDates(share.date_ranges);
+    let mark = expandDates(share.date_ranges[0], share.date_ranges[1]);
+    // console.log(mark);
+    // console.log(share.date_ranges);
+    // const filtered = dbCars.filter(
+    //   (item) =>
+    //     !checker(item.dates, share.date_ranges) item.city === share.city
+    // );
+    // console.log(filtered);
+    //setLoadedCars(filtered);
+
+    let filtered = dbCars.filter(function(item) {
+      return (
+        !checker(item.dates, share.date_ranges) && item.city === share.city
+      );
+    });
+    console.log(filtered);
+    setLoadedCars(filtered);
   };
 
   return (
@@ -86,12 +120,19 @@ const RentACar = () => {
         <div className="input_container">
           <OptionCity cityClass="input_city" idCity="city" />
 
-          <Calender className={"calender-fix"} image={date_picker} />
+          <Calender
+            className={"calender-fix"}
+            image={date_picker}
+            showHandler={showHandlers}
+            close={()=>setShow(false)}
+            show={show}
+            onClick={()=>alert('s')}
+          />
 
           <OptionCar idCity="car" />
         </div>
 
-        <Button onClick={test} className="search-btn" inverse>
+        <Button onClick={searchHandler} className="search-btn" inverse>
           Найти
         </Button>
       </form>

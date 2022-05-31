@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
-
+import moment from "moment";
+import "moment/locale/ru";
 import { FaArrowLeft } from "react-icons/fa";
 import CarInfo from "../components/CarInfo";
 import Carousel from "../../shared/Components/UIElements/Carousel";
@@ -9,9 +10,11 @@ import ModalCar from "../../shared/Components/UIElements/ModalCar";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import { AuthContext } from "../../shared/context/auth-context";
 import { useNavigate } from "react-router-dom";
+import Calendar from "react-calendar";
 import "./UserCar.css";
 
 const UserCar = () => {
+  //const monent = moment.locale("ru");
   const [show, setShow] = useState(false);
   const { isLoading, sendRequest } = useHttpClient();
   const auth = useContext(AuthContext);
@@ -23,26 +26,51 @@ const UserCar = () => {
     setSelectedCar(selectedCar);
   }, []);
 
-  const confirmDeleteHandler = async () => {
+  function getDates(startDate, stopDate) {
+    var dateArray = [];
+    var currentDate = moment(startDate);
+    var stopDate = moment(stopDate);
+    while (currentDate <= stopDate) {
+      dateArray.push(moment(currentDate).format("DD-MM-YYYY"));
+      currentDate = moment(currentDate).add(1, "days");
+    }
+    return dateArray;
+  }
 
+  const dates = [
+    ["2022/05/23", "2022/05/25"]
+  ];
+ 
+  let mark = [].concat.apply([], dates.map(date =>getDates(date[0],date[1])));
+
+  const confirmDeleteHandler = async () => {
     try {
       await sendRequest(
-        process.env.REACT_APP_BACKEND_URL +`/cars/${selectedCar[0].id}`,
+        process.env.REACT_APP_BACKEND_URL + `/cars/${selectedCar[0].id}`,
         "DELETE",
         null,
         {
           Authorization: "Bearer " + auth.token,
         }
       );
-          setSelectedCar(null);
-          localStorage.removeItem('selectedCar');
-          navigate(`/${auth.userId}/cars`);
+      setSelectedCar(null);
+      localStorage.removeItem("selectedCar");
+      navigate(`/${auth.userId}/cars`);
     } catch (err) {}
   };
 
+  function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+  //console.log(mark);
+
   return (
     <div className="usercar-container">
-      <Link to={`/${auth.userId}/cars`} className="usercar-arrow-wrapper" onClick={()=>localStorage.removeItem('selectedCar')}>
+      <Link
+        to={`/${auth.userId}/cars`}
+        className="usercar-arrow-wrapper"
+        onClick={() => localStorage.removeItem("selectedCar")}
+      >
         <p className={"usercar-arrow"}>
           <i className={"fa"}>
             <FaArrowLeft />
@@ -73,6 +101,59 @@ const UserCar = () => {
           onClick={() => setShow(true)}
         />
       )}
+      <div className="available-wrapper">
+        <h3 className="carinfo-content-title">Доступность</h3>
+
+        <div className="calendar-wrapper">
+          <div className="calendar-item">
+            <p className="title-calender">
+              {capitalizeFirstLetter(moment().format("MMMM")) +
+                " " +
+                moment().format("YYYY")}
+            </p>
+            <Calendar
+              showNavigation={false}
+              showNeighboringMonth={false}
+              className="react-calendar"
+              tileClassName={({ date, view }) => {
+                if (mark.find((x) => x === moment(date).format("DD-MM-YYYY"))) {
+                  return "highlight";
+                } else if (
+                  moment(date).format("DD-MM-YYYY") <
+                  moment().format("DD-MM-YYYY")
+                ) {
+                  return "passed";
+                }
+              }}
+            />
+          </div>
+          <div className="calendar-item">
+            <p className="title-calender">
+              {capitalizeFirstLetter(
+                moment()
+                  .subtract(-1, "month")
+                  .format("MMMM")
+              ) +
+                " " +
+                moment().format("YYYY")}
+            </p>
+            <Calendar
+              showNavigation={false}
+              activeStartDate={
+                new Date(moment().year(), moment().month() + 2, 0)
+              }
+              showNeighboringMonth={false}
+              className="react-calendar"
+              tileClassName={({ date, view }) => {
+                if (mark.find((x) => x === moment(date).format("DD-MM-YYYY"))) {
+                  return "highlight";
+                }
+              }}
+            />
+          </div>
+        </div>
+      </div>
+
       {selectedCar && (
         <ModalCar show={show} CloseOnClick={() => setShow(false)}>
           <Carousel slides={selectedCar[0].images} />
@@ -80,7 +161,12 @@ const UserCar = () => {
       )}
 
       <div className={"button-container"}>
-        <Button className='toupdatecar' to={selectedCar && `/cars/${selectedCar[0].id}`} style={{ width: "196px" }} inverse>
+        <Button
+          className="toupdatecar"
+          to={selectedCar && `/cars/${selectedCar[0].id}`}
+          style={{ width: "196px" }}
+          inverse
+        >
           {!isLoading ? (
             "Редактировать"
           ) : (

@@ -14,7 +14,11 @@ const OptionCity = (props) => {
     setCity("");
     setShowList(true);
   };
-  
+  const touchHandler = () => {
+    //setCity(share.city);
+    setShowList(true);
+  };
+
   const selectHandler = (e) => {
     setCity(e.target.firstChild.innerText);
     setShowList(false);
@@ -25,12 +29,12 @@ const OptionCity = (props) => {
     <OutsideClickHandler
       onOutsideClick={() => {
         setShowList(false);
-        if(cityName === "") {
-          setCity("Москва")
+        if (cityName === "") {
+          setCity(share.city);
         }
       }}
     >
-      <div className="input_city-wrapper" >
+      <div className="input_city-wrapper">
         <label className="input_city-placeholder">{cityName}</label>
         <input
           className={`city_input ${props.cityClass}`}
@@ -39,6 +43,7 @@ const OptionCity = (props) => {
           type="text"
           onChange={(e) => setCity(e.target.value)}
           onFocus={focusHandler}
+          onBlur={touchHandler}
           value={cityName}
         />
 

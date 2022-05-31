@@ -9,7 +9,11 @@ import { AuthContext } from "../../shared/context/auth-context";
 import Carousel from "../../shared/Components/UIElements/Carousel";
 import ModalCar from "../../shared/Components/UIElements/ModalCar";
 import { useNavigate } from "react-router-dom";
+import Calendar from "../../shared/Components/FormElements/Calender"
+//import Calendar from "react-calendar";
+
 import "./UserCar.css";
+import "./RentUserCar.css";
 
 const RentUserCar = () => {
   const { isLoading, sendRequest } = useHttpClient();
@@ -24,25 +28,28 @@ const RentUserCar = () => {
   }, []);
 
   const confirmDeleteHandler = async () => {
-
     try {
       await sendRequest(
-        process.env.REACT_APP_BACKEND_URL +`/cars/${selectedCar[0].id}`,
+        process.env.REACT_APP_BACKEND_URL + `/cars/${selectedCar[0].id}`,
         "DELETE",
         null,
         {
           Authorization: "Bearer " + auth.token,
         }
       );
-          setSelectedCar(null);
-          localStorage.removeItem('selectedCar');
-          navigate("/rentacar");
+      setSelectedCar(null);
+      localStorage.removeItem("selectedCar");
+      navigate("/rentacar");
     } catch (err) {}
   };
 
   return (
     <div className="usercar-container">
-      <Link to={"/rentacar"} className="usercar-arrow-wrapper" onClick={()=>localStorage.removeItem('selectedCar')}>
+      <Link
+        to={"/rentacar"}
+        className="usercar-arrow-wrapper"
+        onClick={() => localStorage.removeItem("selectedCar")}
+      >
         <p className={"usercar-arrow"}>
           <i className={"fa"}>
             <FaArrowLeft />
@@ -73,33 +80,43 @@ const RentUserCar = () => {
           onClick={() => setShow(true)}
         />
       )}
+
+      <div className="available-wrapper">
+        <h3 className="carinfo-content-title">Доступность</h3>
+        <Calendar
+
+        />
+      </div>
+
       {selectedCar && (
         <ModalCar show={show} CloseOnClick={() => setShow(false)}>
           <Carousel slides={selectedCar[0].images} />
         </ModalCar>
       )}
-      {selectedCar && selectedCar[0].owner === auth.userId && <div className={"button-container"}>
-        <Button type="submit" style={{ width: "196px" }} inverse>
-          {!isLoading ? (
-            "Редактировать"
-          ) : (
-            <i className="fa fa-circle-o-notch fa-spin"></i>
-          )}
-        </Button>
+      {selectedCar && selectedCar[0].owner === auth.userId && (
+        <div className={"button-container"}>
+          <Button type="submit" style={{ width: "196px" }} inverse>
+            {!isLoading ? (
+              "Редактировать"
+            ) : (
+              <i className="fa fa-circle-o-notch fa-spin"></i>
+            )}
+          </Button>
 
-        <Button
-          type="submit"
-          className="btn-delete"
-          inverse
-          onClick={confirmDeleteHandler}
-        >
-          {!isLoading ? (
-            "Удалить автомобиль"
-          ) : (
-            <i className="fa fa-circle-o-notch fa-spin"></i>
-          )}
-        </Button>
-      </div>}
+          <Button
+            type="submit"
+            className="btn-delete"
+            inverse
+            onClick={confirmDeleteHandler}
+          >
+            {!isLoading ? (
+              "Удалить автомобиль"
+            ) : (
+              <i className="fa fa-circle-o-notch fa-spin"></i>
+            )}
+          </Button>
+        </div>
+      )}
     </div>
   );
 };
