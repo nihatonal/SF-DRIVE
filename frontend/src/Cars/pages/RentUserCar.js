@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
-
+import moment from "moment";
 import { FaArrowLeft } from "react-icons/fa";
 import CarInfo from "../components/CarInfo";
 import Button from "../../shared/Components/FormElements/Button";
@@ -9,8 +9,8 @@ import { AuthContext } from "../../shared/context/auth-context";
 import Carousel from "../../shared/Components/UIElements/Carousel";
 import ModalCar from "../../shared/Components/UIElements/ModalCar";
 import { useNavigate } from "react-router-dom";
-import Calendar from "../../shared/Components/FormElements/Calender"
-//import Calendar from "react-calendar";
+//import Calendar from "../../shared/Components/FormElements/Calender"
+import Calendar from "react-calendar";
 
 import "./UserCar.css";
 import "./RentUserCar.css";
@@ -19,6 +19,8 @@ const RentUserCar = () => {
   const { isLoading, sendRequest } = useHttpClient();
   const auth = useContext(AuthContext);
   const [show, setShow] = useState(false);
+  const [value, onChange] = useState(new Date());
+  const [oneDate, setOneDate] = useState(new Date());
   const [selectedCar, setSelectedCar] = useState();
   const navigate = useNavigate();
 
@@ -27,6 +29,19 @@ const RentUserCar = () => {
     setSelectedCar(selectedCar);
   }, []);
 
+  function expandDates(startDate, stopDate) {
+    var dateArray = [];
+    var currentDate = moment(startDate);
+    var stopDate = moment(stopDate);
+    while (currentDate <= stopDate) {
+      dateArray.push(moment(currentDate).format("YYYY/MM/DD"));
+      currentDate = moment(currentDate).add(1, "days");
+    }
+    return dateArray;
+  }
+  const newDates = expandDates(value[0], value[1]);
+  console.log(new Intl.DateTimeFormat("en-US").format(oneDate));
+  console.log(newDates);
   const confirmDeleteHandler = async () => {
     try {
       await sendRequest(
@@ -84,7 +99,12 @@ const RentUserCar = () => {
       <div className="available-wrapper">
         <h3 className="carinfo-content-title">Доступность</h3>
         <Calendar
-
+          selectRange={true}
+          onChange={onChange}
+          //value={value}
+          onClickDay={setOneDate}
+          showNavigation={false}
+          showNeighboringMonth={false}
         />
       </div>
 

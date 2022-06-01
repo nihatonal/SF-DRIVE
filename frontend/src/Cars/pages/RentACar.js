@@ -42,6 +42,9 @@ const RentACar = () => {
       if(share.city === null){
           share.city = "Москва"
       }
+
+      // const selectedCity = JSON.parse(localStorage.getItem("searchCity"));
+      // console.log(selectedCity.citySelect)
   }, [auth.token]);
 
   useEffect(() => {

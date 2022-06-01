@@ -138,8 +138,8 @@
   margin: 10px 0 2px 0;
 }
 
-.renter .owner-info {
-  display: flex;
+.renter .owner-info { 
+  display:flex;
   flex-direction: column;
   align-items: center;
 }
@@ -385,21 +385,8 @@
   .carinfo-line {
     width: 335px;
   }
-  .renter {
-    height: 124px;
-    display: flex;
-    align-items: flex-start;
-    padding-top: 20px;
-    position: relative;
-  }
-  .renter .owner-info {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-  }
+
   .link-to-profil {
-    position: absolute;
-    bottom: 20px;
-    left: 21px;
+    margin-top: 32px;
   }
 }

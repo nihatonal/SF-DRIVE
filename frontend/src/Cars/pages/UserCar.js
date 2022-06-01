@@ -14,34 +14,18 @@ import Calendar from "react-calendar";
 import "./UserCar.css";
 
 const UserCar = () => {
-  //const monent = moment.locale("ru");
   const [show, setShow] = useState(false);
   const { isLoading, sendRequest } = useHttpClient();
   const auth = useContext(AuthContext);
   const [selectedCar, setSelectedCar] = useState();
+  const [markDates, setMarkDates] = useState();
   const navigate = useNavigate();
 
   useEffect(() => {
     const selectedCar = JSON.parse(localStorage.getItem("selectedCar"));
     setSelectedCar(selectedCar);
+    if(selectedCar) setMarkDates(selectedCar[0].dates)
   }, []);
-
-  function getDates(startDate, stopDate) {
-    var dateArray = [];
-    var currentDate = moment(startDate);
-    var stopDate = moment(stopDate);
-    while (currentDate <= stopDate) {
-      dateArray.push(moment(currentDate).format("DD-MM-YYYY"));
-      currentDate = moment(currentDate).add(1, "days");
-    }
-    return dateArray;
-  }
-
-  const dates = [
-    ["2022/05/23", "2022/05/25"]
-  ];
- 
-  let mark = [].concat.apply([], dates.map(date =>getDates(date[0],date[1])));
 
   const confirmDeleteHandler = async () => {
     try {
@@ -62,7 +46,6 @@ const UserCar = () => {
   function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
-  //console.log(mark);
 
   return (
     <div className="usercar-container">
@@ -116,15 +99,25 @@ const UserCar = () => {
               showNeighboringMonth={false}
               className="react-calendar"
               tileClassName={({ date, view }) => {
-                if (mark.find((x) => x === moment(date).format("DD-MM-YYYY"))) {
+                if (markDates && markDates.find((x) => x === moment(date).format("YYYY/MM/DD"))) {
                   return "highlight";
                 } else if (
-                  moment(date).format("DD-MM-YYYY") <
-                  moment().format("DD-MM-YYYY")
+                  moment(date).format("YYYY/MM/DD") <
+                  moment().format("YYYY/MM/DD")
                 ) {
                   return "passed";
                 }
               }}
+            //  tileDisabled={({ date, view }) => {
+            //   if (markDates && markDates.find((x) => x === moment(date).format("YYYY/MM/DD"))) {
+            //     return "highlight";
+            //   } else if (
+            //     moment(date).format("YYYY/MM/DD") <
+            //     moment().format("YYYY/MM/DD")
+            //   ) {
+            //     return "passed";
+            //   }
+            // }}
             />
           </div>
           <div className="calendar-item">
@@ -145,10 +138,15 @@ const UserCar = () => {
               showNeighboringMonth={false}
               className="react-calendar"
               tileClassName={({ date, view }) => {
-                if (mark.find((x) => x === moment(date).format("DD-MM-YYYY"))) {
+                if (markDates && markDates.find((x) => x === moment(date).format("YYYY/MM/DD"))) {
                   return "highlight";
+                } else if (
+                  moment(date).format("YYYY/MM/DD") <
+                  moment().format("YYYY/MM/DD")
+                ) {
+                  return "passed";
                 }
-              }}
+              }}  
             />
           </div>
         </div>

@@ -12,7 +12,7 @@ const MainFooter = (props) => {
 
   useEffect(() => {
     const selectedCar = JSON.parse(localStorage.getItem("selectedCar"));
-    if (selectedCar) {
+    if (selectedCar.length < 0) {
       setCarId(selectedCar[0].id)
     }
   }, [carId]);
