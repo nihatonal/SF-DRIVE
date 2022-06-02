@@ -84,11 +84,11 @@ const UserCar = () => {
           onClick={() => setShow(true)}
         />
       )}
-      <div className="available-wrapper">
+      <div className="available-wrapper" id='user-car'>
         <h3 className="carinfo-content-title">Доступность</h3>
 
         <div className="calendar-wrapper">
-          <div className="calendar-item">
+          <div className="calendar-item" id="calendar-item-user">
             <p className="title-calender">
               {capitalizeFirstLetter(moment().format("MMMM")) +
                 " " +
@@ -120,7 +120,7 @@ const UserCar = () => {
             // }}
             />
           </div>
-          <div className="calendar-item">
+          <div className="calendar-item" id="calendar-item-user">
             <p className="title-calender">
               {capitalizeFirstLetter(
                 moment()

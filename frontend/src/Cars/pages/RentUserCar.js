@@ -22,11 +22,13 @@ const RentUserCar = () => {
   const [value, onChange] = useState(new Date());
   const [oneDate, setOneDate] = useState(new Date());
   const [selectedCar, setSelectedCar] = useState();
+  const [markDates, setMarkDates] = useState();
   const navigate = useNavigate();
 
   useEffect(() => {
     const selectedCar = JSON.parse(localStorage.getItem("selectedCar"));
     setSelectedCar(selectedCar);
+    if (selectedCar) setMarkDates(selectedCar[0].dates);
   }, []);
 
   function expandDates(startDate, stopDate) {
@@ -40,8 +42,15 @@ const RentUserCar = () => {
     return dateArray;
   }
   const newDates = expandDates(value[0], value[1]);
+
+  const myArray = newDates.filter(function(el) {
+    if (markDates) {
+      return markDates.indexOf(el) < 0;
+    }
+  });
+
   console.log(new Intl.DateTimeFormat("en-US").format(oneDate));
-  console.log(newDates);
+  console.log(myArray);
   const confirmDeleteHandler = async () => {
     try {
       await sendRequest(
@@ -57,7 +66,9 @@ const RentUserCar = () => {
       navigate("/rentacar");
     } catch (err) {}
   };
-
+  function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
   return (
     <div className="usercar-container">
       <Link
@@ -98,14 +109,84 @@ const RentUserCar = () => {
 
       <div className="available-wrapper">
         <h3 className="carinfo-content-title">Доступность</h3>
-        <Calendar
-          selectRange={true}
-          onChange={onChange}
-          //value={value}
-          onClickDay={setOneDate}
-          showNavigation={false}
-          showNeighboringMonth={false}
-        />
+
+        <div className="calendar-wrapper">
+          <div className="calendar-item" id="calendar-item-renter">
+            <p className="title-calender">
+              {capitalizeFirstLetter(moment().format("MMMM")) +
+                " " +
+                moment().format("YYYY")}
+            </p>
+            <Calendar
+              showNavigation={false}
+              showNeighboringMonth={false}
+              selectRange={true}
+              onChange={onChange}
+              style={{}}
+              //value={value}
+              onClickDay={setOneDate}
+              className="react-calendar_"
+              tileClassName={({ date, view }) => {
+                if (
+                  markDates &&
+                  markDates.find((x) => x === moment(date).format("YYYY/MM/DD"))
+                ) {
+                  return "disabled";
+                } else if (
+                  moment(date).format("YYYY/MM/DD") <
+                  moment().format("YYYY/MM/DD")
+                ) {
+                  return "passed";
+                }
+              }}
+              tileDisabled={({ date, view }) => {
+                if (
+                  markDates &&
+                  markDates.find((x) => x === moment(date).format("YYYY/MM/DD"))
+                ) {
+                  return "disabled";
+                } else if (
+                  moment(date).format("YYYY/MM/DD") <
+                  moment().format("YYYY/MM/DD")
+                ) {
+                  return "passed";
+                }
+              }}
+            />
+          </div>
+          <div className="calendar-item">
+            <p className="title-calender">
+              {capitalizeFirstLetter(
+                moment()
+                  .subtract(-1, "month")
+                  .format("MMMM")
+              ) +
+                " " +
+                moment().format("YYYY")}
+            </p>
+            <Calendar
+              showNavigation={false}
+              activeStartDate={
+                new Date(moment().year(), moment().month() + 2, 0)
+              }
+              showNeighboringMonth={false}
+              className="react-calendar"
+              tileClassName={({ date, view }) => {
+                if (
+                  markDates &&
+                  markDates.find((x) => x === moment(date).format("YYYY/MM/DD"))
+                ) {
+                  return "highlight";
+                } else if (
+                  moment(date).format("YYYY/MM/DD") <
+                  moment().format("YYYY/MM/DD")
+                ) {
+                  return "passed";
+                }
+              }}
+            />
+          </div>
+        </div>
       </div>
 
       {selectedCar && (

@@ -48,7 +48,9 @@
   align-items: center;
   text-decoration: none;
 }
-
+#user-car {
+  pointer-events: none;
+}
 .available-wrapper {
   width: 1026px;
   margin-top: 60px;
@@ -98,43 +100,41 @@ abbr[title] {
 abbr {
   font-size: 16px;
 }
-.react-calendar button {
+#calendar-item-user button {
   margin: 0;
   border: 0;
   outline: none;
   border-radius: 100%;
-  width: 24px;
-  height: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.react-calendar__month-view__weekdays__weekday {
+#calendar-item-user .react-calendar__month-view__weekdays__weekday {
   opacity: 0.4;
   padding-bottom: 15px;
 }
-.react-calendar__month-view__weekNumbers .react-calendar__tile {
+#calendar-item-user .react-calendar__month-view__weekNumbers .react-calendar__tile {
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 16px;
 }
 
-.react-calendar__tile {
+#calendar-item-user .react-calendar__tile {
   background: none;
   text-align: center;
   line-height: 16px;
-  padding: 26px;
+  padding: 20px;
 }
-.react-calendar__tile:disabled {
+#calendar-item-user.react-calendar__tile:disabled {
   background-color: #f0f0f0;
 }
 
-.react-calendar__tile--hasActive {
+#calendar-item-user .react-calendar__tile--hasActive {
   background: rgba(97, 161, 153, 0.2);
 }
-.highlight {
+#calendar-item-user .highlight {
   background: rgba(97, 161, 153, 0.2);
 }
 
@@ -143,6 +143,7 @@ abbr {
   color: #000000;
   opacity: 0.2;
 }
+
 @media screen and (max-width: 767px) {
   .usercar-container {
     width: 375px;
@@ -169,7 +170,7 @@ abbr {
   }
   .available-wrapper {
     width: 375px;
-    height:940px;
+    height: 940px;
   }
   .carinfo-content-title {
     padding-left: 20px;
@@ -180,9 +181,9 @@ abbr {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    margin-left:20px;
+    margin-left: 20px;
   }
-  .react-calendar{
-    width:335px
+  .react-calendar {
+    width: 335px;
   }
 }
