@@ -71,7 +71,7 @@
   justify-content: space-between;
 }
 .calendar-item {
-  height: 364px;
+  width: 364px;
   height: 274px;
 }
 .react-calendar {

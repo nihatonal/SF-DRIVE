@@ -189,9 +189,19 @@ body {
   border: 1px solid #E0E0E0;
   border-right: none;
   border-left: none;
+  height:44px;
 }
 .date_range-focus {
-  border: 2px solid #61A199;;
+  width: 217px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  border-right: none;
+  border-left: none;
+  border: 2px solid #61A199;
+  height:44px;
+  
 }
 .date_range-wrapper .date_range-picker img {
     margin-right: 15px;

@@ -1,7 +1,33 @@
 .available-wrapper {
-  height: 468px;
+  height: 500px;
   width: 1026px;
   border-bottom: 1px solid #e0e0e0;
+  position: relative;
+  left: -20px;
+}
+.calendar-month-names {
+  display: flex;
+  height:29px;
+  width: 740px;
+  text-align: left;
+  margin-bottom: 26px;
+}
+#calendar-item-renter {
+  width: 404px;
+  height: 320px;
+}
+#calendar-item-renter .react-calendar__viewContainer {
+  width: 941px;
+  display: flex;
+  justify-content: space-between;
+}
+#calendar-item-renter .react-calendar__month-view {
+  width: 404px;
+  height: 320px;
+  overflow: hidden;
+}
+.react-calendar__month-view__days__day--neighboringMonth {
+  visibility: hidden;
 }
 /* .title-calender {
   font-family: "Roboto", sans-serif;
@@ -84,7 +110,7 @@
 .react-calendar__tile:enabled:hover,
 .react-calendar__tile:enabled:focus {
   background-color: rgba(97, 161, 153, 0.2);
-  
+
 }
 .react-calendar__tile--now {
   background: #61A199;
@@ -93,7 +119,7 @@
 .react-calendar__tile--now:enabled:hover,
 .react-calendar__tile--now:enabled:focus {
   background: rgba(97, 161, 153, 0.2);
-  
+
 }
 .react-calendar__tile--hasActive {
   background: rgba(97, 161, 153, 0.2);
@@ -180,7 +206,6 @@
   background: rgba(64, 102, 98, 0.2);
 }
 
-
 #calendar-item-renter .react-calendar__tile--range {
   background: rgba(97, 161, 153, 0.2);
   color: #000;
@@ -193,7 +218,8 @@
   color: #fff;
   position: relative;
 }
-#calendar-item-renter .react-calendar__tile--rangeStart::after {
+
+/* #calendar-item-renter .react-calendar__tile--rangeStart::after {
   content: "";
   position: absolute;
   top: 0;
@@ -203,7 +229,7 @@
   background: rgba(97, 161, 153, 0.15);
   color: #fff;
   z-index: 99;
-}
+} */
 #calendar-item-renter .react-calendar__tile--rangeEnd {
   border-radius: 50%;
   background: #61a199;
@@ -213,6 +239,26 @@
   background: none;
   opacity: 0.2;
 }
+#calendar-item-renter .highlight {
+  border-radius: 0;
+  background: rgba(97, 161, 153, 0.2);
+  color: #000;
+}
+/* #calendar-item-renter .react-calendar__month-view__days > .highlight ~ .highlight{
+  border-radius: 0;
+  background: rgba(97, 161, 153, 0.2);
+  color: #000;
+} */
+
+/* #calendar-item-renter .highlight:nth-last-child(3n-4) {
+  border-radius: 50%;
+  background: #61a199;
+  color: #fff;
+} */
+/* .highlight:first-of-type {
+  background: red;
+  opacity: 0.2;
+} */
 
 .passed {
   text-decoration: line-through;

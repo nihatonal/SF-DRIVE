@@ -13,6 +13,8 @@ const NavLinks = (props) => {
     localStorage.removeItem("selectedCar");
     localStorage.removeItem("initialDocs");
     localStorage.removeItem("searchCity");
+    localStorage.removeItem("searchItems");
+    localStorage.removeItem("dateRanges");
   };
 
   return (

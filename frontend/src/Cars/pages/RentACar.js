@@ -22,6 +22,7 @@ const RentACar = () => {
   const [show, setShow] = useState(false);
   const [loadedCars, setLoadedCars] = useState();
   const [loadedUser, setLoadedUser] = useState();
+  const [date_ranges, setDateRanges] = useState();
   const [dbCars, setDbCars] = useState();
 
   useEffect(() => {
@@ -34,18 +35,36 @@ const RentACar = () => {
         },
       })
       .then((res) => {
-        console.log(res.data.cars);
         setLoadedCars(res.data.cars);
         setDbCars(res.data.cars);
         setLoading(false);
       });
-      if(share.city === null){
-          share.city = "Москва"
-      }
-
-      // const selectedCity = JSON.parse(localStorage.getItem("searchCity"));
-      // console.log(selectedCity.citySelect)
+    if (share.city === null) {
+      share.city = "Москва";
+    }
   }, [auth.token]);
+
+  // Save search credentials
+  let searchDates;
+
+  useEffect(() => {
+    const searchItems = JSON.parse(localStorage.getItem("searchItems"));
+    searchDates = JSON.parse(localStorage.getItem("dateRanges"));
+
+    if (searchItems && dbCars) {
+      let filtered = dbCars.filter(function(item) {
+        return (
+          !checker(item.dates, searchItems.date) &&
+          item.city === searchItems.city
+        );
+      });
+
+      setLoadedCars(filtered);
+      setDateRanges(searchDates.startDate);
+    }
+  }, [dbCars, searchDates]);
+
+  // Get all user for user photo
 
   useEffect(() => {
     const fetchCars = async () => {
@@ -64,13 +83,7 @@ const RentACar = () => {
     return loadedUser.filter((user) => user.id === x);
   };
 
-  // const getDates = useCallback(() => {
-  //   setDates(share.date_ranges);
-  // }, [share.date_ranges[0]]);
-
-  // useEffect(() => {
-  //   getDates();
-  // }, [getDates]);
+  // Open Car Modal and showHandlers
 
   const modalHandler = (e) => {
     e.stopPropagation();
@@ -79,9 +92,12 @@ const RentACar = () => {
 
     navigate(`/rentacar/${selectCar[0].id}`);
   };
+
   const showHandlers = () => {
     setShow(true);
   };
+
+  // Make an dates array from date_range
   function expandDates(startDate, stopDate) {
     var dateArray = [];
     var currentDate = moment(startDate);
@@ -96,22 +112,17 @@ const RentACar = () => {
 
   const searchHandler = (e) => {
     e.preventDefault();
-    //setDates(share.date_ranges);
-    let mark = expandDates(share.date_ranges[0], share.date_ranges[1]);
-    // console.log(mark);
-    // console.log(share.date_ranges);
-    // const filtered = dbCars.filter(
-    //   (item) =>
-    //     !checker(item.dates, share.date_ranges) item.city === share.city
-    // );
-    // console.log(filtered);
-    //setLoadedCars(filtered);
 
     let filtered = dbCars.filter(function(item) {
       return (
         !checker(item.dates, share.date_ranges) && item.city === share.city
       );
     });
+
+    localStorage.setItem(
+      "searchItems",
+      JSON.stringify({ city: share.city, date: share.date_ranges })
+    );
     console.log(filtered);
     setLoadedCars(filtered);
   };
@@ -127,9 +138,11 @@ const RentACar = () => {
             className={"calender-fix"}
             image={date_picker}
             showHandler={showHandlers}
-            close={()=>setShow(false)}
+            date_range_start={moment(share.date_ranges[0]).format("DD.MM.YY")}
+            date_range_end={moment(share.date_ranges[1]).format("DD.MM.YY")}
+            close={() => setShow(false)}
             show={show}
-            onClick={()=>alert('s')}
+            onClick={() => alert("s")}
           />
 
           <OptionCar idCity="car" />

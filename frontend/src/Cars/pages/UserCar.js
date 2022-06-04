@@ -99,13 +99,13 @@ const UserCar = () => {
               showNeighboringMonth={false}
               className="react-calendar"
               tileClassName={({ date, view }) => {
-                if (markDates && markDates.find((x) => x === moment(date).format("YYYY/MM/DD"))) {
-                  return "highlight";
-                } else if (
+                if (
                   moment(date).format("YYYY/MM/DD") <
                   moment().format("YYYY/MM/DD")
                 ) {
                   return "passed";
+                }else if (markDates && markDates.find((x) => x === moment(date).format("YYYY/MM/DD"))) {
+                  return "highlight";
                 }
               }}
             //  tileDisabled={({ date, view }) => {
@@ -138,14 +138,14 @@ const UserCar = () => {
               showNeighboringMonth={false}
               className="react-calendar"
               tileClassName={({ date, view }) => {
-                if (markDates && markDates.find((x) => x === moment(date).format("YYYY/MM/DD"))) {
-                  return "highlight";
-                } else if (
+                if (
                   moment(date).format("YYYY/MM/DD") <
                   moment().format("YYYY/MM/DD")
                 ) {
                   return "passed";
-                }
+                }else if (markDates && markDates.find((x) => x === moment(date).format("YYYY/MM/DD"))) {
+                  return "highlight";
+                } 
               }}  
             />
           </div>
