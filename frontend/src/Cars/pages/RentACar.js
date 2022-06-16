@@ -4,6 +4,7 @@ import "moment/locale/ru";
 import Calender from "../../shared/Components/FormElements/Calender";
 import OptionCity from "../components/OptionCity";
 import OptionCar from "../components/OptionCar";
+import CardUserCar from "../components/CardUserCar";
 import { ShareContext } from "../../shared/context/share-contex";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import { AuthContext } from "../../shared/context/auth-context";
@@ -24,6 +25,8 @@ const RentACar = () => {
   const [loadedUser, setLoadedUser] = useState();
   const [date_ranges, setDateRanges] = useState();
   const [dbCars, setDbCars] = useState();
+  const [result, setResult] = useState(false);
+  const [initialPage, setInitialPage] = useState(true);
 
   useEffect(() => {
     setLoading(true);
@@ -53,14 +56,19 @@ const RentACar = () => {
 
     if (searchItems && dbCars) {
       let filtered = dbCars.filter(function(item) {
+        setResult(true);
+        setLoading(false);
+        setInitialPage(false);
         return (
           !checker(item.dates, searchItems.date) &&
           item.city === searchItems.city
         );
       });
 
-      setLoadedCars(filtered);
-      setDateRanges(searchDates.startDate);
+      if (searchDates) {
+        setLoadedCars(filtered);
+        setDateRanges(searchDates.startDate);
+      }
     }
   }, [dbCars, searchDates]);
 
@@ -112,7 +120,9 @@ const RentACar = () => {
 
   const searchHandler = (e) => {
     e.preventDefault();
-
+    setLoading(true);
+    setResult(false);
+    setInitialPage(false);
     let filtered = dbCars.filter(function(item) {
       return (
         !checker(item.dates, share.date_ranges) && item.city === share.city
@@ -125,11 +135,16 @@ const RentACar = () => {
     );
     console.log(filtered);
     setLoadedCars(filtered);
+
+    setTimeout(() => {
+      setLoading(false);
+      setResult(true);
+    }, 850);
   };
 
   return (
     <div className="usermain-container">
-      <h2 className="search-title">Арендуйте автомобиль</h2>
+      {loadedCars && initialPage && <h2 className="search-title">Арендуйте автомобиль</h2>}
       <form className="search-bar">
         <div className="input_container">
           <OptionCity cityClass="input_city" idCity="city" />
@@ -138,13 +153,17 @@ const RentACar = () => {
             className={"calender-fix"}
             image={date_picker}
             showHandler={showHandlers}
-            date_range_start={moment(share.date_ranges[0]).format("DD.MM.YY")}
-            date_range_end={moment(share.date_ranges[1]).format("DD.MM.YY")}
+            date_range_start={
+              share.date_ranges &&
+              moment(share.date_ranges[0]).format("DD.MM.YY")
+            }
+            date_range_end={
+              share.date_ranges &&
+              moment(share.date_ranges[1]).format("DD.MM.YY")
+            }
             close={() => setShow(false)}
             show={show}
-            onClick={() => alert("s")}
           />
-
           <OptionCar idCity="car" />
         </div>
 
@@ -154,13 +173,13 @@ const RentACar = () => {
       </form>
 
       <div className="recommended-cars-container">
-        <h3>Рекомендуем поблизости</h3>
+        {loadedCars && initialPage && <h3>Рекомендуем поблизости</h3>}
         {loading && (
           <div className="loading-wrapper">
             <i className="fa fa-circle-o-notch fa-spin"></i>
           </div>
         )}
-        {loadedCars && (
+        {loadedCars && initialPage && (
           <div className="recommended-cars-wrapper">
             {loadedCars.map((item) => (
               <div
@@ -185,6 +204,7 @@ const RentACar = () => {
                       `${getUser(item.owner)[0].image}`
                     }
                     alt="userImage"
+                    style={{ pointerEvents: "none" }}
                   />
                 )}
               </div>
@@ -192,6 +212,30 @@ const RentACar = () => {
           </div>
         )}
       </div>
+
+      {loadedCars && result && (
+        <div className="searchCar-wrapper">
+          {loadedCars.map((car) => (
+            <div className="searchCar-item" key={car.id + 1}>
+              <CardUserCar
+                image={car.images[0]}
+                brand={car.brand}
+                model={car.model}
+                year={car.year}
+                engine_volume={car.engine_volume}
+                engine_power={car.engine_power}
+                engine_type={car.engine_type}
+                engine_transmission={car.engine_transmission}
+                price={car.price}
+                id={car.id}
+              />
+              <button className="btn-rent" id={car.id} onClick={modalHandler}>
+                Арендовать
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

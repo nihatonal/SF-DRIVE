@@ -93,6 +93,184 @@
   top: 15px;
   right: 15px;
 }
+
+/**/
+.calendar-month-names {
+  display: flex;
+  height: 29px;
+  width: 740px;
+  text-align: left;
+  margin-bottom: 26px;
+}
+#search-bar {
+  width: 404px;
+  height: 320px;
+  position: relative;
+}
+#search-bar .react-calendar__viewContainer {
+  width: 941px;
+  display: flex;
+  justify-content: space-between;
+}
+#search-bar .react-calendar__month-view {
+  width: 404px;
+  height: 320px;
+  overflow: hidden;
+}
+
+.react-calendar__month-view__days__day--neighboringMonth {
+  visibility: hidden;
+}
+
+#search-bar button {
+  margin: 0;
+  border: 0;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#search-bar .react-calendar__month-view__weekdays__weekday {
+  opacity: 0.4;
+  padding-bottom: 15px;
+}
+#search-bar .react-calendar__month-view__weekNumbers .react-calendar__tile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+}
+#search-bar .react-calendar__tile {
+  padding: 18px;
+  background: none;
+  text-align: center;
+  line-height: 147.3%;
+}
+#search-bar.react-calendar__tile:disabled {
+  background-color: rgba(97, 161, 153, 0.2);
+}
+#search-bar.react-calendar__tile:enabled:hover,
+#search-bar.react-calendar__tile:enabled:focus {
+  background-color: rgba(97, 161, 153, 0.2);
+}
+#search-bar.react-calendar__tile--now {
+  background: #61a199;
+  color: #fff;
+}
+#search-bar.react-calendar__tile--now:enabled:hover,
+#search-bar.react-calendar__tile--now:enabled:focus {
+  background: rgba(97, 161, 153, 0.2);
+}
+#search-bar.react-calendar__tile--hasActive {
+  background: rgba(97, 161, 153, 0.2);
+}
+#search-bar.react-calendar__tile--hasActive:enabled:hover,
+#search-bar.react-calendar__tile--hasActive:enabled:focus {
+  background: rgba(97, 161, 153, 0.2);
+}
+
+#search-bar.react-calendar__tile--active:enabled:hover,
+#search-bar.react-calendar__tile--active:enabled:focus {
+  background: rgba(97, 161, 153, 0.2);
+}
+#search-bar .react-calendar--selectRange .react-calendar__tile--hover {
+  background-color: rgba(97, 161, 153, 0.2);
+}
+#search-bar .react-calendar__tile--hasActive {
+  background: rgba(64, 102, 98, 0.2);
+}
+
+#search-bar .react-calendar__tile--range {
+  background: rgba(97, 161, 153, 0.2);
+  color: #000;
+  border-radius: 0;
+  position: relative;
+}
+#search-bar .react-calendar__tile--rangeStart {
+  border-radius: 50%;
+  background: #61a199;
+  color: #fff;
+  position: relative;
+}
+
+#search-bar .react-calendar__tile--rangeEnd {
+  border-radius: 50%;
+  background: #61a199;
+  color: #fff;
+}
+#search-bar .disabled {
+  background: none;
+  opacity: 0.2;
+}
+#search-bar .highlight {
+  border-radius: 0;
+  background: rgba(97, 161, 153, 0.2);
+  color: #000;
+}
+
+.passed {
+  text-decoration: line-through;
+  color: #000000;
+  opacity: 0.2;
+}
+.react-calendar__navigation {
+  display: flex;
+  width: 307px;
+}
+
+/* .react-calendar__navigation__label span{
+  color:red;
+} */
+.searchCar-wrapper{
+  width: 1028px;
+}
+.searchCar-item {
+  width: 1028px;
+  height: 176px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+.btn-rent {
+  width: 158px;
+  height: 44px;
+  background: rgba(97, 161, 153, 0.15);
+  border-radius: 6px;
+  border: none;
+  outline: none;
+  font-family: "Roboto", sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  text-align: center;
+  color: #61a199;
+  cursor: pointer;
+  margin-top: 66px;
+  transition: all ease-in 0.1s;
+}
+.btn-rent:hover {
+  background: rgba(97, 161, 153, 0.3);
+}
+
+@media screen and (max-width: 767px) {
+  .searchCar-wrapper{
+    width: 375px;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .searchCar-item {
+    width: 335px;
+    height: auto;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+  }
+  .btn-rent {
+    display: none;
+  }
+}
 @media screen and (max-width: 767px) {
   .usermain-container {
     width: 375px;
@@ -133,17 +311,5 @@
     justify-items: center;
     row-gap: 20px;
     column-gap: 0;
-  }
-  .loading-wrapper {
-    width: 375px;
-    height:250px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    
-  }
-  .loading-wrapper .fa-circle-o-notch {
-    font-size:34px;
-    color:  #61A199;;
   }
 }

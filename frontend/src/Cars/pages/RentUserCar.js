@@ -22,6 +22,8 @@ const RentUserCar = () => {
   const [value, onChange] = useState(new Date());
   const [oneDate, setOneDate] = useState(new Date());
   const [selectedCar, setSelectedCar] = useState();
+  const [searchDates, setSearchDates] = useState();
+  const [searchDatesMiddle, setSearchDatesMiddle] = useState();
   const [markDates, setMarkDates] = useState();
   const navigate = useNavigate();
 
@@ -53,17 +55,19 @@ const RentUserCar = () => {
   //console.log(newDates);
   //console.log(new Intl.DateTimeFormat("en-US").format(oneDate));
   // console.log(selectedRange);
+  let savedDates;
+  useEffect(() => {
+    const searchDate = JSON.parse(localStorage.getItem("searchItems"));
 
-  // selected Range for filter
-  let savedDates, savedDates_middle, savedDates_fl;
-  if (share.date_ranges) {
-    savedDates = expandDates(share.date_ranges[0], share.date_ranges[1]);
-    savedDates_middle = savedDates.slice(1, -1);
-    savedDates_fl = [savedDates[0], savedDates[savedDates.length - 1]];
-  }
-
+    if (searchDate) {
+      savedDates = expandDates(searchDate.date[0], searchDate.date[1]);
+      setSearchDates([savedDates[0], savedDates[savedDates.length - 1]]);
+      setSearchDatesMiddle(savedDates.slice(1, -1));
+    }
+  }, []);
   const clearDateRangeHandle = () => {
-    share.date_ranges = null;
+    setSearchDates(null);
+    setSearchDatesMiddle(null);
   };
 
   const confirmDeleteHandler = async () => {
@@ -122,8 +126,8 @@ const RentUserCar = () => {
         />
       )}
 
-      <div className="available-wrapper">
-        <h3 className="carinfo-content-title" style={{ paddingLeft: "20px" }}>
+      <div className="available-wrapper-renter">
+        <h3 className="carinfo-content-title" style={{ marginLeft: "20px" }}>
           Доступность
         </h3>
 
@@ -133,13 +137,16 @@ const RentUserCar = () => {
             id="calendar-item-renter"
             onClick={clearDateRangeHandle}
           >
-            <div className="calendar-month-names" style={{ paddingLeft: "20px" }}>
+            <div
+              className="calendar-month-names"
+              style={{ paddingLeft: "20px" }}
+            >
               <p className="title-calender">
                 {capitalizeFirstLetter(moment().format("MMMM")) +
                   " " +
                   moment().format("YYYY")}
               </p>
-              <p className="title-calender" style={{marginLeft:'436px'}}>
+              <p className="title-calender" style={{ marginLeft: "436px" }}>
                 {capitalizeFirstLetter(
                   moment()
                     .subtract(-1, "month")
@@ -170,15 +177,15 @@ const RentUserCar = () => {
                 ) {
                   return "disabled";
                 } else if (
-                  savedDates_fl &&
-                  savedDates_fl.find(
+                  searchDates &&
+                  searchDates.find(
                     (x) => x === moment(date).format("YYYY/MM/DD")
                   )
                 ) {
                   return "react-calendar__tile--rangeStart";
                 } else if (
-                  savedDates_middle &&
-                  savedDates_middle.find(
+                  searchDatesMiddle &&
+                  searchDatesMiddle.find(
                     (x) => x === moment(date).format("YYYY/MM/DD")
                   )
                 ) {

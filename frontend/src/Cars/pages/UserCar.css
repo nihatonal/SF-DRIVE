@@ -156,7 +156,7 @@ abbr {
     top: 17px;
     font-size: 12px;
   }
-  .usercar-container .button-container {
+  #calendar-item-user .usercar-container .button-container {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -170,14 +170,14 @@ abbr {
   }
   .available-wrapper {
     width: 375px;
-    height: 940px;
+    height: 840px;
   }
   .carinfo-content-title {
     padding-left: 20px;
   }
   .calendar-wrapper {
     width: 335px;
-    height: 725px;
+    height: 675px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -186,4 +186,10 @@ abbr {
   .react-calendar {
     width: 335px;
   }
+  #calendar-item-user .react-calendar__tile {
+    text-align: center;
+    line-height: 16px;
+    padding: 16px;
+  }
+
 }

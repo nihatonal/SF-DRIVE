@@ -1,6 +1,5 @@
 body {
   font-family: "Roboto", sans-serif;
-
 }
 
 .calendar {
@@ -14,7 +13,7 @@ body {
   align-items: center;
   justify-content: space-between;
   padding-bottom: 27px;
-  background:#fff;
+  background: #fff;
   position: relative;
   z-index: 99;
 }
@@ -87,7 +86,7 @@ body {
   color: #000000;
 }
 .calendar--days span:hover {
-  background: #ECF4F3;
+  background: #ecf4f3;
   color: #868686;
   font-weight: 400;
   border-radius: 100%;
@@ -102,7 +101,7 @@ body {
 .calendar--days span.active {
   font-weight: 700;
   border-radius: 100%;
-  background: #ECF4F3;
+  background: #ecf4f3;
   color: #868686;
   font-weight: 400;
 }
@@ -113,7 +112,7 @@ body {
   border-radius: 0;
 }
 
-.calendar--days span.between{
+.calendar--days span.between {
   background-color: rgba(97, 161, 153, 0.2);
   color: #868686;
 }
@@ -152,7 +151,7 @@ body {
   background-color: #61a199;
   color: #fff;
 }
-.calendar--days span.between::after{
+.calendar--days span.between::after {
   content: "";
   position: absolute;
   top: 0;
@@ -186,10 +185,10 @@ body {
   align-items: center;
   position: relative;
   cursor: pointer;
-  border: 1px solid #E0E0E0;
+  border: 1px solid #e0e0e0;
   border-right: none;
   border-left: none;
-  height:44px;
+  height: 44px;
 }
 .date_range-focus {
   width: 217px;
@@ -199,12 +198,11 @@ body {
   cursor: pointer;
   border-right: none;
   border-left: none;
-  border: 2px solid #61A199;
-  height:44px;
-  
+  border: 2px solid #61a199;
+  height: 44px;
 }
 .date_range-wrapper .date_range-picker img {
-    margin-right: 15px;
+  margin-right: 15px;
 }
 
 .date_range-picker {
@@ -231,17 +229,43 @@ body {
   pointer-events: none;
 }
 .calender-fix {
-    position: absolute;
-    top: 44px;
+  position: absolute;
+  top: 44px;
 }
 @media screen and (max-width: 767px) {
   .date_range-wrapper {
     width: 335px;
-    border: 1px solid #E0E0E0;
+    border: 1px solid #e0e0e0;
     border-radius: 8px;
+    /* position: block; */
   }
 
-.date_range-picker {
-  margin-right: 161px;
-}
+  .date_range-picker {
+    margin-right: 161px;
+  }
+  .calendar {
+    /* width: 367px;
+    height: 385px; */
+    /* box-shadow: none;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 27px;
+    background: #fff;
+    position: relative;
+    z-index: 99; */
+    box-shadow: none;
+    width: 375px;
+    top: 108px;
+    left: 0;
+  }
+
+  .date_range-focus {
+    width: 335px;
+    position:static;
+
+  }
 }

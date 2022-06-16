@@ -28,6 +28,14 @@ export const useAuth = () => {
     setTokenExpirationDate(null);
     setUserId(null);
     localStorage.removeItem('userData');
+    localStorage.removeItem("searchItems");
+    localStorage.removeItem("carData");
+    localStorage.removeItem("carOptions");
+    localStorage.removeItem("initialImages");
+    localStorage.removeItem("selectedCar");
+    localStorage.removeItem("initialDocs");
+    localStorage.removeItem("searchCity");
+    localStorage.removeItem("dateRanges");
   }, []);
 
   useEffect(() => {

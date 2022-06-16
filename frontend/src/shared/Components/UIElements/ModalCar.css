@@ -7,19 +7,20 @@
   justify-content: center;
   z-index: 99;
   top: 0;
-  background: linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.8));
+  background:  rgba(0, 0, 0, 0.9);
+  overflow: hidden
 }
 
 .modal_close {
   position: absolute;
-  top: 240px;
-  right: 400px;
-  color: #61a199;
+  top: 40px;
+  right: 40px;
+  color: #fff;
   font-size: 24px;
   cursor: pointer; 
 }
 .modal_close:hover {
-  box-shadow: 0px 0px 25px #61a199;
+  box-shadow: 0px 0px 25px #fff;
   border-radius: 100%;
 }
 .modal-enter {
